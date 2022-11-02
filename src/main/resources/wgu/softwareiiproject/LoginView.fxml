@@ -6,21 +6,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0"
-            prefWidth="858.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="wgu.softwareiiproject.LoginController">
-    <TextField layoutX="368.0" layoutY="192.0" prefHeight="25.0" prefWidth="200.0"/>
-    <TextField layoutX="368.0" layoutY="243.0" prefHeight="25.0" prefWidth="200.0"/>
-    <Label layoutX="290.0" layoutY="196.0" text="Username:">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.LoginController">
+    <TextField layoutX="415.0" layoutY="211.0" prefHeight="27.0" prefWidth="200.0" />
+    <Label layoutX="306.0" layoutY="211.0" text="Username:">
         <font>
-          <Font name="System Bold" size="12.0"/>
+          <Font name="System Bold" size="18.0" />
         </font>
     </Label>
-    <Label layoutX="292.0" layoutY="247.0" text="Password:">
+    <Label layoutX="308.0" layoutY="262.0" text="Password:">
         <font>
-            <Font name="System Bold" size="12.0"/>
+            <Font name="System Bold" size="18.0" />
         </font>
     </Label>
-    <Button layoutX="429.0" layoutY="290.0" mnemonicParsing="false" onAction="#clickLogin" prefHeight="25.0"
-            prefWidth="78.0" text="Login"/>
+    <Button layoutX="476.0" layoutY="309.0" mnemonicParsing="false" onAction="#clickLogin" prefHeight="25.0" prefWidth="78.0" text="Login">
+      <font>
+         <Font size="15.0" />
+      </font></Button>
+   <TextField layoutX="415.0" layoutY="262.0" prefHeight="27.0" prefWidth="200.0" />
 </AnchorPane>
