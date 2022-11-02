@@ -8,38 +8,38 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="550.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.MainController">
-   <Button layoutX="829.0" layoutY="511.0" mnemonicParsing="false" onAction="#clickLogOut" text="Log Out" />
-   <Label layoutX="62.0" layoutY="39.0" text="Clients">
+<AnchorPane prefHeight="600.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.MainController">
+   <Button layoutX="830.0" layoutY="561.0" mnemonicParsing="false" onAction="#clickLogOut" text="Log Out" />
+   <Label layoutX="62.0" layoutY="72.0" text="Customers">
       <font>
          <Font name="System Bold" size="20.0" />
       </font>
    </Label>
-   <Label layoutX="52.0" layoutY="288.0" text="Schedule">
+   <Label layoutX="69.0" layoutY="328.0" text="Appointments">
       <font>
          <Font name="System Bold" size="20.0" />
       </font>
    </Label>
-   <ScrollPane layoutX="63.0" layoutY="81.0" prefHeight="164.0" prefWidth="796.0">
+   <ScrollPane layoutX="63.0" layoutY="114.0" prefHeight="164.0" prefWidth="796.0">
       <content>
          <TableView prefHeight="163.0" prefWidth="780.0">
             <columns>
-               <TableColumn fx:id="mainClientIDColumn" prefWidth="77.0" text="ID" />
-               <TableColumn fx:id="mainClientNameColumn" prefWidth="174.0" text="Name" />
-               <TableColumn fx:id="mainClientAddressColumn" prefWidth="265.0" text="Address" />
-               <TableColumn fx:id="mainClientZipCodeColumn" minWidth="0.0" prefWidth="72.0" text="Zip Code" />
-               <TableColumn fx:id="mainClientPhoneNumberColumn" prefWidth="97.0" text="Phone Number" />
-               <TableColumn prefWidth="93.0" text="Column X" />
+               <TableColumn fx:id="customerId" prefWidth="77.0" text="Customer ID" />
+               <TableColumn fx:id="customerName" prefWidth="174.0" text="Name" />
+               <TableColumn fx:id="customerAddress" prefWidth="265.0" text="Address" />
+               <TableColumn fx:id="customerZipCode" minWidth="0.0" prefWidth="72.0" text="Zip Code" />
+               <TableColumn fx:id="customerPhoneNumber" prefWidth="97.0" text="Phone Number" />
+               <TableColumn fx:id="divisionId" prefWidth="93.0" text="Division ID" />
             </columns>
          </TableView>
       </content>
    </ScrollPane>
-   <ScrollPane layoutX="63.0" layoutY="327.0" prefHeight="164.0" prefWidth="796.0">
+   <ScrollPane layoutX="62.0" layoutY="365.0" prefHeight="164.0" prefWidth="796.0">
       <content>
          <TableView prefHeight="163.0" prefWidth="780.0">
             <columns>
-               <TableColumn fx:id="mainClientIDColumn1" prefWidth="77.0" text="ID" />
-               <TableColumn fx:id="mainClientNameColumn1" prefWidth="174.0" text="Name" />
+               <TableColumn fx:id="appointmentId" prefWidth="103.0" text="Appointment ID" />
+               <TableColumn fx:id="mainClientNameColumn1" prefWidth="148.0" text="Name" />
                <TableColumn fx:id="mainClientAddressColumn1" prefWidth="265.0" text="Address" />
                <TableColumn fx:id="mainClientZipCodeColumn1" minWidth="0.0" prefWidth="72.0" text="Zip Code" />
                <TableColumn fx:id="mainClientPhoneNumberColumn1" prefWidth="97.0" text="Phone Number" />
