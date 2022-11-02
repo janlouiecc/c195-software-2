@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -9,18 +11,18 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.MainController">
-   <Button layoutX="830.0" layoutY="561.0" mnemonicParsing="false" onAction="#clickLogOut" text="Log Out" />
-   <Label layoutX="33.0" layoutY="64.0" text="Customers">
+   <Button layoutX="969.0" layoutY="14.0" mnemonicParsing="false" onAction="#clickLogOut" text="Log Out" />
+   <Label layoutX="33.0" layoutY="53.0" text="Customers">
       <font>
          <Font name="System Bold" size="20.0" />
       </font>
    </Label>
-   <Label layoutX="33.0" layoutY="318.0" text="Appointments">
+   <Label layoutX="33.0" layoutY="308.0" text="Appointments">
       <font>
          <Font name="System Bold" size="20.0" />
       </font>
    </Label>
-   <ScrollPane layoutX="33.0" layoutY="103.0" prefHeight="164.0" prefWidth="974.0">
+   <ScrollPane layoutX="33.0" layoutY="83.0" prefHeight="164.0" prefWidth="974.0">
       <content>
          <TableView prefHeight="163.0" prefWidth="959.0">
             <columns>
@@ -34,22 +36,37 @@
          </TableView>
       </content>
    </ScrollPane>
-   <ScrollPane layoutX="33.0" layoutY="355.0" prefHeight="164.0" prefWidth="974.0">
+   <ScrollPane layoutX="33.0" layoutY="345.0" prefHeight="164.0" prefWidth="974.0">
       <content>
-         <TableView prefHeight="163.0" prefWidth="959.0">
+         <TableView prefHeight="163.0" prefWidth="958.0">
             <columns>
-               <TableColumn fx:id="appointmentId" prefWidth="110.0" text="Appointment ID" />
-               <TableColumn fx:id="appointmentTitle" text="Title" />
-               <TableColumn fx:id="customerId1" prefWidth="79.0" text="Customer ID" />
-               <TableColumn fx:id="appointmentDescript" prefWidth="155.0" text="Description" />
-               <TableColumn fx:id="appointmentLocation" minWidth="0.0" prefWidth="88.0" text="Location" />
-               <TableColumn fx:id="appointmentContact" prefWidth="98.0" text="Contact" />
-               <TableColumn fx:id="appointmentType" prefWidth="71.0" text="Type" />
-               <TableColumn fx:id="appointmentStart" prefWidth="129.0" text="Start" />
-               <TableColumn fx:id="appointmentEnd" prefWidth="101.0" text="End" />
-               <TableColumn fx:id="userId" prefWidth="75.0" text="User ID" />
+               <TableColumn fx:id="appointmentId" prefWidth="70.0" text="Appointment ID" />
+               <TableColumn fx:id="appointmentTitle" prefWidth="69.0" text="Title" />
+               <TableColumn fx:id="customerId1" prefWidth="84.0" text="Customer ID" />
+               <TableColumn fx:id="appointmentDescript" prefWidth="106.0" text="Description" />
+               <TableColumn fx:id="appointmentLocation" minWidth="0.0" prefWidth="93.0" text="Location" />
+               <TableColumn fx:id="appointmentContact" prefWidth="67.0" text="Contact" />
+               <TableColumn fx:id="appointmentType" prefWidth="77.0" text="Type" />
+               <TableColumn fx:id="appointmentStart" prefWidth="113.0" text="Start" />
+               <TableColumn fx:id="appointmentEnd" prefWidth="131.0" text="End" />
+               <TableColumn fx:id="userId" prefWidth="150.0" text="User ID" />
             </columns>
          </TableView>
       </content>
    </ScrollPane>
+   <Button layoutX="485.0" layoutY="254.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="181.0" text="Add Appointment">
+      <font>
+         <Font name="System Bold" size="13.0" />
+      </font>
+   </Button>
+   <Button layoutX="677.0" layoutY="255.0" mnemonicParsing="false" text="Add Customer" />
+   <Button layoutX="781.0" layoutY="255.0" mnemonicParsing="false" text="Update Customer" />
+   <Button layoutX="902.0" layoutY="255.0" mnemonicParsing="false" text="Delete Customer" />
+   <DatePicker layoutX="833.0" layoutY="311.0" />
+   <RadioButton layoutX="647.0" layoutY="315.0" mnemonicParsing="false" text="By Week" />
+   <RadioButton layoutX="534.0" layoutY="315.0" mnemonicParsing="false" text="By Customer" />
+   <RadioButton layoutX="737.0" layoutY="315.0" mnemonicParsing="false" text="By Month" />
+   <RadioButton layoutX="436.0" layoutY="315.0" mnemonicParsing="false" text="View All" />
+   <Button layoutX="746.0" layoutY="515.0" mnemonicParsing="false" text="Update Appointment" />
+   <Button layoutX="883.0" layoutY="515.0" mnemonicParsing="false" text="Delete Appointment" />
 </AnchorPane>
