@@ -8,42 +8,46 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.MainController">
+<AnchorPane prefHeight="600.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.MainController">
    <Button layoutX="830.0" layoutY="561.0" mnemonicParsing="false" onAction="#clickLogOut" text="Log Out" />
-   <Label layoutX="62.0" layoutY="72.0" text="Customers">
+   <Label layoutX="33.0" layoutY="64.0" text="Customers">
       <font>
          <Font name="System Bold" size="20.0" />
       </font>
    </Label>
-   <Label layoutX="69.0" layoutY="328.0" text="Appointments">
+   <Label layoutX="33.0" layoutY="318.0" text="Appointments">
       <font>
          <Font name="System Bold" size="20.0" />
       </font>
    </Label>
-   <ScrollPane layoutX="63.0" layoutY="114.0" prefHeight="164.0" prefWidth="796.0">
+   <ScrollPane layoutX="33.0" layoutY="103.0" prefHeight="164.0" prefWidth="974.0">
       <content>
-         <TableView prefHeight="163.0" prefWidth="780.0">
+         <TableView prefHeight="163.0" prefWidth="959.0">
             <columns>
-               <TableColumn fx:id="customerId" prefWidth="77.0" text="Customer ID" />
-               <TableColumn fx:id="customerName" prefWidth="174.0" text="Name" />
-               <TableColumn fx:id="customerAddress" prefWidth="265.0" text="Address" />
-               <TableColumn fx:id="customerZipCode" minWidth="0.0" prefWidth="72.0" text="Zip Code" />
-               <TableColumn fx:id="customerPhoneNumber" prefWidth="97.0" text="Phone Number" />
-               <TableColumn fx:id="divisionId" prefWidth="93.0" text="Division ID" />
+               <TableColumn fx:id="customerId" prefWidth="146.0" text="Customer ID" />
+               <TableColumn fx:id="customerName" prefWidth="134.0" text="Name" />
+               <TableColumn fx:id="customerAddress" prefWidth="342.0" text="Address" />
+               <TableColumn fx:id="customerZipCode" minWidth="0.0" prefWidth="85.0" text="Zip Code" />
+               <TableColumn fx:id="customerPhoneNumber" prefWidth="121.0" text="Phone Number" />
+               <TableColumn fx:id="divisionId" prefWidth="130.0" text="Division ID" />
             </columns>
          </TableView>
       </content>
    </ScrollPane>
-   <ScrollPane layoutX="62.0" layoutY="365.0" prefHeight="164.0" prefWidth="796.0">
+   <ScrollPane layoutX="33.0" layoutY="355.0" prefHeight="164.0" prefWidth="974.0">
       <content>
-         <TableView prefHeight="163.0" prefWidth="780.0">
+         <TableView prefHeight="163.0" prefWidth="959.0">
             <columns>
-               <TableColumn fx:id="appointmentId" prefWidth="103.0" text="Appointment ID" />
-               <TableColumn fx:id="mainClientNameColumn1" prefWidth="148.0" text="Name" />
-               <TableColumn fx:id="mainClientAddressColumn1" prefWidth="265.0" text="Address" />
-               <TableColumn fx:id="mainClientZipCodeColumn1" minWidth="0.0" prefWidth="72.0" text="Zip Code" />
-               <TableColumn fx:id="mainClientPhoneNumberColumn1" prefWidth="97.0" text="Phone Number" />
-               <TableColumn prefWidth="93.0" text="Column X" />
+               <TableColumn fx:id="appointmentId" prefWidth="110.0" text="Appointment ID" />
+               <TableColumn fx:id="appointmentTitle" text="Title" />
+               <TableColumn fx:id="customerId1" prefWidth="79.0" text="Customer ID" />
+               <TableColumn fx:id="appointmentDescript" prefWidth="155.0" text="Description" />
+               <TableColumn fx:id="appointmentLocation" minWidth="0.0" prefWidth="88.0" text="Location" />
+               <TableColumn fx:id="appointmentContact" prefWidth="98.0" text="Contact" />
+               <TableColumn fx:id="appointmentType" prefWidth="71.0" text="Type" />
+               <TableColumn fx:id="appointmentStart" prefWidth="129.0" text="Start" />
+               <TableColumn fx:id="appointmentEnd" prefWidth="101.0" text="End" />
+               <TableColumn fx:id="userId" prefWidth="75.0" text="User ID" />
             </columns>
          </TableView>
       </content>
