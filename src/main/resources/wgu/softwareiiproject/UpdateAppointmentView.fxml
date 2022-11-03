@@ -8,10 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="625.0" prefWidth="729.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.AddAppointmentController">
+<AnchorPane prefHeight="625.0" prefWidth="729.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.UpdateAppointmentController">
    <children>
-      <Label layoutX="279.0" layoutY="61.0" text="Add Appointment">
+      <Label layoutX="277.0" layoutY="61.0" text="Update Appointment">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

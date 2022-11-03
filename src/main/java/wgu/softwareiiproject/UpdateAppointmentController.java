@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class AddAppointmentController {
+public class UpdateAppointmentController {
 
     public void save(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
@@ -29,4 +29,5 @@ public class AddAppointmentController {
         stage.setResizable(false);
         stage.show();
     }
+
 }
