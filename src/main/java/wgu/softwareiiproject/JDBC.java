@@ -4,7 +4,6 @@ import java.sql.DriverManager;
 
 public abstract class JDBC {
     public static Connection connection;
-
     public static void openConnection()
     {
         try {
@@ -13,7 +12,7 @@ public abstract class JDBC {
         }
         catch(Exception e)
         {
-            System.out.println("Error:" + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -23,7 +22,7 @@ public abstract class JDBC {
         }
         catch(Exception e)
         {
-            System.out.println("Error:" + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -55,19 +54,20 @@ public class LoginController implements Initializable {
             alert.setHeaderText(rb.getString("alertTitle"));
             alert.setContentText(rb.getString("alertContent"));
             alert.showAndWait();
+            loginUserName.clear();
+            loginPw.clear();
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Locale.setDefault(new Locale("fr", "FR"));
-        ZoneId zone = ZoneId.systemDefault();
-        zoneId.setText(zone.toString());
+        Locale.setDefault(new Locale("fr", "FR"));  // for testing purposes
         rb = ResourceBundle.getBundle("/appt", Locale.getDefault());
         loginTitle.setText(rb.getString("loginTitle"));
         loginUserNameLabel.setText(rb.getString("loginUserNameLabel"));
         loginPasswordLabel.setText(rb.getString("loginPasswordLabel"));
         loginButtonText.setText(rb.getString("loginButtonText"));
         loginZoneIdLabel.setText(rb.getString("loginZoneIdLabel"));
+        zoneId.setText(ZoneId.systemDefault().toString());
     }
 }
