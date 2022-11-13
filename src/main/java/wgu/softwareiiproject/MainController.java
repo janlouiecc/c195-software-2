@@ -117,7 +117,6 @@ public class MainController implements Initializable {
             assert false;
             if (!rs.next()) break;
             customerData.add(new Customer(
-                    rs.getInt("Customer_ID"),
                     rs.getString("Customer_Name"),
                     rs.getString("Address"),
                     rs.getString("Postal_Code"),
@@ -144,7 +143,6 @@ public class MainController implements Initializable {
             assert false;
             if (!rs.next()) break;
             appointmentData.add(new Appointment(
-                    rs.getInt("Appointment_ID"),
                     rs.getString("Title"),
                     rs.getInt("Customer_ID"),
                     rs.getString("Description"),
@@ -185,12 +183,15 @@ public class MainController implements Initializable {
              ) {
             System.out.println(customer);
         }
+        System.out.println(Customer.customerCount);
 
         // testing purposes only
         for (Appointment appointment : appointmentData
         ) {
             System.out.println(appointment);
         }
+        System.out.println(Appointment.appointmentCount);
+
     }
 
 }

@@ -8,14 +8,14 @@ public class Customer {
     private String customerPostalCode;
     private String customerPhoneNumber;
     private int customerDivisionId;
+    static int customerCount = 0;
 
-    public Customer(int customerId,
-                    String customerName,
+    public Customer(String customerName,
                     String customerAddress,
                     String customerPostalCode,
                     String customerPhoneNumber,
                     int customerDivisionId) {
-        setCustomerId(customerId);
+        setCustomerId(++customerCount);
         setCustomerName(customerName);
         setCustomerAddress(customerAddress);
         setCustomerPostalCode(customerPostalCode);
