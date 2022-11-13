@@ -39,11 +39,11 @@
    </ScrollPane>
    <ScrollPane layoutX="33.0" layoutY="361.0" prefHeight="164.0" prefWidth="974.0">
       <content>
-         <TableView prefHeight="163.0" prefWidth="958.0">
+         <TableView fx:id="mainAppointmentTblView" prefHeight="163.0" prefWidth="958.0">
             <columns>
                <TableColumn fx:id="appointmentId" prefWidth="70.0" text="Appointment ID" />
                <TableColumn fx:id="appointmentTitle" prefWidth="69.0" text="Title" />
-               <TableColumn fx:id="customerId1" prefWidth="84.0" text="Customer ID" />
+               <TableColumn fx:id="appointmentCustomerId" prefWidth="84.0" text="Customer ID" />
                <TableColumn fx:id="appointmentDescription" prefWidth="106.0" text="Description" />
                <TableColumn fx:id="appointmentLocation" minWidth="0.0" prefWidth="93.0" text="Location" />
                <TableColumn fx:id="appointmentContact" prefWidth="67.0" text="Contact" />

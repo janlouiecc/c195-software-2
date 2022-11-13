@@ -1,5 +1,6 @@
 package wgu.softwareiiproject;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Appointment {
@@ -8,20 +9,20 @@ public class Appointment {
     private String appointmentTitle;
     private int customerId;
     private String appointmentDescription;
-    private String appointmentContact;
+    private int appointmentContact;
     private String appointmentType;
-    private LocalDateTime appointmentStart;
-    private LocalDateTime appointmentEnd;
+    private Timestamp appointmentStart;
+    private Timestamp appointmentEnd;
     private int userId;
 
     public Appointment(int appointmentId,
                        String appointmentTitle,
                        int customerId,
                        String appointmentDescription,
-                       String appointmentContact,
+                       int appointmentContact,
                        String appointmentType,
-                       LocalDateTime appointmentStart,
-                       LocalDateTime appointmentEnd,
+                       Timestamp appointmentStart,
+                       Timestamp appointmentEnd,
                        int userId) {
         setAppointmentId(appointmentId);
         setAppointmentTitle(appointmentTitle);
@@ -66,11 +67,11 @@ public class Appointment {
         this.appointmentDescription = appointmentDescription;
     }
 
-    public String getAppointmentContact() {
+    public int getAppointmentContact() {
         return appointmentContact;
     }
 
-    public void setAppointmentContact(String appointmentContact) {
+    public void setAppointmentContact(int appointmentContact) {
         this.appointmentContact = appointmentContact;
     }
 
@@ -82,19 +83,19 @@ public class Appointment {
         this.appointmentType = appointmentType;
     }
 
-    public LocalDateTime getAppointmentStart() {
+    public Timestamp getAppointmentStart() {
         return appointmentStart;
     }
 
-    public void setAppointmentStart(LocalDateTime appointmentStart) {
+    public void setAppointmentStart(Timestamp appointmentStart) {
         this.appointmentStart = appointmentStart;
     }
 
-    public LocalDateTime getAppointmentEnd() {
+    public Timestamp getAppointmentEnd() {
         return appointmentEnd;
     }
 
-    public void setAppointmentEnd(LocalDateTime appointmentEnd) {
+    public void setAppointmentEnd(Timestamp appointmentEnd) {
         this.appointmentEnd = appointmentEnd;
     }
 
@@ -104,5 +105,20 @@ public class Appointment {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "appointmentId=" + appointmentId +
+                ", appointmentTitle='" + appointmentTitle + '\'' +
+                ", customerId=" + customerId +
+                ", appointmentDescription='" + appointmentDescription + '\'' +
+                ", appointmentContact=" + appointmentContact +
+                ", appointmentType='" + appointmentType + '\'' +
+                ", appointmentStart=" + appointmentStart +
+                ", appointmentEnd=" + appointmentEnd +
+                ", userId=" + userId +
+                '}';
     }
 }
