@@ -14,9 +14,9 @@ public class Appointment {
     private Timestamp appointmentStart;
     private Timestamp appointmentEnd;
     private int userId;
-    static int appointmentCount = 0;
 
-    public Appointment(String appointmentTitle,
+    public Appointment(int appointmentId,
+            String appointmentTitle,
                        int customerId,
                        String appointmentDescription,
                        String appointmentLocation,
@@ -25,7 +25,7 @@ public class Appointment {
                        Timestamp appointmentStart,
                        Timestamp appointmentEnd,
                        int userId) {
-        setAppointmentId(++appointmentCount);
+        setAppointmentId(appointmentId);
         setAppointmentTitle(appointmentTitle);
         setCustomerId(customerId);
         setAppointmentDescription(appointmentDescription);

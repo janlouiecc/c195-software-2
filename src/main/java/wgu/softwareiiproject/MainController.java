@@ -9,6 +9,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -62,7 +65,6 @@ public class MainController implements Initializable {
     private TableColumn<Appointment, Integer> userId;
     private final ObservableList<Customer> customerData = FXCollections.observableArrayList();
     private final ObservableList<Appointment> appointmentData = FXCollections.observableArrayList();
-
 
     public void clickLogOut(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("LoginView.fxml")));
@@ -109,6 +111,43 @@ public class MainController implements Initializable {
         stage.show();
     }
 
+    public void deleteCustomer() throws SQLException {
+        Customer selectedCustomer = mainCustomerTblView.getSelectionModel().getSelectedItem();
+
+        if (selectedCustomer == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setHeaderText("No customer selected.");
+            alert.setContentText("Please select a customer to delete.");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete?");
+        alert.setHeaderText("Deleting " + selectedCustomer.getCustomerName());
+        alert.setContentText("Are you sure you want to delete this selection?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            for (Appointment appointment : appointmentData) {
+                if (appointment.getCustomerId() == selectedCustomer.getCustomerId()) {
+                    Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                    alert1.setTitle("Error");
+                    alert1.setHeaderText("Customer has an upcoming appointment. Unable to delete.");
+                    alert1.setContentText("Please select a different customer to delete or delete customer's upcoming appointment before deleting.");
+                    alert1.showAndWait();
+                    return;
+                }
+            }
+
+            PreparedStatement ps = JDBC.connection.prepareStatement("DELETE FROM customers WHERE Customer_ID = ?");
+            ps.setInt(1, selectedCustomer.getCustomerId());
+            ps.executeUpdate();
+            fillCustomerData();
+        }
+
+    }
+
     private void fillCustomerData() throws SQLException {
         PreparedStatement ps = JDBC.connection.prepareStatement("SELECT * FROM customers");
         ResultSet rs = ps.executeQuery();
@@ -117,6 +156,7 @@ public class MainController implements Initializable {
             assert false;
             if (!rs.next()) break;
             customerData.add(new Customer(
+                    rs.getInt("Customer_ID"),
                     rs.getString("Customer_Name"),
                     rs.getString("Address"),
                     rs.getString("Postal_Code"),
@@ -143,6 +183,7 @@ public class MainController implements Initializable {
             assert false;
             if (!rs.next()) break;
             appointmentData.add(new Appointment(
+                    rs.getInt("Appointment_ID"),
                     rs.getString("Title"),
                     rs.getInt("Customer_ID"),
                     rs.getString("Description"),
@@ -183,14 +224,12 @@ public class MainController implements Initializable {
              ) {
             System.out.println(customer);
         }
-        System.out.println(Customer.customerCount);
 
         // testing purposes only
         for (Appointment appointment : appointmentData
         ) {
             System.out.println(appointment);
         }
-        System.out.println(Appointment.appointmentCount);
 
     }
 
