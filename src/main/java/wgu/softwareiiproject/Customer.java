@@ -70,4 +70,16 @@ public class Customer {
     public void setCustomerDivisionId(int customerDivisionId) {
         this.customerDivisionId = customerDivisionId;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId=" + customerId +
+                ", customerName='" + customerName + '\'' +
+                ", customerAddress='" + customerAddress + '\'' +
+                ", customerPostalCode='" + customerPostalCode + '\'' +
+                ", customerPhoneNumber='" + customerPhoneNumber + '\'' +
+                ", customerDivisionId=" + customerDivisionId +
+                '}';
+    }
 }

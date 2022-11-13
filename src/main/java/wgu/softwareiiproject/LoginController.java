@@ -15,6 +15,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.ZoneId;
 import java.util.Locale;
@@ -41,7 +43,7 @@ public class LoginController implements Initializable {
     private TextField loginPw;
 
     public void clickLogin(ActionEvent event) throws IOException, SQLException {
-        if(Queries.login(loginUserName.getText(), loginPw.getText())) {
+        if(login(loginUserName.getText(), loginPw.getText())) {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
@@ -59,9 +61,19 @@ public class LoginController implements Initializable {
         }
     }
 
+    private static boolean login(String userName, String password) throws SQLException {
+        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Password from users WHERE User_Name = ?");
+        ps.setString(1, userName);
+        ResultSet rs = ps.executeQuery();
+        if(!rs.next()) {
+            return false;
+        } else {
+            return rs.getString("Password").equals(password);
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //Locale.setDefault(new Locale("fr", "FR"));  // for testing purposes
+        Locale.setDefault(new Locale("fr", "FR"));  // for testing purposes
         rb = ResourceBundle.getBundle("/appt", Locale.getDefault());
         loginTitle.setText(rb.getString("loginTitle"));
         loginUserNameLabel.setText(rb.getString("loginUserNameLabel"));
