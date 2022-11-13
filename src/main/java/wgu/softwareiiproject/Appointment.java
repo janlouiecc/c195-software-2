@@ -23,15 +23,15 @@ public class Appointment {
                        LocalDateTime appointmentStart,
                        LocalDateTime appointmentEnd,
                        int userId) {
-        this.appointmentId = appointmentId;
-        this.appointmentTitle = appointmentTitle;
-        this.customerId = customerId;
-        this.appointmentDescription = appointmentDescription;
-        this.appointmentContact = appointmentContact;
-        this.appointmentType = appointmentType;
-        this.appointmentStart = appointmentStart;
-        this.appointmentEnd = appointmentEnd;
-        this.userId = userId;
+        setAppointmentId(appointmentId);
+        setAppointmentTitle(appointmentTitle);
+        setCustomerId(customerId);
+        setAppointmentDescription(appointmentDescription);
+        setAppointmentContact(appointmentContact);
+        setAppointmentType(appointmentType);
+        setAppointmentStart(appointmentStart);
+        setAppointmentEnd(appointmentEnd);
+        setUserId(userId);
     }
 
     public int getAppointmentId() {
