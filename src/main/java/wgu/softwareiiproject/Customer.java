@@ -15,12 +15,12 @@ public class Customer {
                     String customerPostalCode,
                     String customerPhoneNumber,
                     int customerDivisionId) {
-        this.customerId = customerId;
-        this.customerName = customerName;
-        this.customerAddress = customerAddress;
-        this.customerPostalCode = customerPostalCode;
-        this.customerPhoneNumber = customerPhoneNumber;
-        this.customerDivisionId = customerDivisionId;
+        setCustomerId(customerId);
+        setCustomerName(customerName);
+        setCustomerAddress(customerAddress);
+        setCustomerPostalCode(customerPostalCode);
+        setCustomerPhoneNumber(customerPhoneNumber);
+        setCustomerDivisionId(customerDivisionId);
     }
 
     public int getCustomerId() {
