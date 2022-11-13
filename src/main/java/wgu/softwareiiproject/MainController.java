@@ -7,13 +7,17 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
 public class MainController {
 
+    @FXML
+    private TableView<Customer> mainCustomerTblView;
     @FXML
     private TableColumn<Customer, Integer> customerId;
     @FXML
@@ -21,7 +25,7 @@ public class MainController {
     @FXML
     private TableColumn<Customer, String>  customerAddress;
     @FXML
-    private TableColumn<Customer, Integer>  customerZipCode;
+    private TableColumn<Customer, Integer>  customerPostalCode;
     @FXML
     private TableColumn<Customer, Integer>  divisionId;
     @FXML
@@ -33,7 +37,7 @@ public class MainController {
     @FXML
     private TableColumn<Appointment, Integer> customerId1;
     @FXML
-    private TableColumn<Appointment, String> appointmentDescript;
+    private TableColumn<Appointment, String> appointmentDescription;
     @FXML
     private TableColumn<Appointment, String> appointmentLocation;
     @FXML
@@ -41,9 +45,9 @@ public class MainController {
     @FXML
     private TableColumn<Appointment, String> appointmentType;
     @FXML
-    private TableColumn<Appointment, Date> appointmentStart;
+    private TableColumn<Appointment, LocalDateTime> appointmentStart;
     @FXML
-    private TableColumn<Appointment, Date> appointmentEnd;
+    private TableColumn<Appointment, LocalDateTime> appointmentEnd;
     @FXML
     private TableColumn<Appointment, Integer> userId;
 
@@ -91,4 +95,5 @@ public class MainController {
         stage.setResizable(false);
         stage.show();
     }
+
 }
