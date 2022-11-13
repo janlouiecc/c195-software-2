@@ -148,6 +148,7 @@ public class MainController implements Initializable {
                     rs.getString("Title"),
                     rs.getInt("Customer_ID"),
                     rs.getString("Description"),
+                    rs.getString("Location"),
                     rs.getInt("Contact_ID"),
                     rs.getString("Type"),
                     rs.getTimestamp("Start"),
@@ -160,6 +161,7 @@ public class MainController implements Initializable {
         appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
         appointmentCustomerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         appointmentDescription.setCellValueFactory(new PropertyValueFactory<>("appointmentDescription"));
+        appointmentLocation.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
         appointmentContact.setCellValueFactory(new PropertyValueFactory<>("appointmentContact"));
         appointmentType.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
         appointmentStart.setCellValueFactory(new PropertyValueFactory<>("appointmentStart"));

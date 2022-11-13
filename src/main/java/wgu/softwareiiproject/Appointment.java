@@ -1,7 +1,6 @@
 package wgu.softwareiiproject;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public class Appointment {
 
@@ -9,6 +8,7 @@ public class Appointment {
     private String appointmentTitle;
     private int customerId;
     private String appointmentDescription;
+    private String appointmentLocation;
     private int appointmentContact;
     private String appointmentType;
     private Timestamp appointmentStart;
@@ -19,6 +19,7 @@ public class Appointment {
                        String appointmentTitle,
                        int customerId,
                        String appointmentDescription,
+                       String appointmentLocation,
                        int appointmentContact,
                        String appointmentType,
                        Timestamp appointmentStart,
@@ -28,6 +29,7 @@ public class Appointment {
         setAppointmentTitle(appointmentTitle);
         setCustomerId(customerId);
         setAppointmentDescription(appointmentDescription);
+        setAppointmentLocation(appointmentLocation);
         setAppointmentContact(appointmentContact);
         setAppointmentType(appointmentType);
         setAppointmentStart(appointmentStart);
@@ -65,6 +67,13 @@ public class Appointment {
 
     public void setAppointmentDescription(String appointmentDescription) {
         this.appointmentDescription = appointmentDescription;
+    }
+    public String getAppointmentLocation() {
+        return appointmentLocation;
+    }
+
+    public void setAppointmentLocation(String appointmentLocation) {
+        this.appointmentLocation = appointmentLocation;
     }
 
     public int getAppointmentContact() {
@@ -114,6 +123,7 @@ public class Appointment {
                 ", appointmentTitle='" + appointmentTitle + '\'' +
                 ", customerId=" + customerId +
                 ", appointmentDescription='" + appointmentDescription + '\'' +
+                ", appointmentLocation='" + appointmentLocation + '\'' +
                 ", appointmentContact=" + appointmentContact +
                 ", appointmentType='" + appointmentType + '\'' +
                 ", appointmentStart=" + appointmentStart +
