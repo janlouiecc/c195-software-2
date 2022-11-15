@@ -45,7 +45,7 @@ public class AddCustomerController implements Initializable {
         stage.show();
     }
 
-    public void fillCountryData() throws SQLException{
+    private void fillCountryData() throws SQLException{
 
         // Define the data you will be returning, in this case, a List of Strings for the ComboBox
         ObservableList<String> countryOptions = FXCollections.observableArrayList();
@@ -55,8 +55,19 @@ public class AddCustomerController implements Initializable {
         while (rs.next()) {
             countryOptions.add(rs.getString("Country"));
         }
-
         countryComboBox.setItems(countryOptions);
+
+//        ObservableList<String> stateOptions = FXCollections.observableArrayList();
+//        PreparedStatement ps1 = JDBC.connection.prepareStatement("SELECT Division, Country_ID from first_level_divisions");
+//        ResultSet rs1 = ps1.executeQuery();
+//
+//        while (rs1.next()) {
+//            stateOptions.add(rs1.getString("Division"));
+//        }
+//        stateComboBox.setItems(stateOptions);
+//
+//        ps1.close();
+//        rs1.close();
 
         ps.close();
         rs.close();
