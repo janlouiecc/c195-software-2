@@ -140,14 +140,70 @@ public class MainController implements Initializable {
                 }
             }
 
+            customerData.remove(selectedCustomer);
             PreparedStatement ps = JDBC.connection.prepareStatement("DELETE FROM customers WHERE Customer_ID = ?");
             ps.setInt(1, selectedCustomer.getCustomerId());
             ps.executeUpdate();
-            fillCustomerData();
+
+            //testing purposes only
+            for (Customer customer : customerData) {
+                System.out.println(customer);
+            }
+
+            Alert confirmed = new Alert(Alert.AlertType.INFORMATION);
+            if (!customerData.contains(selectedCustomer)) {
+                confirmed.setTitle("Deleted");
+                confirmed.setHeaderText("This customer has been deleted.");
+            } else {
+                confirmed.setTitle("Error");
+                confirmed.setHeaderText("There was an error, please try again.");
+            }
+            confirmed.showAndWait();
         }
 
     }
 
+    public void deleteAppointment() throws SQLException {
+        Appointment selectedAppointment = mainAppointmentTblView.getSelectionModel().getSelectedItem();
+
+        if (selectedAppointment == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setHeaderText("No appointment selected.");
+            alert.setContentText("Please select an appointment to delete.");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete?");
+        alert.setHeaderText("Deleting " + selectedAppointment.getAppointmentTitle());
+        alert.setContentText("Are you sure you want to delete this selection?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            appointmentData.remove(selectedAppointment);
+            PreparedStatement ps = JDBC.connection.prepareStatement("DELETE FROM appointments WHERE Appointment_ID = ?");
+            ps.setInt(1, selectedAppointment.getCustomerId());
+            ps.executeUpdate();
+
+            // testing purposes only
+            for (Appointment appointment : appointmentData) {
+                System.out.println(appointment);
+            }
+
+            Alert confirmed = new Alert(Alert.AlertType.INFORMATION);
+            if (!appointmentData.contains(selectedAppointment)) {
+                confirmed.setTitle("Deleted");
+                confirmed.setHeaderText("This appointment has been deleted.");
+            } else {
+                confirmed.setTitle("Error");
+                confirmed.setHeaderText("There was an error, please try again.");
+            }
+            confirmed.showAndWait();
+        }
+
+    }
+    
     private void fillCustomerData() throws SQLException {
         PreparedStatement ps = JDBC.connection.prepareStatement("SELECT * FROM customers");
         ResultSet rs = ps.executeQuery();
@@ -218,19 +274,6 @@ public class MainController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        // testing purposes only
-        for (Customer customer : customerData
-             ) {
-            System.out.println(customer);
-        }
-
-        // testing purposes only
-        for (Appointment appointment : appointmentData
-        ) {
-            System.out.println(appointment);
-        }
-
     }
 
 }
