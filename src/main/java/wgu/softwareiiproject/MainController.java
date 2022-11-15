@@ -159,6 +159,8 @@ public class MainController implements Initializable {
                 confirmed.setHeaderText("There was an error, please try again.");
             }
             confirmed.showAndWait();
+
+            ps.close();
         }
 
     }
@@ -200,6 +202,8 @@ public class MainController implements Initializable {
                 confirmed.setHeaderText("There was an error, please try again.");
             }
             confirmed.showAndWait();
+
+            ps.close();
         }
 
     }
