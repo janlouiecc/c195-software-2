@@ -28,7 +28,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <ComboBox fx:id="countryComboBox" layoutX="282.0" layoutY="248.0" prefHeight="27.0" prefWidth="200.0" />
+      <ComboBox fx:id="countryComboBox" layoutX="282.0" layoutY="248.0" onAction="#fillStateData" prefHeight="27.0" prefWidth="200.0" />
       <ComboBox fx:id="stateComboBox" layoutX="282.0" layoutY="289.0" prefHeight="27.0" prefWidth="200.0" />
       <Label layoutX="136.0" layoutY="173.0" text="Name:">
          <font>

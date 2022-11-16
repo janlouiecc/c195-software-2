@@ -45,11 +45,11 @@ public class AddCustomerController implements Initializable {
         stage.show();
     }
 
-    private void fillCountryData() throws SQLException{
+    public void fillCountryData() throws SQLException{
 
         // Define the data you will be returning, in this case, a List of Strings for the ComboBox
         ObservableList<String> countryOptions = FXCollections.observableArrayList();
-        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Country, Country_ID from countries");
+        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Country from countries");
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
@@ -57,17 +57,25 @@ public class AddCustomerController implements Initializable {
         }
         countryComboBox.setItems(countryOptions);
 
-//        ObservableList<String> stateOptions = FXCollections.observableArrayList();
-//        PreparedStatement ps1 = JDBC.connection.prepareStatement("SELECT Division, Country_ID from first_level_divisions");
-//        ResultSet rs1 = ps1.executeQuery();
-//
-//        while (rs1.next()) {
-//            stateOptions.add(rs1.getString("Division"));
-//        }
-//        stateComboBox.setItems(stateOptions);
-//
-//        ps1.close();
-//        rs1.close();
+        ps.close();
+        rs.close();
+    }
+
+    public void fillStateData() throws SQLException {
+        System.out.println(countryComboBox.getValue());  // testing purposes
+        ObservableList<String> stateOptions = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT c.Country, c.Country_Id, d.Division " +
+                "FROM countries c " +
+                "JOIN first_level_divisions d " +
+                "ON c.Country_ID = d.Country_ID " +
+                "WHERE Country = ?");
+        ps.setNString(1, countryComboBox.getValue());
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            stateOptions.add(rs.getString("Division"));
+        }
+        stateComboBox.setItems(stateOptions);
 
         ps.close();
         rs.close();
