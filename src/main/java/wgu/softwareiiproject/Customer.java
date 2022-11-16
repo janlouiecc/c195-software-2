@@ -7,20 +7,20 @@ public class Customer {
     private String customerAddress;
     private String customerPostalCode;
     private String customerPhoneNumber;
-    private int customerDivisionId;
+    private String customerDivisionName;
 
     public Customer(int customerId,
                     String customerName,
                     String customerAddress,
                     String customerPostalCode,
                     String customerPhoneNumber,
-                    int customerDivisionId) {
+                    String customerDivisionName) {
         setCustomerId(customerId);
         setCustomerName(customerName);
         setCustomerAddress(customerAddress);
         setCustomerPostalCode(customerPostalCode);
         setCustomerPhoneNumber(customerPhoneNumber);
-        setCustomerDivisionId(customerDivisionId);
+        setCustomerDivisionName(customerDivisionName);
     }
 
     public int getCustomerId() {
@@ -63,12 +63,12 @@ public class Customer {
         this.customerPhoneNumber = customerPhoneNumber;
     }
 
-    public int getCustomerDivisionId() {
-        return customerDivisionId;
+    public String getCustomerDivisionName() {
+        return customerDivisionName;
     }
 
-    public void setCustomerDivisionId(int customerDivisionId) {
-        this.customerDivisionId = customerDivisionId;
+    public void setCustomerDivisionName(String customerDivisionName) {
+        this.customerDivisionName = customerDivisionName;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class Customer {
                 ", customerAddress='" + customerAddress + '\'' +
                 ", customerPostalCode='" + customerPostalCode + '\'' +
                 ", customerPhoneNumber='" + customerPhoneNumber + '\'' +
-                ", customerDivisionId=" + customerDivisionId +
+                ", customerDivisionId=" + customerDivisionName +
                 '}';
     }
 }

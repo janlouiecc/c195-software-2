@@ -41,7 +41,7 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<Customer, Integer>  customerPostalCode;
     @FXML
-    private TableColumn<Customer, Integer>  divisionId;
+    private TableColumn<Customer, Integer> divisionName;
     @FXML
     private TableColumn<Customer, Integer>  customerPhoneNumber;
     @FXML
@@ -86,6 +86,17 @@ public class MainController implements Initializable {
     }
 
     public void updateCustomer(ActionEvent event) throws IOException {
+        Customer selectedCustomer = mainCustomerTblView.getSelectionModel().getSelectedItem();
+
+        if (selectedCustomer == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setHeaderText("No customer selected.");
+            alert.setContentText("Please select a customer to update.");
+            alert.showAndWait();
+            return;
+        }
+
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("UpdateCustomerView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -95,6 +106,17 @@ public class MainController implements Initializable {
     }
 
     public void addAppointment(ActionEvent event) throws IOException {
+        Customer selectedCustomer = mainCustomerTblView.getSelectionModel().getSelectedItem();
+
+        if (selectedCustomer == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setHeaderText("No customer selected.");
+            alert.setContentText("Please select a customer to add an appointment for.");
+            alert.showAndWait();
+            return;
+        }
+
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddAppointmentView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -210,27 +232,20 @@ public class MainController implements Initializable {
     }
     
     private void fillCustomerData() throws SQLException {
-        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT * FROM customers");
+        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT a.Customer_ID, a.Customer_Name, a.Address, b.Division, a.Postal_Code, a.Phone " +
+                "FROM customers a JOIN first_level_divisions b ON a.Division_ID = b.Division_ID");
         ResultSet rs = ps.executeQuery();
 
         while(true) {
             assert false;
             if (!rs.next()) break;
-//            if(customerData.contains(new Customer(
-//                    rs.getInt("Customer_ID"),
-//                    rs.getString("Customer_Name"),
-//                    rs.getString("Address"),
-//                    rs.getString("Postal_Code"),
-//                    rs.getString("Phone"),
-//                    rs.getInt("Division_ID")
-//            ))) continue;
             customerData.add(new Customer(
                     rs.getInt("Customer_ID"),
                     rs.getString("Customer_Name"),
                     rs.getString("Address"),
                     rs.getString("Postal_Code"),
                     rs.getString("Phone"),
-                    rs.getInt("Division_ID")
+                    rs.getString("Division")
             ));
         }
 
@@ -239,7 +254,7 @@ public class MainController implements Initializable {
         customerAddress.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
         customerPostalCode.setCellValueFactory(new PropertyValueFactory<>("customerPostalCode"));
         customerPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("customerPhoneNumber"));
-        divisionId.setCellValueFactory(new PropertyValueFactory<>("customerDivisionId"));
+        divisionName.setCellValueFactory(new PropertyValueFactory<>("customerDivisionName"));
 
         mainCustomerTblView.setItems(customerData);
     }

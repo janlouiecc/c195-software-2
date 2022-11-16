@@ -29,10 +29,10 @@
             <columns>
                <TableColumn fx:id="customerId" prefWidth="146.0" text="Customer ID" />
                <TableColumn fx:id="customerName" prefWidth="134.0" text="Name" />
-               <TableColumn fx:id="customerAddress" prefWidth="342.0" text="Address" />
-               <TableColumn fx:id="customerPostalCode" minWidth="0.0" prefWidth="85.0" text="Zip Code" />
+               <TableColumn fx:id="customerAddress" prefWidth="267.0" text="Address" />
+               <TableColumn fx:id="divisionName" prefWidth="156.0" text="Division Name" />
+               <TableColumn fx:id="customerPostalCode" minWidth="0.0" prefWidth="134.0" text="Zip Code" />
                <TableColumn fx:id="customerPhoneNumber" prefWidth="121.0" text="Phone Number" />
-               <TableColumn fx:id="divisionId" prefWidth="130.0" text="Division ID" />
             </columns>
          </TableView>
       </content>
