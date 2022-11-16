@@ -216,6 +216,14 @@ public class MainController implements Initializable {
         while(true) {
             assert false;
             if (!rs.next()) break;
+//            if(customerData.contains(new Customer(
+//                    rs.getInt("Customer_ID"),
+//                    rs.getString("Customer_Name"),
+//                    rs.getString("Address"),
+//                    rs.getString("Postal_Code"),
+//                    rs.getString("Phone"),
+//                    rs.getInt("Division_ID")
+//            ))) continue;
             customerData.add(new Customer(
                     rs.getInt("Customer_ID"),
                     rs.getString("Customer_Name"),
@@ -280,5 +288,4 @@ public class MainController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-
 }
