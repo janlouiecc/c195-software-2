@@ -1,5 +1,8 @@
 package wgu.softwareiiproject;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Customer {
 
     private int customerId;
@@ -8,6 +11,8 @@ public class Customer {
     private String customerPostalCode;
     private String customerPhoneNumber;
     private String customerDivisionName;
+    protected final static ObservableList<Customer> customerData = FXCollections.observableArrayList();
+    static int customerCount = 0;
 
     public Customer(int customerId,
                     String customerName,
@@ -21,6 +26,7 @@ public class Customer {
         setCustomerPostalCode(customerPostalCode);
         setCustomerPhoneNumber(customerPhoneNumber);
         setCustomerDivisionName(customerDivisionName);
+        customerCount++;
     }
 
     public int getCustomerId() {

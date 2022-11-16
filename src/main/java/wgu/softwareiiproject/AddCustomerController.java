@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,11 +24,30 @@ import java.util.ResourceBundle;
 public class AddCustomerController implements Initializable {
 
     @FXML
+    private TextField addCustomerName;
+    @FXML
+    private TextField addCustomerAddress;
+    @FXML
+    private TextField addCustomerZip;
+    @FXML
+    private TextField addCustomerPhone;
+    @FXML
     private ComboBox<String> countryComboBox;
     @FXML
     private ComboBox<String> stateComboBox;
 
     public void save(ActionEvent event) throws IOException {
+
+        //doesn't add to database, need to fix remaking instances of other objects first
+        Customer.customerData.add(new Customer(
+                Customer.customerCount + 1,
+                addCustomerName.getText(),
+                addCustomerAddress.getText(),
+                addCustomerZip.getText(),
+                addCustomerPhone.getText(),
+                stateComboBox.getValue()
+        ));
+
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -62,7 +82,6 @@ public class AddCustomerController implements Initializable {
     }
 
     public void fillStateData() throws SQLException {
-        System.out.println(countryComboBox.getValue());  // testing purposes
         ObservableList<String> stateOptions = FXCollections.observableArrayList();
         PreparedStatement ps = JDBC.connection.prepareStatement("SELECT c.Country, c.Country_Id, d.Division " +
                 "FROM countries c " +

@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class Main extends Application {
@@ -21,8 +22,10 @@ public class Main extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         JDBC.openConnection();
+        Queries.fillCustomerDataFromDb();
+        Queries.fillAppointmentDatafromDb();
         launch(args);
         JDBC.closeConnection();
     }

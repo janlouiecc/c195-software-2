@@ -1,5 +1,8 @@
 package wgu.softwareiiproject;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.Timestamp;
 
 public class Appointment {
@@ -14,6 +17,8 @@ public class Appointment {
     private Timestamp appointmentStart;
     private Timestamp appointmentEnd;
     private int userId;
+    protected final static ObservableList<Appointment> appointmentData = FXCollections.observableArrayList();
+
 
     public Appointment(int appointmentId,
             String appointmentTitle,
