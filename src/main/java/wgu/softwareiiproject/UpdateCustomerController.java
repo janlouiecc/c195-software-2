@@ -26,6 +26,7 @@ public class UpdateCustomerController implements Initializable {
     private ComboBox<String> countryComboBox;
     @FXML
     private ComboBox<String> stateComboBox;
+
     public void save(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

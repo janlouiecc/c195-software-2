@@ -1,15 +1,11 @@
 package wgu.softwareiiproject;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,11 +14,6 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class UpdateAppointmentController implements Initializable {
-
-    @FXML
-    private ComboBox<String> countryComboBox;
-    @FXML
-    private ComboBox<String> stateComboBox;
 
     public void save(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
@@ -41,8 +32,6 @@ public class UpdateAppointmentController implements Initializable {
         stage.setResizable(false);
         stage.show();
     }
-
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
