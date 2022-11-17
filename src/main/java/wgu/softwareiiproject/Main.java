@@ -25,7 +25,7 @@ public class Main extends Application {
     public static void main(String[] args) throws SQLException {
         JDBC.openConnection();
         Queries.fillCustomerDataFromDb();
-        Queries.fillAppointmentDatafromDb();
+        Queries.fillAppointmentDataFromDb();
         launch(args);
         JDBC.closeConnection();
     }

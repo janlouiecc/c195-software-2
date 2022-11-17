@@ -25,7 +25,7 @@ public abstract class Queries {
         }
     }
 
-    public static void fillAppointmentDatafromDb() throws SQLException {
+    public static void fillAppointmentDataFromDb() throws SQLException {
         PreparedStatement ps = JDBC.connection.prepareStatement("SELECT * FROM appointments");
         ResultSet rs = ps.executeQuery();
 
