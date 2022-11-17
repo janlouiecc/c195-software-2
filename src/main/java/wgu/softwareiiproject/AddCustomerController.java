@@ -68,38 +68,15 @@ public class AddCustomerController implements Initializable {
     }
 
     public void fillCountryData() throws SQLException{
-
-        // Define the data you will be returning, in this case, a List of Strings for the ComboBox
         ObservableList<String> countryOptions = FXCollections.observableArrayList();
-        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Country from countries");
-        ResultSet rs = ps.executeQuery();
-
-        while (rs.next()) {
-            countryOptions.add(rs.getString("Country"));
-        }
+        Queries.fillCountryList(countryOptions);
         countryComboBox.setItems(countryOptions);
-
-        ps.close();
-        rs.close();
     }
 
     public void fillStateData() throws SQLException {
         ObservableList<String> stateOptions = FXCollections.observableArrayList();
-        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT c.Country, c.Country_Id, d.Division " +
-                "FROM countries c " +
-                "JOIN first_level_divisions d " +
-                "ON c.Country_ID = d.Country_ID " +
-                "WHERE Country = ?");
-        ps.setNString(1, countryComboBox.getValue());
-        ResultSet rs = ps.executeQuery();
-
-        while (rs.next()) {
-            stateOptions.add(rs.getString("Division"));
-        }
+        Queries.fillStateList(stateOptions, countryComboBox.getValue());
         stateComboBox.setItems(stateOptions);
-
-        ps.close();
-        rs.close();
     }
 
     @Override

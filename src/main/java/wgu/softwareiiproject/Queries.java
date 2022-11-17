@@ -1,5 +1,7 @@
 package wgu.softwareiiproject;
 
+import javafx.collections.ObservableList;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,6 +49,35 @@ public abstract class Queries {
                     rs.getInt("User_ID")
             ));
         }
+        ps.close();
+        rs.close();
+    }
+
+    public static void fillCountryList(ObservableList<String> countryOptions) throws SQLException {
+        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Country from countries");
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            countryOptions.add(rs.getString("Country"));
+        }
+
+        ps.close();
+        rs.close();
+    }
+
+    public static void fillStateList(ObservableList<String> stateOptions, String country) throws SQLException {
+        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT c.Country, c.Country_Id, d.Division " +
+                "FROM countries c " +
+                "JOIN first_level_divisions d " +
+                "ON c.Country_ID = d.Country_ID " +
+                "WHERE Country = ?");
+        ps.setNString(1, country);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            stateOptions.add(rs.getString("Division"));
+        }
+
         ps.close();
         rs.close();
     }

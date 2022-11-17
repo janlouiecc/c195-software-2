@@ -19,7 +19,6 @@ public class Appointment {
     private int userId;
     protected final static ObservableList<Appointment> appointmentData = FXCollections.observableArrayList();
 
-
     public Appointment(int appointmentId,
             String appointmentTitle,
                        int customerId,
