@@ -36,17 +36,21 @@ public class AddCustomerController implements Initializable {
     @FXML
     private ComboBox<String> stateComboBox;
 
-    public void save(ActionEvent event) throws IOException {
+    public void save(ActionEvent event) throws IOException, SQLException {
 
         //doesn't add to database, need to fix remaking instances of other objects first
-        Customer.customerData.add(new Customer(
+
+        Customer customer = new Customer(
                 Customer.customerCount + 1,
                 addCustomerName.getText(),
                 addCustomerAddress.getText(),
                 addCustomerZip.getText(),
                 addCustomerPhone.getText(),
                 stateComboBox.getValue()
-        ));
+        );
+
+        Customer.customerData.add(customer);
+        Queries.insertCustomer(customer);
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

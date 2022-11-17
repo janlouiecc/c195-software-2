@@ -46,4 +46,23 @@ public abstract class Queries {
             ));
         }
     }
+
+    public static void insertCustomer(Customer customer) throws SQLException {
+        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Division_ID FROM first_level_divisions WHERE Division = ?");
+        ps.setString(1, customer.getCustomerDivisionName());
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int divisionId = rs.getInt("Division_ID");
+
+        PreparedStatement ps1 = JDBC.connection.prepareStatement("INSERT IGNORE INTO customers VALUES(?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?)");
+        ps1.setInt(1, customer.getCustomerId());
+        ps1.setString(2, customer.getCustomerName());
+        ps1.setString(3, customer.getCustomerAddress());
+        ps1.setString(4, customer.getCustomerPostalCode());
+        ps1.setString(5, customer.getCustomerPhoneNumber());
+        ps1.setString(6, "placeholder");
+        ps1.setString(7, "placeholder");
+        ps1.setInt(8, divisionId);
+        ps1.executeUpdate();
+    }
 }
