@@ -57,6 +57,7 @@ public abstract class Queries {
         PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Country from countries");
         ResultSet rs = ps.executeQuery();
 
+        countryOptions.add("");
         while (rs.next()) {
             countryOptions.add(rs.getString("Country"));
         }
@@ -71,9 +72,10 @@ public abstract class Queries {
                 "JOIN first_level_divisions d " +
                 "ON c.Country_ID = d.Country_ID " +
                 "WHERE Country = ?");
-        ps.setNString(1, country);
+        ps.setString(1, country);
         ResultSet rs = ps.executeQuery();
 
+        stateOptions.add("");
         while (rs.next()) {
             stateOptions.add(rs.getString("Division"));
         }
@@ -82,6 +84,22 @@ public abstract class Queries {
         rs.close();
     }
 
+    public static String getCountry(String state) throws SQLException {
+        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT c.Country " +
+                "FROM countries c " +
+                "JOIN first_level_divisions d " +
+                "ON c.Country_ID = d.Country_ID " +
+                "WHERE Division = ?");
+        ps.setString(1, state);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        String country = rs.getString("Country");
+
+        ps.close();
+        rs.close();
+
+        return country;
+    }
     public static void insertCustomer(Customer customer) throws SQLException {
         PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Division_ID FROM first_level_divisions WHERE Division = ?");
         ps.setString(1, customer.getCustomerDivisionName());
@@ -99,6 +117,37 @@ public abstract class Queries {
         ps1.setString(7, LoginController.currentUser);
         ps1.setInt(8, divisionId);
         ps1.executeUpdate();
+
+        ps.close();
+        rs.close();
+        ps1.close();
+    }
+
+    public static void updateCustomer(Customer customer) throws SQLException {
+        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Division_ID FROM first_level_divisions WHERE Division = ?");
+        ps.setString(1, customer.getCustomerDivisionName());
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int divisionId = rs.getInt("Division_ID");
+        
+        PreparedStatement ps1 = JDBC.connection.prepareStatement("UPDATE customers " +
+                "SET Customer_Name = ?, " +
+                "Address = ?, " +
+                "Postal_Code = ?, " +
+                "Phone = ?, " +
+                "Last_Update = NOW(), " +
+                "Last_Updated_By = ?, " +
+                "Division_ID = ? " +
+                "WHERE Customer_ID = ?");
+        ps1.setInt(7, customer.getCustomerId());
+        ps1.setString(1, customer.getCustomerName());
+        ps1.setString(2, customer.getCustomerAddress());
+        ps1.setString(3, customer.getCustomerPostalCode());
+        ps1.setString(4, customer.getCustomerPhoneNumber());
+        ps1.setString(5,  LoginController.currentUser);
+        ps1.setInt(6, divisionId);
+        ps1.executeUpdate();
+
         ps.close();
         rs.close();
         ps1.close();

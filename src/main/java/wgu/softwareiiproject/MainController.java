@@ -60,6 +60,11 @@ public class MainController implements Initializable {
     private TableColumn<Appointment, LocalDateTime> appointmentEnd;
     @FXML
     private TableColumn<Appointment, Integer> userId;
+    private static Customer customerToUpdate = null;
+
+    public static Customer getCustomerToUpdate() {
+        return customerToUpdate;
+    }
 
     public void clickLogOut(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("LoginView.fxml")));
@@ -90,6 +95,8 @@ public class MainController implements Initializable {
             alert.showAndWait();
             return;
         }
+
+        customerToUpdate = selectedCustomer;
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("UpdateCustomerView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

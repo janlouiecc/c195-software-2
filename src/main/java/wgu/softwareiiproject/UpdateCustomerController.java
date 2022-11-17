@@ -10,12 +10,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -23,11 +22,28 @@ import java.util.ResourceBundle;
 public class UpdateCustomerController implements Initializable {
 
     @FXML
+    private TextField updateCustomerName;
+    @FXML
+    private TextField updateCustomerAddress;
+    @FXML
+    private TextField updateCustomerZip;
+    @FXML
+    private TextField updateCustomerPhone;
+    @FXML
     private ComboBox<String> countryComboBox;
     @FXML
     private ComboBox<String> stateComboBox;
+    private Customer customerToUpdate;
 
-    public void save(ActionEvent event) throws IOException {
+    public void save(ActionEvent event) throws IOException, SQLException {
+
+        customerToUpdate.setCustomerName(updateCustomerName.getText());
+        customerToUpdate.setCustomerAddress(updateCustomerAddress.getText());
+        customerToUpdate.setCustomerDivisionName(stateComboBox.getValue());
+        customerToUpdate.setCustomerPostalCode(updateCustomerZip.getText());
+        customerToUpdate.setCustomerPhoneNumber(updateCustomerPhone.getText());
+        Queries.updateCustomer(customerToUpdate);
+
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -45,46 +61,38 @@ public class UpdateCustomerController implements Initializable {
         stage.show();
     }
 
-    public void fillCountryData() throws SQLException {
-
-        // Define the data you will be returning, in this case, a List of Strings for the ComboBox
+    public void fillCountryData() throws SQLException{
         ObservableList<String> countryOptions = FXCollections.observableArrayList();
-        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Country from countries");
-        ResultSet rs = ps.executeQuery();
-
-        while (rs.next()) {
-            countryOptions.add(rs.getString("Country"));
-        }
+        Queries.fillCountryList(countryOptions);
         countryComboBox.setItems(countryOptions);
-
-        ps.close();
-        rs.close();
     }
 
     public void fillStateData() throws SQLException {
-        System.out.println(countryComboBox.getValue());  // testing purposes
         ObservableList<String> stateOptions = FXCollections.observableArrayList();
-        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT c.Country, c.Country_Id, d.Division " +
-                "FROM countries c " +
-                "JOIN first_level_divisions d " +
-                "ON c.Country_ID = d.Country_ID " +
-                "WHERE Country = ?");
-        ps.setNString(1, countryComboBox.getValue());
-        ResultSet rs = ps.executeQuery();
-
-        while (rs.next()) {
-            stateOptions.add(rs.getString("Division"));
-        }
+        Queries.fillStateList(stateOptions, countryComboBox.getValue());
+        stateComboBox.getSelectionModel().clearSelection();
+        stateComboBox.getSelectionModel().selectFirst();
         stateComboBox.setItems(stateOptions);
-
-        ps.close();
-        rs.close();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        customerToUpdate = MainController.getCustomerToUpdate();
+
+        updateCustomerName.setText(customerToUpdate.getCustomerName());
+        updateCustomerAddress.setText(customerToUpdate.getCustomerAddress());
+        try {
+            countryComboBox.getSelectionModel().select(Queries.getCountry(customerToUpdate.getCustomerDivisionName()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        stateComboBox.getSelectionModel().select(customerToUpdate.getCustomerDivisionName());
+        updateCustomerZip.setText(customerToUpdate.getCustomerPostalCode());
+        updateCustomerPhone.setText(customerToUpdate.getCustomerPhoneNumber());
+
         try {
             fillCountryData();
+            fillStateData();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

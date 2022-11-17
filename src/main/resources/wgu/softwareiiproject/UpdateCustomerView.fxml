@@ -14,10 +14,10 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <TextField layoutX="282.0" layoutY="173.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField layoutX="282.0" layoutY="208.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField layoutX="282.0" layoutY="329.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField layoutX="282.0" layoutY="366.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="updateCustomerName" layoutX="282.0" layoutY="173.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="updateCustomerAddress" layoutX="282.0" layoutY="208.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="updateCustomerZip" layoutX="282.0" layoutY="329.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="updateCustomerPhone" layoutX="282.0" layoutY="366.0" prefHeight="27.0" prefWidth="200.0" />
       <Button layoutX="209.0" layoutY="431.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="78.0" text="Save">
          <font>
             <Font size="15.0" />
