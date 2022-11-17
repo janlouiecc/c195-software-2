@@ -38,8 +38,6 @@ public class AddCustomerController implements Initializable {
 
     public void save(ActionEvent event) throws IOException, SQLException {
 
-        //doesn't add to database, need to fix remaking instances of other objects first
-
         Customer customer = new Customer(
                 Customer.customerCount + 1,
                 addCustomerName.getText(),

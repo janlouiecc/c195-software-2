@@ -23,6 +23,8 @@ public abstract class Queries {
                     rs.getString("Division")
             ));
         }
+        ps.close();
+        rs.close();
     }
 
     public static void fillAppointmentDataFromDb() throws SQLException {
@@ -45,6 +47,8 @@ public abstract class Queries {
                     rs.getInt("User_ID")
             ));
         }
+        ps.close();
+        rs.close();
     }
 
     public static void insertCustomer(Customer customer) throws SQLException {
@@ -60,9 +64,26 @@ public abstract class Queries {
         ps1.setString(3, customer.getCustomerAddress());
         ps1.setString(4, customer.getCustomerPostalCode());
         ps1.setString(5, customer.getCustomerPhoneNumber());
-        ps1.setString(6, "placeholder");
-        ps1.setString(7, "placeholder");
+        ps1.setString(6, LoginController.currentUser);
+        ps1.setString(7, LoginController.currentUser);
         ps1.setInt(8, divisionId);
         ps1.executeUpdate();
+        ps.close();
+        rs.close();
+        ps1.close();
+    }
+
+    public static void deleteCustomer(int customerId) throws SQLException {
+        PreparedStatement ps = JDBC.connection.prepareStatement("DELETE FROM customers WHERE Customer_ID = ?");
+        ps.setInt(1, customerId);
+        ps.executeUpdate();
+        ps.close();
+    }
+
+    public static void deleteAppointment(int appointmentId) throws SQLException {
+        PreparedStatement ps = JDBC.connection.prepareStatement("DELETE FROM appointments WHERE Appointment_ID = ?");
+        ps.setInt(1, appointmentId);
+        ps.executeUpdate();
+        ps.close();
     }
 }

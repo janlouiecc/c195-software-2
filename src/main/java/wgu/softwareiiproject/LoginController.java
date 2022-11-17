@@ -42,9 +42,11 @@ public class LoginController implements Initializable {
     private TextField loginUserName;
     @FXML
     private TextField loginPw;
+    protected static String currentUser;
 
     public void clickLogin(ActionEvent event) throws IOException, SQLException {
         if(login(loginUserName.getText(), loginPw.getText())) {
+            currentUser = loginUserName.getText();
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);

@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -159,9 +158,7 @@ public class MainController implements Initializable {
             }
 
             Customer.customerData.remove(selectedCustomer);
-            PreparedStatement ps = JDBC.connection.prepareStatement("DELETE FROM customers WHERE Customer_ID = ?");
-            ps.setInt(1, selectedCustomer.getCustomerId());
-            ps.executeUpdate();
+            Queries.deleteCustomer(selectedCustomer.getCustomerId());
 
             //testing purposes only
             for (Customer customer : Customer.customerData) {
@@ -177,10 +174,7 @@ public class MainController implements Initializable {
                 confirmed.setHeaderText("There was an error, please try again.");
             }
             confirmed.showAndWait();
-
-            ps.close();
         }
-
     }
 
     public void deleteAppointment() throws SQLException {
@@ -202,9 +196,7 @@ public class MainController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Appointment.appointmentData.remove(selectedAppointment);
-            PreparedStatement ps = JDBC.connection.prepareStatement("DELETE FROM appointments WHERE Appointment_ID = ?");
-            ps.setInt(1, selectedAppointment.getCustomerId());
-            ps.executeUpdate();
+            Queries.deleteAppointment(selectedAppointment.getCustomerId());
 
             // testing purposes only
             for (Appointment appointment : Appointment.appointmentData) {
@@ -220,8 +212,6 @@ public class MainController implements Initializable {
                 confirmed.setHeaderText("There was an error, please try again.");
             }
             confirmed.showAndWait();
-
-            ps.close();
         }
 
     }
