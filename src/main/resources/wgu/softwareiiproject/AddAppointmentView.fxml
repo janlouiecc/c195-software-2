@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="625.0" prefWidth="729.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.AddAppointmentController">
    <children>
       <Label layoutX="279.0" layoutY="61.0" text="Add Appointment">
@@ -16,10 +15,10 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <TextField layoutX="206.0" layoutY="148.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField layoutX="206.0" layoutY="183.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField layoutX="206.0" layoutY="264.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField layoutX="206.0" layoutY="223.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="addApptCustIdText" disable="true" editable="false" layoutX="206.0" layoutY="148.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="addApptUsrIdText" disable="true" editable="false" layoutX="206.0" layoutY="183.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="addApptDescription" layoutX="206.0" layoutY="264.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="addApptTitle" layoutX="206.0" layoutY="223.0" prefHeight="27.0" prefWidth="200.0" />
       <Button layoutX="274.0" layoutY="516.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="78.0" text="Save">
          <font>
             <Font size="15.0" />

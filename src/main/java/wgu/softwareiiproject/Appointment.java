@@ -18,9 +18,10 @@ public class Appointment {
     private Timestamp appointmentEnd;
     private int userId;
     protected final static ObservableList<Appointment> appointmentData = FXCollections.observableArrayList();
+    static int appointmentCount = 0;
 
     public Appointment(int appointmentId,
-            String appointmentTitle,
+                       String appointmentTitle,
                        int customerId,
                        String appointmentDescription,
                        String appointmentLocation,
@@ -39,6 +40,7 @@ public class Appointment {
         setAppointmentStart(appointmentStart);
         setAppointmentEnd(appointmentEnd);
         setUserId(userId);
+        appointmentCount++;
     }
 
     public int getAppointmentId() {

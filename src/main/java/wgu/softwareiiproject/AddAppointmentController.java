@@ -1,18 +1,33 @@
 package wgu.softwareiiproject;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class AddAppointmentController {
+public class AddAppointmentController implements Initializable {
+
+    @FXML
+    private TextField addApptCustIdText;
+    @FXML
+    private TextField addApptUsrIdText;
+    @FXML
+    private TextField addApptDescription;
+    @FXML
+    private TextField addApptTitle;
 
     public void save(ActionEvent event) throws IOException {
+
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -28,5 +43,11 @@ public class AddAppointmentController {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        addApptCustIdText.setText("placeholder");
+        addApptUsrIdText.setText("placeholder");
     }
 }
