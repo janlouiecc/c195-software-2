@@ -22,13 +22,13 @@ import java.util.ResourceBundle;
 public class UpdateCustomerController implements Initializable {
 
     @FXML
-    private TextField updateCustomerName;
+    private TextField customerNameTxtField;
     @FXML
-    private TextField updateCustomerAddress;
+    private TextField customerAddrTxtField;
     @FXML
-    private TextField updateCustomerZip;
+    private TextField customerPostCodeTxtField;
     @FXML
-    private TextField updateCustomerPhone;
+    private TextField customerPhnNumTxtField;
     @FXML
     private ComboBox<String> countryComboBox;
     @FXML
@@ -37,11 +37,11 @@ public class UpdateCustomerController implements Initializable {
 
     public void save(ActionEvent event) throws IOException, SQLException {
 
-        customerToUpdate.setCustomerName(updateCustomerName.getText());
-        customerToUpdate.setCustomerAddress(updateCustomerAddress.getText());
+        customerToUpdate.setCustomerName(customerNameTxtField.getText());
+        customerToUpdate.setCustomerAddress(customerAddrTxtField.getText());
         customerToUpdate.setCustomerDivisionName(stateComboBox.getValue());
-        customerToUpdate.setCustomerPostalCode(updateCustomerZip.getText());
-        customerToUpdate.setCustomerPhoneNumber(updateCustomerPhone.getText());
+        customerToUpdate.setCustomerPostalCode(customerPostCodeTxtField.getText());
+        customerToUpdate.setCustomerPhoneNumber(customerPhnNumTxtField.getText());
         Queries.updateCustomer(customerToUpdate);
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
@@ -79,16 +79,16 @@ public class UpdateCustomerController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customerToUpdate = MainController.getCustomerToUpdate();
 
-        updateCustomerName.setText(customerToUpdate.getCustomerName());
-        updateCustomerAddress.setText(customerToUpdate.getCustomerAddress());
+        customerNameTxtField.setText(customerToUpdate.getCustomerName());
+        customerAddrTxtField.setText(customerToUpdate.getCustomerAddress());
         try {
             countryComboBox.getSelectionModel().select(Queries.getCountry(customerToUpdate.getCustomerDivisionName()));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         stateComboBox.getSelectionModel().select(customerToUpdate.getCustomerDivisionName());
-        updateCustomerZip.setText(customerToUpdate.getCustomerPostalCode());
-        updateCustomerPhone.setText(customerToUpdate.getCustomerPhoneNumber());
+        customerPostCodeTxtField.setText(customerToUpdate.getCustomerPostalCode());
+        customerPhnNumTxtField.setText(customerToUpdate.getCustomerPhoneNumber());
 
         try {
             fillCountryData();

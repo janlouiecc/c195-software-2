@@ -22,13 +22,13 @@ import java.util.ResourceBundle;
 public class AddCustomerController implements Initializable {
 
     @FXML
-    private TextField addCustomerName;
+    private TextField customerNameTxtField;
     @FXML
-    private TextField addCustomerAddress;
+    private TextField customerAddrTxtField;
     @FXML
-    private TextField addCustomerZip;
+    private TextField customerPostCodeTxtField;
     @FXML
-    private TextField addCustomerPhone;
+    private TextField customerPhnNumTxtField;
     @FXML
     private ComboBox<String> countryComboBox;
     @FXML
@@ -38,10 +38,10 @@ public class AddCustomerController implements Initializable {
 
         Customer customer = new Customer(
                 Customer.customerCount + 1,
-                addCustomerName.getText(),
-                addCustomerAddress.getText(),
-                addCustomerZip.getText(),
-                addCustomerPhone.getText(),
+                customerNameTxtField.getText(),
+                customerAddrTxtField.getText(),
+                customerPostCodeTxtField.getText(),
+                customerPhnNumTxtField.getText(),
                 stateComboBox.getValue()
         );
 

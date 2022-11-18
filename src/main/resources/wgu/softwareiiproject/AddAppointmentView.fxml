@@ -76,8 +76,8 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <ComboBox layoutX="206.0" layoutY="304.0" prefHeight="27.0" prefWidth="142.0" />
-      <ComboBox layoutX="364.0" layoutY="304.0" prefHeight="27.0" prefWidth="142.0" />
+      <ComboBox fx:id="countryComboBox" layoutX="206.0" layoutY="304.0" onAction="#fillStateData" prefHeight="27.0" prefWidth="142.0" />
+      <ComboBox fx:id="stateComboBox" layoutX="364.0" layoutY="304.0" prefHeight="27.0" prefWidth="142.0" />
       <DatePicker layoutX="206.0" layoutY="413.0" prefHeight="27.0" prefWidth="142.0" />
       <DatePicker layoutX="206.0" layoutY="450.0" prefHeight="27.0" prefWidth="142.0" />
       <ComboBox layoutX="404.0" layoutY="413.0" prefHeight="27.0" prefWidth="62.0" />

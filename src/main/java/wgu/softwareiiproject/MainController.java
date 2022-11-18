@@ -61,9 +61,15 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<Appointment, Integer> userId;
     private static Customer customerToUpdate = null;
+    private static Customer customerToAddAppt = null;
+
 
     public static Customer getCustomerToUpdate() {
         return customerToUpdate;
+    }
+
+    public static Customer getCustomerToAddAppt() {
+        return customerToAddAppt;
     }
 
     public void clickLogOut(ActionEvent event) throws IOException {
@@ -117,6 +123,8 @@ public class MainController implements Initializable {
             alert.showAndWait();
             return;
         }
+
+        customerToAddAppt = selectedCustomer;
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddAppointmentView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

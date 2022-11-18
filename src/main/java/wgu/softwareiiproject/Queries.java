@@ -53,6 +53,30 @@ public abstract class Queries {
         rs.close();
     }
 
+    public static boolean login(String userName, String password) throws SQLException {
+        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Password from users WHERE User_Name = ?");
+        ps.setString(1, userName);
+        ResultSet rs = ps.executeQuery();
+        if(!rs.next()) {
+            return false;
+        } else {
+            return rs.getString("Password").equals(password);
+        }
+    }
+
+    public static int getUserId(String userName) throws SQLException {
+        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT User_ID FROM users WHERE User_Name = ?");
+        ps.setString(1, userName);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int userId = rs.getInt("User_ID");
+
+        ps.close();
+        rs.close();
+
+        return userId;
+    }
+
     public static void fillCountryList(ObservableList<String> countryOptions) throws SQLException {
         PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Country from countries");
         ResultSet rs = ps.executeQuery();
@@ -100,6 +124,7 @@ public abstract class Queries {
 
         return country;
     }
+
     public static void insertCustomer(Customer customer) throws SQLException {
         PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Division_ID FROM first_level_divisions WHERE Division = ?");
         ps.setString(1, customer.getCustomerDivisionName());
