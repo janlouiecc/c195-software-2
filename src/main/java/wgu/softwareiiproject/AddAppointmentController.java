@@ -46,7 +46,7 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private DatePicker addEndDate;
     @FXML
-    private ComboBox<Timestamp>  addApptEndTime;
+    private ComboBox<Timestamp> addApptEndTime;
 
 
     public void save(ActionEvent event) throws IOException {
