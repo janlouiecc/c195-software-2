@@ -19,7 +19,7 @@
       <TextField fx:id="updateApptUsrIdText" disable="true" editable="false" layoutX="214.0" layoutY="183.0" prefHeight="27.0" prefWidth="200.0" />
       <TextField fx:id="updateApptTitle" layoutX="214.0" layoutY="223.0" prefHeight="27.0" prefWidth="200.0" />
       <TextField fx:id="updateApptDescription" layoutX="214.0" layoutY="264.0" prefHeight="27.0" prefWidth="200.0" />
-      <ComboBox fx:id="countryComboBox" layoutX="214.0" layoutY="304.0" prefHeight="27.0" prefWidth="142.0" />
+      <ComboBox fx:id="countryComboBox" layoutX="214.0" layoutY="304.0" onAction="#fillStateData" prefHeight="27.0" prefWidth="142.0" />
       <ComboBox fx:id="stateComboBox" layoutX="372.0" layoutY="304.0" prefHeight="27.0" prefWidth="142.0" />
       <ComboBox fx:id="updateApptContact" layoutX="214.0" layoutY="341.0" prefHeight="27.0" prefWidth="200.0" />
       <TextField fx:id="updateApptType" layoutX="214.0" layoutY="375.0" prefHeight="27.0" prefWidth="200.0" />

@@ -64,6 +64,7 @@ public class MainController implements Initializable {
 
     private static Customer customerToAddAppt = null;
 
+    private static Appointment apptToUpdate = null;
 
     public static Customer getCustomerToUpdate() {
         return customerToUpdate;
@@ -71,6 +72,10 @@ public class MainController implements Initializable {
 
     public static Customer getCustomerToAddAppt() {
         return customerToAddAppt;
+    }
+
+    public static Appointment getAppointmentToUpdate() {
+        return apptToUpdate;
     }
 
     public void clickLogOut(ActionEvent event) throws IOException {
@@ -136,6 +141,19 @@ public class MainController implements Initializable {
     }
 
     public void updateAppointment(ActionEvent event) throws IOException {
+        Appointment selectedAppt = mainAppointmentTblView.getSelectionModel().getSelectedItem();
+
+        if (selectedAppt == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setHeaderText("No customer selected.");
+            alert.setContentText("Please select an appointment to update.");
+            alert.showAndWait();
+            return;
+        }
+
+        apptToUpdate = selectedAppt;
+
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("UpdateAppointmentView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);

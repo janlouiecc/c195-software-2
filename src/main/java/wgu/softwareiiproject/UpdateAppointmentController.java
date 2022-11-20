@@ -1,5 +1,7 @@
 package wgu.softwareiiproject;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -33,7 +36,7 @@ public class UpdateAppointmentController implements Initializable {
     @FXML
     private ComboBox<String> stateComboBox;
     @FXML
-    private ComboBox<Integer> updateApptContact;
+    private ComboBox<String> updateApptContact;
     @FXML
     private TextField updateApptType;
     @FXML
@@ -63,8 +66,40 @@ public class UpdateAppointmentController implements Initializable {
         stage.show();
     }
 
+    private void fillCountryData() throws SQLException{
+        ObservableList<String> countryOptions = FXCollections.observableArrayList();
+        Queries.fillCountryList(countryOptions);
+        countryComboBox.setItems(countryOptions);
+    }
+
+    @FXML
+    private void fillStateData() throws SQLException {
+        ObservableList<String> stateOptions = FXCollections.observableArrayList();
+        Queries.fillStateList(stateOptions, countryComboBox.getValue());
+        stateComboBox.getSelectionModel().clearSelection();
+        stateComboBox.getSelectionModel().selectFirst();
+        stateComboBox.setItems(stateOptions);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Appointment apptToUpdate = MainController.getAppointmentToUpdate();
+        updateApptCustIdText.setText(String.valueOf(apptToUpdate.getCustomerId()));
+        updateApptUsrIdText.setText(apptToUpdate.getUserName());
+        updateApptTitle.setText(apptToUpdate.getAppointmentTitle());
+        updateApptDescription.setText(apptToUpdate.getAppointmentDescription());
+        String[] location = apptToUpdate.getAppointmentLocation().split("\\s*,\\s*");
+        countryComboBox.getSelectionModel().select(location[1]);
+        stateComboBox.getSelectionModel().select(location[0]);
+        updateApptContact.getSelectionModel().select(apptToUpdate.getAppointmentContact());
+        updateApptType.setText(apptToUpdate.getAppointmentType());
+        //implement start and end time
 
+        try {
+            fillCountryData();
+            fillStateData();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

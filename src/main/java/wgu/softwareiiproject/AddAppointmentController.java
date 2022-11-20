@@ -49,7 +49,8 @@ public class AddAppointmentController implements Initializable {
     private ComboBox<LocalDateTime> addApptEndTime;
 
 
-    public void save(ActionEvent event) throws IOException, SQLException {
+    @FXML
+    private void save(ActionEvent event) throws IOException, SQLException {
 
         System.out.println(addStartDate.getValue().atStartOfDay());
         Appointment appointment = new Appointment(
@@ -60,8 +61,8 @@ public class AddAppointmentController implements Initializable {
                 stateComboBox.getValue() + ", " + countryComboBox.getValue(),
                 addApptContact.getValue(),
                 addApptType.getText(),
-                addStartDate.getValue().atStartOfDay(),
-                addEndDate.getValue().atStartOfDay(),
+                addStartDate.getValue().atStartOfDay(),  //placeholder
+                addEndDate.getValue().atStartOfDay(),  //placeholder
                 addApptUsrIdText.getText()
         );
         Appointment.appointmentData.add(appointment);
@@ -75,7 +76,8 @@ public class AddAppointmentController implements Initializable {
         stage.show();
     }
 
-    public void cancel(ActionEvent event) throws IOException {
+    @FXML
+    private void cancel(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -84,19 +86,20 @@ public class AddAppointmentController implements Initializable {
         stage.show();
     }
 
-    public void fillContactData() throws SQLException {
+    private void fillContactData() throws SQLException {
         ObservableList<String> contactOptions = FXCollections.observableArrayList();
         Queries.fillContactList(contactOptions);
         addApptContact.setItems(contactOptions);
     }
 
-    public void fillCountryData() throws SQLException {
+    private void fillCountryData() throws SQLException {
         ObservableList<String> countryOptions = FXCollections.observableArrayList();
         Queries.fillCountryList(countryOptions);
         countryComboBox.setItems(countryOptions);
     }
 
-    public void fillStateData() throws SQLException {
+    @FXML
+    private void fillStateData() throws SQLException {
         ObservableList<String> stateOptions = FXCollections.observableArrayList();
         Queries.fillStateList(stateOptions, countryComboBox.getValue());
         stateComboBox.setItems(stateOptions);
@@ -105,8 +108,8 @@ public class AddAppointmentController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Customer customerToAddAppt = MainController.getCustomerToAddAppt();
         addApptCustIdText.setText(String.valueOf(customerToAddAppt.getCustomerId()));
+        addApptUsrIdText.setText(LoginController.currentUser);
         try {
-            addApptUsrIdText.setText(LoginController.currentUser);
             fillCountryData();
             fillContactData();
         } catch (SQLException e) {
