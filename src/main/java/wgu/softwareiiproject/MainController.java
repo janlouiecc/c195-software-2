@@ -59,8 +59,9 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<Appointment, LocalDateTime> appointmentEnd;
     @FXML
-    private TableColumn<Appointment, Integer> userId;
+    private TableColumn<Appointment, String> userName;
     private static Customer customerToUpdate = null;
+
     private static Customer customerToAddAppt = null;
 
 
@@ -211,7 +212,7 @@ public class MainController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Appointment.appointmentData.remove(selectedAppointment);
-            Queries.deleteAppointment(selectedAppointment.getCustomerId());
+            Queries.deleteAppointment(selectedAppointment.getAppointmentId());
 
             // testing purposes only
             for (Appointment appointment : Appointment.appointmentData) {
@@ -248,7 +249,7 @@ public class MainController implements Initializable {
         appointmentType.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
         appointmentStart.setCellValueFactory(new PropertyValueFactory<>("appointmentStart"));
         appointmentEnd.setCellValueFactory(new PropertyValueFactory<>("appointmentEnd"));
-        userId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        userName.setCellValueFactory(new PropertyValueFactory<>("userName"));
 
         mainCustomerTblView.setItems(Customer.customerData);
         mainAppointmentTblView.setItems(Appointment.appointmentData);

@@ -50,7 +50,7 @@
                <TableColumn fx:id="appointmentType" prefWidth="109.0" text="Type" />
                <TableColumn fx:id="appointmentStart" prefWidth="125.0" text="Start" />
                <TableColumn fx:id="appointmentEnd" prefWidth="125.0" text="End" />
-               <TableColumn fx:id="userId" prefWidth="76.0" text="User ID" />
+               <TableColumn fx:id="userName" prefWidth="76.0" text="User" />
             </columns>
          </TableView>
       </content>

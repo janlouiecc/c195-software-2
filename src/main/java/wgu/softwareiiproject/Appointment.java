@@ -12,11 +12,11 @@ public class Appointment {
     private int customerId;
     private String appointmentDescription;
     private String appointmentLocation;
-    private int appointmentContact;
+    private String appointmentContact;
     private String appointmentType;
     private LocalDateTime appointmentStart;
     private LocalDateTime appointmentEnd;
-    private int userId;
+    private String userName;
     protected final static ObservableList<Appointment> appointmentData = FXCollections.observableArrayList();
     static int appointmentCount = 0;
 
@@ -25,11 +25,11 @@ public class Appointment {
                        int customerId,
                        String appointmentDescription,
                        String appointmentLocation,
-                       int appointmentContact,
+                       String appointmentContact,
                        String appointmentType,
                        LocalDateTime appointmentStart,
                        LocalDateTime appointmentEnd,
-                       int userId) {
+                       String userName) {
         setAppointmentId(appointmentId);
         setAppointmentTitle(appointmentTitle);
         setCustomerId(customerId);
@@ -39,7 +39,7 @@ public class Appointment {
         setAppointmentType(appointmentType);
         setAppointmentStart(appointmentStart);
         setAppointmentEnd(appointmentEnd);
-        setUserId(userId);
+        setUserName(userName);
         appointmentCount++;
     }
 
@@ -82,11 +82,11 @@ public class Appointment {
         this.appointmentLocation = appointmentLocation;
     }
 
-    public int getAppointmentContact() {
+    public String getAppointmentContact() {
         return appointmentContact;
     }
 
-    public void setAppointmentContact(int appointmentContact) {
+    public void setAppointmentContact(String appointmentContact) {
         this.appointmentContact = appointmentContact;
     }
 
@@ -114,12 +114,12 @@ public class Appointment {
         this.appointmentEnd = appointmentEnd;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Override
@@ -134,7 +134,7 @@ public class Appointment {
                 ", appointmentType='" + appointmentType + '\'' +
                 ", appointmentStart=" + appointmentStart +
                 ", appointmentEnd=" + appointmentEnd +
-                ", userId=" + userId +
+                ", userName=" + userName +
                 '}';
     }
 }

@@ -49,24 +49,25 @@ public class AddAppointmentController implements Initializable {
     private ComboBox<LocalDateTime> addApptEndTime;
 
 
-    public void save(ActionEvent event) throws IOException {
+    public void save(ActionEvent event) throws IOException, SQLException {
 
+        System.out.println(addStartDate.getValue().atStartOfDay());
         Appointment appointment = new Appointment(
                 Appointment.appointmentCount + 1,
                 addApptTitle.getText(),
                 Integer.parseInt(addApptCustIdText.getText()),
                 addApptDescription.getText(),
                 stateComboBox.getValue() + ", " + countryComboBox.getValue(),
-                Integer.parseInt(addApptContact.getValue()),
+                addApptContact.getValue(),
                 addApptType.getText(),
-                addApptStartTime.getValue(),
-                addApptEndTime.getValue(),
-                Integer.parseInt(addApptUsrIdText.getText())
+                addStartDate.getValue().atStartOfDay(),
+                addEndDate.getValue().atStartOfDay(),
+                addApptUsrIdText.getText()
         );
         Appointment.appointmentData.add(appointment);
         Queries.insertAppointment(appointment);
 
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainViegitw.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -81,6 +82,12 @@ public class AddAppointmentController implements Initializable {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+    }
+
+    public void fillContactData() throws SQLException {
+        ObservableList<String> contactOptions = FXCollections.observableArrayList();
+        Queries.fillContactList(contactOptions);
+        addApptContact.setItems(contactOptions);
     }
 
     public void fillCountryData() throws SQLException {
@@ -99,8 +106,9 @@ public class AddAppointmentController implements Initializable {
         Customer customerToAddAppt = MainController.getCustomerToAddAppt();
         addApptCustIdText.setText(String.valueOf(customerToAddAppt.getCustomerId()));
         try {
-            addApptUsrIdText.setText(String.valueOf(Queries.getUserId(LoginController.currentUser)));
+            addApptUsrIdText.setText(LoginController.currentUser);
             fillCountryData();
+            fillContactData();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

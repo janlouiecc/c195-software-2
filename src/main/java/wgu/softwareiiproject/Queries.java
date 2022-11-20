@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 public abstract class Queries {
 
@@ -42,11 +43,11 @@ public abstract class Queries {
                     rs.getInt("Customer_ID"),
                     rs.getString("Description"),
                     rs.getString("Location"),
-                    rs.getInt("Contact_ID"),
+                    getContactName(rs.getInt("Contact_ID")),
                     rs.getString("Type"),
                     rs.getTimestamp("Start").toLocalDateTime(),
                     rs.getTimestamp("End").toLocalDateTime(),
-                    rs.getInt("User_ID")
+                    Queries.getUserName(rs.getInt("User_ID"))
             ));
         }
         ps.close();
@@ -75,6 +76,32 @@ public abstract class Queries {
         rs.close();
 
         return userId;
+    }
+
+    public static String getUserName(int userId) throws SQLException {
+        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT User_Name FROM users WHERE User_ID = ?");
+        ps.setInt(1, userId);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        String userName = rs.getString("User_Name");
+
+        ps.close();
+        rs.close();
+
+        return userName;
+    }
+
+    public static void fillContactList(ObservableList<String> contactOptions) throws SQLException {
+        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Contact_Name from contacts");
+        ResultSet rs = ps.executeQuery();
+
+        contactOptions.add("");
+        while (rs.next()) {
+            contactOptions.add(rs.getString("Contact_Name"));
+        }
+
+        ps.close();
+        rs.close();
     }
 
     public static void fillCountryList(ObservableList<String> countryOptions) throws SQLException {
@@ -106,6 +133,21 @@ public abstract class Queries {
 
         ps.close();
         rs.close();
+    }
+
+    public static String getContactName(int contactId) throws SQLException {
+        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Contact_Name  " +
+                "FROM contacts " +
+                "WHERE Contact_ID = ?");
+        ps.setInt(1, contactId);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        String contactName = rs.getString("Contact_Name");
+
+        ps.close();
+        rs.close();
+
+        return contactName;
     }
 
     public static String getCountry(String state) throws SQLException {
@@ -185,8 +227,31 @@ public abstract class Queries {
         ps.close();
     }
 
-    public static void insertAppointment(Appointment appointment) {
+    public static void insertAppointment(Appointment appointment) throws SQLException {
+        PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Contact_ID FROM contacts WHERE Contact_Name = ?");
+        ps.setString(1, appointment.getAppointmentContact());
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int contactId = rs.getInt("Contact_ID");
 
+        PreparedStatement ps1 = JDBC.connection.prepareStatement("INSERT IGNORE INTO appointments VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?, ?, ?)");
+        ps1.setInt(1, appointment.getAppointmentId());
+        ps1.setString(2, appointment.getAppointmentTitle());
+        ps1.setString(3, appointment.getAppointmentDescription());
+        ps1.setString(4, appointment.getAppointmentLocation());
+        ps1.setString(5, appointment.getAppointmentType());
+        ps1.setTimestamp(6, Timestamp.valueOf(appointment.getAppointmentStart()));
+        ps1.setTimestamp(7, Timestamp.valueOf(appointment.getAppointmentEnd()));
+        ps1.setString(8, appointment.getUserName());
+        ps1.setString(9, LoginController.currentUser);
+        ps1.setInt(10, appointment.getCustomerId());
+        ps1.setInt(11, Queries.getUserId(appointment.getUserName()));
+        ps1.setInt(12, contactId);
+        ps1.executeUpdate();
+
+        ps.close();
+        rs.close();
+        ps1.close();
     }
 
     public static void deleteAppointment(int appointmentId) throws SQLException {

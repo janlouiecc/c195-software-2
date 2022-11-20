@@ -8,76 +8,76 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="625.0" prefWidth="729.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.AddAppointmentController">
+<AnchorPane prefHeight="625.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.AddAppointmentController">
    <children>
-      <Label layoutX="279.0" layoutY="61.0" text="Add Appointment">
+      <Label layoutX="205.0" layoutY="64.0" text="Add Appointment">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="addApptCustIdText" disable="true" editable="false" layoutX="206.0" layoutY="148.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField fx:id="addApptUsrIdText" disable="true" editable="false" layoutX="206.0" layoutY="183.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField fx:id="addApptTitle" layoutX="206.0" layoutY="223.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField fx:id="addApptDescription" layoutX="206.0" layoutY="264.0" prefHeight="27.0" prefWidth="200.0" />
-      <ComboBox fx:id="countryComboBox" layoutX="206.0" layoutY="304.0" onAction="#fillStateData" prefHeight="27.0" prefWidth="142.0" />
-      <ComboBox fx:id="stateComboBox" layoutX="364.0" layoutY="304.0" prefHeight="27.0" prefWidth="142.0" />
-      <ComboBox fx:id="addApptContact" layoutX="206.0" layoutY="341.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField fx:id="addApptType" layoutX="206.0" layoutY="375.0" prefHeight="27.0" prefWidth="200.0" />
-      <DatePicker fx:id="addStartDate" layoutX="206.0" layoutY="413.0" prefHeight="27.0" prefWidth="142.0" />
-      <ComboBox fx:id="addApptStartTime" layoutX="364.0" layoutY="413.0" prefHeight="26.0" prefWidth="142.0" />
-      <DatePicker fx:id="addEndDate" layoutX="206.0" layoutY="450.0" prefHeight="27.0" prefWidth="142.0" />
-      <ComboBox fx:id="addApptEndTime" layoutX="364.0" layoutY="450.0" prefHeight="26.0" prefWidth="142.0" />
-      <Button layoutX="274.0" layoutY="516.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="78.0" text="Save">
+      <TextField fx:id="addApptCustIdText" disable="true" editable="false" layoutX="215.0" layoutY="148.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="addApptUsrIdText" disable="true" editable="false" layoutX="215.0" layoutY="183.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="addApptTitle" layoutX="215.0" layoutY="223.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="addApptDescription" layoutX="215.0" layoutY="264.0" prefHeight="27.0" prefWidth="200.0" />
+      <ComboBox fx:id="countryComboBox" layoutX="215.0" layoutY="304.0" onAction="#fillStateData" prefHeight="27.0" prefWidth="142.0" />
+      <ComboBox fx:id="stateComboBox" layoutX="373.0" layoutY="304.0" prefHeight="27.0" prefWidth="142.0" />
+      <ComboBox fx:id="addApptContact" layoutX="215.0" layoutY="341.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="addApptType" layoutX="215.0" layoutY="375.0" prefHeight="27.0" prefWidth="200.0" />
+      <DatePicker fx:id="addStartDate" layoutX="215.0" layoutY="413.0" prefHeight="27.0" prefWidth="142.0" />
+      <ComboBox fx:id="addApptStartTime" layoutX="373.0" layoutY="413.0" prefHeight="26.0" prefWidth="142.0" />
+      <DatePicker fx:id="addEndDate" layoutX="215.0" layoutY="450.0" prefHeight="27.0" prefWidth="142.0" />
+      <ComboBox fx:id="addApptEndTime" layoutX="373.0" layoutY="450.0" prefHeight="26.0" prefWidth="142.0" />
+      <Button layoutX="183.0" layoutY="523.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="78.0" text="Save">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="403.0" layoutY="516.0" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="78.0" text="Cancel">
+      <Button layoutX="312.0" layoutY="523.0" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="78.0" text="Cancel">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Label layoutX="60.0" layoutY="148.0" text="Customer ID:">
+      <Label layoutX="69.0" layoutY="148.0" text="Customer ID:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="60.0" layoutY="183.0" text="User ID:">
+      <Label layoutX="69.0" layoutY="183.0" text="User:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="60.0" layoutY="223.0" text="Title:">
+      <Label layoutX="69.0" layoutY="223.0" text="Title:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="60.0" layoutY="264.0" text="Description:">
+      <Label layoutX="69.0" layoutY="264.0" text="Description:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="60.0" layoutY="304.0" text="Location:">
+      <Label layoutX="69.0" layoutY="304.0" text="Location:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="60.0" layoutY="341.0" text="Contact:">
+      <Label layoutX="69.0" layoutY="341.0" text="Contact:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="58.0" layoutY="375.0" text="Type:">
+      <Label layoutX="67.0" layoutY="375.0" text="Type:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="59.0" layoutY="413.0" text="Start Time:">
+      <Label layoutX="68.0" layoutY="413.0" text="Start Time:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="59.0" layoutY="450.0" text="End Time:">
+      <Label layoutX="68.0" layoutY="450.0" text="End Time:">
          <font>
             <Font size="18.0" />
          </font>
