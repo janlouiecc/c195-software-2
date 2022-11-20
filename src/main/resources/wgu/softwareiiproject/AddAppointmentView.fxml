@@ -17,8 +17,16 @@
       </Label>
       <TextField fx:id="addApptCustIdText" disable="true" editable="false" layoutX="206.0" layoutY="148.0" prefHeight="27.0" prefWidth="200.0" />
       <TextField fx:id="addApptUsrIdText" disable="true" editable="false" layoutX="206.0" layoutY="183.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField fx:id="addApptDescription" layoutX="206.0" layoutY="264.0" prefHeight="27.0" prefWidth="200.0" />
       <TextField fx:id="addApptTitle" layoutX="206.0" layoutY="223.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="addApptDescription" layoutX="206.0" layoutY="264.0" prefHeight="27.0" prefWidth="200.0" />
+      <ComboBox fx:id="countryComboBox" layoutX="206.0" layoutY="304.0" onAction="#fillStateData" prefHeight="27.0" prefWidth="142.0" />
+      <ComboBox fx:id="stateComboBox" layoutX="364.0" layoutY="304.0" prefHeight="27.0" prefWidth="142.0" />
+      <ComboBox fx:id="addApptContact" layoutX="206.0" layoutY="341.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="addApptType" layoutX="206.0" layoutY="375.0" prefHeight="27.0" prefWidth="200.0" />
+      <DatePicker fx:id="addStartDate" layoutX="206.0" layoutY="413.0" prefHeight="27.0" prefWidth="142.0" />
+      <ComboBox fx:id="addApptStartTime" layoutX="364.0" layoutY="413.0" prefHeight="26.0" prefWidth="142.0" />
+      <DatePicker fx:id="addEndDate" layoutX="206.0" layoutY="450.0" prefHeight="27.0" prefWidth="142.0" />
+      <ComboBox fx:id="addApptEndTime" layoutX="364.0" layoutY="450.0" prefHeight="26.0" prefWidth="142.0" />
       <Button layoutX="274.0" layoutY="516.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="78.0" text="Save">
          <font>
             <Font size="15.0" />
@@ -29,8 +37,6 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <ComboBox layoutX="206.0" layoutY="341.0" prefHeight="27.0" prefWidth="200.0" />
-      <ComboBox layoutX="206.0" layoutY="375.0" prefHeight="27.0" prefWidth="200.0" />
       <Label layoutX="60.0" layoutY="148.0" text="Customer ID:">
          <font>
             <Font size="18.0" />
@@ -72,46 +78,6 @@
          </font>
       </Label>
       <Label layoutX="59.0" layoutY="450.0" text="End Time:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="countryComboBox" layoutX="206.0" layoutY="304.0" onAction="#fillStateData" prefHeight="27.0" prefWidth="142.0" />
-      <ComboBox fx:id="stateComboBox" layoutX="364.0" layoutY="304.0" prefHeight="27.0" prefWidth="142.0" />
-      <DatePicker layoutX="206.0" layoutY="413.0" prefHeight="27.0" prefWidth="142.0" />
-      <DatePicker layoutX="206.0" layoutY="450.0" prefHeight="27.0" prefWidth="142.0" />
-      <ComboBox layoutX="404.0" layoutY="413.0" prefHeight="27.0" prefWidth="62.0" />
-      <ComboBox layoutX="518.0" layoutY="413.0" prefHeight="27.0" prefWidth="62.0" />
-      <ComboBox layoutX="625.0" layoutY="413.0" prefHeight="27.0" prefWidth="62.0" />
-      <Label layoutX="362.0" layoutY="413.0" text="HH:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="479.0" layoutY="413.0" text="MM:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="586.0" layoutY="413.0" text="SS:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <ComboBox layoutX="404.0" layoutY="450.0" prefHeight="27.0" prefWidth="62.0" />
-      <ComboBox layoutX="518.0" layoutY="450.0" prefHeight="27.0" prefWidth="62.0" />
-      <ComboBox layoutX="625.0" layoutY="450.0" prefHeight="27.0" prefWidth="62.0" />
-      <Label layoutX="362.0" layoutY="450.0" text="HH:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="479.0" layoutY="450.0" text="MM:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="586.0" layoutY="450.0" text="SS:">
          <font>
             <Font size="18.0" />
          </font>

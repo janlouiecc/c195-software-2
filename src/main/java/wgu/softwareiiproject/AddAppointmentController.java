@@ -10,12 +10,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -26,13 +28,26 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private TextField addApptUsrIdText;
     @FXML
-    private TextField addApptDescription;
-    @FXML
     private TextField addApptTitle;
+    @FXML
+    private TextField addApptDescription;
     @FXML
     private ComboBox<String> countryComboBox;
     @FXML
     private ComboBox<String> stateComboBox;
+    @FXML
+    private ComboBox<String> addApptContact;
+    @FXML
+    private TextField addApptType;
+    @FXML
+    private DatePicker addStartDate;
+    @FXML
+    private ComboBox<Timestamp> addApptStartTime;
+    @FXML
+    private DatePicker addEndDate;
+    @FXML
+    private ComboBox<Timestamp>  addApptEndTime;
+
 
     public void save(ActionEvent event) throws IOException {
 

@@ -15,10 +15,18 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <TextField layoutX="206.0" layoutY="148.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField layoutX="206.0" layoutY="183.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField layoutX="206.0" layoutY="264.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField layoutX="206.0" layoutY="223.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="updateApptCustIdText" disable="true" editable="false" layoutX="206.0" layoutY="148.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="updateApptUsrIdText" disable="true" editable="false" layoutX="206.0" layoutY="183.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="updateApptTitle" layoutX="206.0" layoutY="223.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="updateApptDescription" layoutX="206.0" layoutY="264.0" prefHeight="27.0" prefWidth="200.0" />
+      <ComboBox fx:id="countryComboBox" layoutX="206.0" layoutY="304.0" prefHeight="27.0" prefWidth="142.0" />
+      <ComboBox fx:id="stateComboBox" layoutX="364.0" layoutY="304.0" prefHeight="27.0" prefWidth="142.0" />
+      <ComboBox fx:id="updateApptContact" layoutX="206.0" layoutY="341.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="updateApptType" layoutX="206.0" layoutY="375.0" prefHeight="27.0" prefWidth="200.0" />
+      <DatePicker fx:id="updateStartDate" layoutX="206.0" layoutY="413.0" prefHeight="27.0" prefWidth="142.0" />
+      <ComboBox fx:id="updateApptStartTime" layoutX="364.0" layoutY="414.0" prefHeight="26.0" prefWidth="142.0" />
+      <DatePicker fx:id="updateEndDate" layoutX="206.0" layoutY="450.0" prefHeight="27.0" prefWidth="142.0" />
+      <ComboBox fx:id="updateApptEndTime" layoutX="364.0" layoutY="451.0" prefHeight="26.0" prefWidth="142.0" />
       <Button layoutX="274.0" layoutY="516.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="78.0" text="Save">
          <font>
             <Font size="15.0" />
@@ -29,8 +37,6 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <ComboBox fx:id="countryComboBox" layoutX="206.0" layoutY="341.0" prefHeight="27.0" prefWidth="200.0" />
-      <ComboBox fx:id="stateComboBox" layoutX="206.0" layoutY="375.0" prefHeight="27.0" prefWidth="200.0" />
       <Label layoutX="60.0" layoutY="148.0" text="Customer ID:">
          <font>
             <Font size="18.0" />
@@ -72,46 +78,6 @@
          </font>
       </Label>
       <Label layoutX="59.0" layoutY="450.0" text="End Time:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <ComboBox layoutX="206.0" layoutY="304.0" prefHeight="27.0" prefWidth="142.0" />
-      <ComboBox layoutX="364.0" layoutY="304.0" prefHeight="27.0" prefWidth="142.0" />
-      <DatePicker layoutX="206.0" layoutY="413.0" prefHeight="27.0" prefWidth="142.0" />
-      <DatePicker layoutX="206.0" layoutY="450.0" prefHeight="27.0" prefWidth="142.0" />
-      <ComboBox layoutX="404.0" layoutY="413.0" prefHeight="27.0" prefWidth="62.0" />
-      <ComboBox layoutX="518.0" layoutY="413.0" prefHeight="27.0" prefWidth="62.0" />
-      <ComboBox layoutX="625.0" layoutY="413.0" prefHeight="27.0" prefWidth="62.0" />
-      <Label layoutX="362.0" layoutY="413.0" text="HH:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="479.0" layoutY="413.0" text="MM:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="586.0" layoutY="413.0" text="SS:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <ComboBox layoutX="404.0" layoutY="450.0" prefHeight="27.0" prefWidth="62.0" />
-      <ComboBox layoutX="518.0" layoutY="450.0" prefHeight="27.0" prefWidth="62.0" />
-      <ComboBox layoutX="625.0" layoutY="450.0" prefHeight="27.0" prefWidth="62.0" />
-      <Label layoutX="362.0" layoutY="450.0" text="HH:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="479.0" layoutY="450.0" text="MM:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="586.0" layoutY="450.0" text="SS:">
          <font>
             <Font size="18.0" />
          </font>
