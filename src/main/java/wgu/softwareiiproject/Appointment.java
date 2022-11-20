@@ -3,7 +3,7 @@ package wgu.softwareiiproject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class Appointment {
 
@@ -14,8 +14,8 @@ public class Appointment {
     private String appointmentLocation;
     private int appointmentContact;
     private String appointmentType;
-    private Timestamp appointmentStart;
-    private Timestamp appointmentEnd;
+    private LocalDateTime appointmentStart;
+    private LocalDateTime appointmentEnd;
     private int userId;
     protected final static ObservableList<Appointment> appointmentData = FXCollections.observableArrayList();
     static int appointmentCount = 0;
@@ -27,8 +27,8 @@ public class Appointment {
                        String appointmentLocation,
                        int appointmentContact,
                        String appointmentType,
-                       Timestamp appointmentStart,
-                       Timestamp appointmentEnd,
+                       LocalDateTime appointmentStart,
+                       LocalDateTime appointmentEnd,
                        int userId) {
         setAppointmentId(appointmentId);
         setAppointmentTitle(appointmentTitle);
@@ -98,19 +98,19 @@ public class Appointment {
         this.appointmentType = appointmentType;
     }
 
-    public Timestamp getAppointmentStart() {
+    public LocalDateTime getAppointmentStart() {
         return appointmentStart;
     }
 
-    public void setAppointmentStart(Timestamp appointmentStart) {
+    public void setAppointmentStart(LocalDateTime appointmentStart) {
         this.appointmentStart = appointmentStart;
     }
 
-    public Timestamp getAppointmentEnd() {
+    public LocalDateTime getAppointmentEnd() {
         return appointmentEnd;
     }
 
-    public void setAppointmentEnd(Timestamp appointmentEnd) {
+    public void setAppointmentEnd(LocalDateTime appointmentEnd) {
         this.appointmentEnd = appointmentEnd;
     }
 

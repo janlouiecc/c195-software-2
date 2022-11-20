@@ -44,8 +44,8 @@ public abstract class Queries {
                     rs.getString("Location"),
                     rs.getInt("Contact_ID"),
                     rs.getString("Type"),
-                    rs.getTimestamp("Start"),
-                    rs.getTimestamp("End"),
+                    rs.getTimestamp("Start").toLocalDateTime(),
+                    rs.getTimestamp("End").toLocalDateTime(),
                     rs.getInt("User_ID")
             ));
         }
@@ -183,6 +183,10 @@ public abstract class Queries {
         ps.setInt(1, customerId);
         ps.executeUpdate();
         ps.close();
+    }
+
+    public static void insertAppointment(Appointment appointment) {
+
     }
 
     public static void deleteAppointment(int appointmentId) throws SQLException {

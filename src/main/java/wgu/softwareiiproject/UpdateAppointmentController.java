@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Timestamp;
+import java.sql.Time;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -39,11 +39,11 @@ public class UpdateAppointmentController implements Initializable {
     @FXML
     private DatePicker updateStartDate;
     @FXML
-    private ComboBox<Timestamp> updateApptStartTime;
+    private ComboBox<Time> updateApptStartTime;
     @FXML
     private DatePicker updateEndDate;
     @FXML
-    private ComboBox<Timestamp> updateApptEndTime;
+    private ComboBox<Time> updateApptEndTime;
 
     public void save(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));

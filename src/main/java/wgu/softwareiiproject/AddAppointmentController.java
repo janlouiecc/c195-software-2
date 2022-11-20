@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -42,16 +42,31 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private DatePicker addStartDate;
     @FXML
-    private ComboBox<Timestamp> addApptStartTime;
+    private ComboBox<LocalDateTime> addApptStartTime;
     @FXML
     private DatePicker addEndDate;
     @FXML
-    private ComboBox<Timestamp> addApptEndTime;
+    private ComboBox<LocalDateTime> addApptEndTime;
 
 
     public void save(ActionEvent event) throws IOException {
 
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
+        Appointment appointment = new Appointment(
+                Appointment.appointmentCount + 1,
+                addApptTitle.getText(),
+                Integer.parseInt(addApptCustIdText.getText()),
+                addApptDescription.getText(),
+                stateComboBox.getValue() + ", " + countryComboBox.getValue(),
+                Integer.parseInt(addApptContact.getValue()),
+                addApptType.getText(),
+                addApptStartTime.getValue(),
+                addApptEndTime.getValue(),
+                Integer.parseInt(addApptUsrIdText.getText())
+        );
+        Appointment.appointmentData.add(appointment);
+        Queries.insertAppointment(appointment);
+
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainViegitw.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
