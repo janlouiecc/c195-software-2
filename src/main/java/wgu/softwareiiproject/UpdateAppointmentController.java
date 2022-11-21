@@ -42,13 +42,18 @@ public class UpdateAppointmentController implements Initializable {
     @FXML
     private DatePicker updateStartDate;
     @FXML
-    private ComboBox<Time> updateApptStartTime;
-    @FXML
     private DatePicker updateEndDate;
     @FXML
-    private ComboBox<Time> updateApptEndTime;
+    private ComboBox<Integer> updateApptStartHour;
+    @FXML
+    private ComboBox<Integer> updateApptStartMin;
+    @FXML
+    private ComboBox<Integer> updateApptEndHour;
+    @FXML
+    private ComboBox<Integer> updateApptEndMin;
 
-    public void save(ActionEvent event) throws IOException {
+    @FXML
+    private void save(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -57,7 +62,8 @@ public class UpdateAppointmentController implements Initializable {
         stage.show();
     }
 
-    public void cancel(ActionEvent event) throws IOException {
+    @FXML
+    private void cancel(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);

@@ -24,9 +24,7 @@
       <ComboBox fx:id="updateApptContact" layoutX="214.0" layoutY="341.0" prefHeight="27.0" prefWidth="200.0" />
       <TextField fx:id="updateApptType" layoutX="214.0" layoutY="375.0" prefHeight="27.0" prefWidth="200.0" />
       <DatePicker fx:id="updateStartDate" layoutX="214.0" layoutY="413.0" prefHeight="27.0" prefWidth="142.0" />
-      <ComboBox fx:id="updateApptStartTime" layoutX="372.0" layoutY="414.0" prefHeight="26.0" prefWidth="142.0" />
       <DatePicker fx:id="updateEndDate" layoutX="214.0" layoutY="450.0" prefHeight="27.0" prefWidth="142.0" />
-      <ComboBox fx:id="updateApptEndTime" layoutX="372.0" layoutY="451.0" prefHeight="26.0" prefWidth="142.0" />
       <Button layoutX="186.0" layoutY="523.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="78.0" text="Save">
          <font>
             <Font size="15.0" />
@@ -82,5 +80,9 @@
             <Font size="18.0" />
          </font>
       </Label>
+      <ComboBox fx:id="updateApptStartHour" layoutX="375.0" layoutY="414.0" prefHeight="25.0" prefWidth="65.0" />
+      <ComboBox fx:id="updateApptStartMin" layoutX="451.0" layoutY="414.0" prefHeight="25.0" prefWidth="65.0" />
+      <ComboBox fx:id="updateApptEndHour" layoutX="373.0" layoutY="451.0" prefHeight="25.0" prefWidth="65.0" />
+      <ComboBox fx:id="updateApptEndMin" layoutX="449.0" layoutY="451.0" prefHeight="25.0" prefWidth="65.0" />
    </children>
 </AnchorPane>

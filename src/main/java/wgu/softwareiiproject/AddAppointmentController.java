@@ -18,11 +18,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
-
+    
     @FXML
     private TextField addApptCustIdText;
     @FXML
@@ -42,17 +43,22 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private DatePicker addStartDate;
     @FXML
-    private ComboBox<LocalDateTime> addApptStartTime;
-    @FXML
     private DatePicker addEndDate;
     @FXML
-    private ComboBox<LocalDateTime> addApptEndTime;
-
+    private ComboBox<Integer> addApptStartHour;
+    @FXML
+    private ComboBox<Integer> addApptStartMin;
+    @FXML
+    private ComboBox<Integer> addApptEndHour;
+    @FXML
+    private ComboBox<Integer> addApptEndMin;
 
     @FXML
     private void save(ActionEvent event) throws IOException, SQLException {
 
-        System.out.println(addStartDate.getValue().atStartOfDay());
+        String[] startDate = addStartDate.getValue().toString().split("-");
+        String[] endDate = addEndDate.getValue().toString().split("-");
+
         Appointment appointment = new Appointment(
                 Appointment.appointmentCount + 1,
                 addApptTitle.getText(),
@@ -61,8 +67,20 @@ public class AddAppointmentController implements Initializable {
                 stateComboBox.getValue() + ", " + countryComboBox.getValue(),
                 addApptContact.getValue(),
                 addApptType.getText(),
-                addStartDate.getValue().atStartOfDay(),  //placeholder
-                addEndDate.getValue().atStartOfDay(),  //placeholder
+//                LocalDateTime.of(Integer.parseInt(startDate[0]),
+//                        Month.of(Integer.parseInt(startDate[1])),
+//                        Integer.parseInt(startDate[2]), addApptStartHour.getValue(),
+//                        addApptStartMin.getValue(), 0),
+//                LocalDateTime.of(Integer.parseInt(endDate[0]),
+//                        Month.of(Integer.parseInt(endDate[1])),
+//                        Integer.parseInt(endDate[2]), addApptEndHour.getValue(),
+//                        addApptEndMin.getValue(), 0),
+                LocalDateTime.of(Integer.parseInt(endDate[0]),
+                        Month.of(Integer.parseInt(endDate[1])),
+                        Integer.parseInt(startDate[2]), 0, 0, 0),
+                LocalDateTime.of(Integer.parseInt(endDate[0]),
+                        Month.of(Integer.parseInt(endDate[1])),
+                        Integer.parseInt(endDate[2]), 0, 0, 0),
                 addApptUsrIdText.getText()
         );
         Appointment.appointmentData.add(appointment);
@@ -115,5 +133,22 @@ public class AddAppointmentController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        // change format
+        ObservableList<Integer> hourOptions = FXCollections.observableArrayList();
+        ObservableList<Integer> minuteOptions = FXCollections.observableArrayList();
+
+        for (int i = 0; i < 23; i ++) {
+            hourOptions.add(i);
+        }
+
+        for (int i = 0; i < 59; i ++) {
+            minuteOptions.add(i);
+        }
+
+        addApptStartHour.setItems(hourOptions);
+        addApptStartMin.setItems(minuteOptions);
+        addApptEndHour.setItems(hourOptions);
+        addApptEndMin.setItems(minuteOptions);
     }
 }
