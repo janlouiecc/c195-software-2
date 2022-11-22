@@ -128,18 +128,8 @@ public class AddAppointmentController implements Initializable {
         Queries.fillStateList(stateOptions, countryComboBox.getValue());
         stateComboBox.setItems(stateOptions);
     }
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        Customer customerToAddAppt = MainController.getSelectedCustomer();
-        addApptCustIdText.setText(String.valueOf(customerToAddAppt.getCustomerId()));
-        addApptUsrIdText.setText(LoginController.currentUser);
-        try {
-            fillCountryData();
-            fillContactData();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
+    private void fillTimeData() {
         ObservableList<String> hourOptions = FXCollections.observableArrayList();
         ObservableList<String> minuteOptions = FXCollections.observableArrayList();
 
@@ -163,5 +153,18 @@ public class AddAppointmentController implements Initializable {
         addApptStartMin.setItems(minuteOptions);
         addApptEndHour.setItems(hourOptions);
         addApptEndMin.setItems(minuteOptions);
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Customer customerToAddAppt = MainController.getSelectedCustomer();
+        addApptCustIdText.setText(String.valueOf(customerToAddAppt.getCustomerId()));
+        addApptUsrIdText.setText(LoginController.currentUser);
+        try {
+            fillCountryData();
+            fillContactData();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        fillTimeData();
     }
 }
