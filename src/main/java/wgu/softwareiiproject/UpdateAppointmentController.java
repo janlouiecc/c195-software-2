@@ -89,7 +89,7 @@ public class UpdateAppointmentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Appointment apptToUpdate = MainController.getAppointmentToUpdate();
+        Appointment apptToUpdate = MainController.getSelectedAppointment();
         updateApptCustIdText.setText(String.valueOf(apptToUpdate.getCustomerId()));
         updateApptUsrIdText.setText(apptToUpdate.getUserName());
         updateApptTitle.setText(apptToUpdate.getAppointmentTitle());

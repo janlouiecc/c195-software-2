@@ -60,22 +60,13 @@ public class MainController implements Initializable {
     private TableColumn<Appointment, LocalDateTime> appointmentEnd;
     @FXML
     private TableColumn<Appointment, String> userName;
-    private static Customer customerToUpdate = null;
-
-    private static Customer customerToAddAppt = null;
-
-    private static Appointment apptToUpdate = null;
-
-    public static Customer getCustomerToUpdate() {
-        return customerToUpdate;
+    private static Customer selectedCustomer = null;
+    private static Appointment selectedAppointment = null;
+    public static Customer getSelectedCustomer() {
+        return selectedCustomer;
     }
-
-    public static Customer getCustomerToAddAppt() {
-        return customerToAddAppt;
-    }
-
-    public static Appointment getAppointmentToUpdate() {
-        return apptToUpdate;
+    public static Appointment getSelectedAppointment() {
+        return selectedAppointment;
     }
 
     public void clickLogOut(ActionEvent event) throws IOException {
@@ -97,9 +88,9 @@ public class MainController implements Initializable {
     }
 
     public void updateCustomer(ActionEvent event) throws IOException {
-        Customer selectedCustomer = mainCustomerTblView.getSelectionModel().getSelectedItem();
+        Customer customer = mainCustomerTblView.getSelectionModel().getSelectedItem();
 
-        if (selectedCustomer == null) {
+        if (customer == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
             alert.setHeaderText("No customer selected.");
@@ -108,7 +99,7 @@ public class MainController implements Initializable {
             return;
         }
 
-        customerToUpdate = selectedCustomer;
+        selectedCustomer = customer;
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("UpdateCustomerView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -119,9 +110,9 @@ public class MainController implements Initializable {
     }
 
     public void addAppointment(ActionEvent event) throws IOException {
-        Customer selectedCustomer = mainCustomerTblView.getSelectionModel().getSelectedItem();
+        Customer customer = mainCustomerTblView.getSelectionModel().getSelectedItem();
 
-        if (selectedCustomer == null) {
+        if (customer == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
             alert.setHeaderText("No customer selected.");
@@ -130,7 +121,7 @@ public class MainController implements Initializable {
             return;
         }
 
-        customerToAddAppt = selectedCustomer;
+        selectedCustomer = customer;
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddAppointmentView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -141,18 +132,18 @@ public class MainController implements Initializable {
     }
 
     public void updateAppointment(ActionEvent event) throws IOException {
-        Appointment selectedAppt = mainAppointmentTblView.getSelectionModel().getSelectedItem();
+        Appointment appointment = mainAppointmentTblView.getSelectionModel().getSelectedItem();
 
-        if (selectedAppt == null) {
+        if (appointment == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
-            alert.setHeaderText("No customer selected.");
+            alert.setHeaderText("No appointment selected.");
             alert.setContentText("Please select an appointment to update.");
             alert.showAndWait();
             return;
         }
 
-        apptToUpdate = selectedAppt;
+        selectedAppointment = appointment;
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("UpdateAppointmentView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -163,9 +154,9 @@ public class MainController implements Initializable {
     }
 
     public void deleteCustomer() throws SQLException {
-        Customer selectedCustomer = mainCustomerTblView.getSelectionModel().getSelectedItem();
+        Customer customer = mainCustomerTblView.getSelectionModel().getSelectedItem();
 
-        if (selectedCustomer == null) {
+        if (customer == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
             alert.setHeaderText("No customer selected.");
@@ -176,12 +167,12 @@ public class MainController implements Initializable {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete?");
-        alert.setHeaderText("Deleting " + selectedCustomer.getCustomerName());
+        alert.setHeaderText("Deleting " + customer.getCustomerName());
         alert.setContentText("Are you sure you want to delete this selection?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             for (Appointment appointment : Appointment.appointmentData) {
-                if (appointment.getCustomerId() == selectedCustomer.getCustomerId()) {
+                if (appointment.getCustomerId() == customer.getCustomerId()) {
                     Alert alert1 = new Alert(Alert.AlertType.WARNING);
                     alert1.setTitle("Error");
                     alert1.setHeaderText("Customer has an upcoming appointment. Unable to delete.");
@@ -191,16 +182,16 @@ public class MainController implements Initializable {
                 }
             }
 
-            Customer.customerData.remove(selectedCustomer);
-            Queries.deleteCustomer(selectedCustomer.getCustomerId());
+            Customer.customerData.remove(customer);
+            Queries.deleteCustomer(customer.getCustomerId());
 
             //testing purposes only
-            for (Customer customer : Customer.customerData) {
-                System.out.println(customer);
+            for (Customer c : Customer.customerData) {
+                System.out.println(c);
             }
 
             Alert confirmed = new Alert(Alert.AlertType.INFORMATION);
-            if (!Customer.customerData.contains(selectedCustomer)) {
+            if (!Customer.customerData.contains(customer)) {
                 confirmed.setTitle("Deleted");
                 confirmed.setHeaderText("This customer has been deleted.");
             } else {
@@ -212,9 +203,9 @@ public class MainController implements Initializable {
     }
 
     public void deleteAppointment() throws SQLException {
-        Appointment selectedAppointment = mainAppointmentTblView.getSelectionModel().getSelectedItem();
+        Appointment appointment = mainAppointmentTblView.getSelectionModel().getSelectedItem();
 
-        if (selectedAppointment == null) {
+        if (appointment == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
             alert.setHeaderText("No appointment selected.");
@@ -225,22 +216,23 @@ public class MainController implements Initializable {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete?");
-        alert.setHeaderText("Deleting " + selectedAppointment.getAppointmentTitle());
+        alert.setHeaderText("Deleting " + appointment.getAppointmentTitle());
         alert.setContentText("Are you sure you want to delete this selection?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Appointment.appointmentData.remove(selectedAppointment);
-            Queries.deleteAppointment(selectedAppointment.getAppointmentId());
+            Appointment.appointmentData.remove(appointment);
+            Queries.deleteAppointment(appointment.getAppointmentId());
 
             // testing purposes only
-            for (Appointment appointment : Appointment.appointmentData) {
-                System.out.println(appointment);
+            for (Appointment a : Appointment.appointmentData) {
+                System.out.println(a);
             }
 
             Alert confirmed = new Alert(Alert.AlertType.INFORMATION);
-            if (!Appointment.appointmentData.contains(selectedAppointment)) {
+            if (!Appointment.appointmentData.contains(appointment)) {
                 confirmed.setTitle("Deleted");
-                confirmed.setHeaderText("This appointment has been deleted.");
+                confirmed.setHeaderText("Appointment " + appointment.getAppointmentId() + " " +
+                        appointment.getAppointmentType() + " has been cancelled.");
             } else {
                 confirmed.setTitle("Error");
                 confirmed.setHeaderText("There was an error, please try again.");

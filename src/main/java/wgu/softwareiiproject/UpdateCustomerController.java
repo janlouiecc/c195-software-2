@@ -77,7 +77,7 @@ public class UpdateCustomerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        customerToUpdate = MainController.getCustomerToUpdate();
+        customerToUpdate = MainController.getSelectedCustomer();
 
         customerNameTxtField.setText(customerToUpdate.getCustomerName());
         customerAddrTxtField.setText(customerToUpdate.getCustomerAddress());

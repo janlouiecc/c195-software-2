@@ -130,7 +130,7 @@ public class AddAppointmentController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Customer customerToAddAppt = MainController.getCustomerToAddAppt();
+        Customer customerToAddAppt = MainController.getSelectedCustomer();
         addApptCustIdText.setText(String.valueOf(customerToAddAppt.getCustomerId()));
         addApptUsrIdText.setText(LoginController.currentUser);
         try {
