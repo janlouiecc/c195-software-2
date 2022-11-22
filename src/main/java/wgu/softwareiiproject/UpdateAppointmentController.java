@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -50,9 +52,42 @@ public class UpdateAppointmentController implements Initializable {
     private ComboBox<String> updateApptEndHour;
     @FXML
     private ComboBox<String> updateApptEndMin;
+    private Appointment apptToUpdate;
 
     @FXML
-    private void save(ActionEvent event) throws IOException {
+    private void save(ActionEvent event) throws IOException, SQLException {
+        apptToUpdate.setAppointmentTitle(updateApptTitle.getText());
+        apptToUpdate.setAppointmentDescription(updateApptDescription.getText());
+        apptToUpdate.setAppointmentLocation(stateComboBox.getValue() + ", " + countryComboBox.getValue());
+        apptToUpdate.setAppointmentContact(updateApptContact.getValue());
+        apptToUpdate.setAppointmentType(updateApptType.getText());
+
+        String[] startDate = updateStartDate.getValue().toString().split("-");
+        String[] endDate = updateEndDate.getValue().toString().split("-");
+        int startHr = updateApptStartHour.getValue().charAt(0) == '0' ?
+                Integer.parseInt(updateApptStartHour.getValue().substring(1)) :
+                Integer.parseInt(updateApptStartHour.getValue());
+        int endHr = updateApptEndHour.getValue().charAt(0) == '0' ?
+                Integer.parseInt(updateApptEndHour.getValue().substring(1)) :
+                Integer.parseInt(updateApptEndHour.getValue());
+        int startMin = updateApptStartMin.getValue().charAt(0) == '0' ?
+                Integer.parseInt(updateApptStartMin.getValue().substring(1)) :
+                Integer.parseInt(updateApptStartMin.getValue());
+        int endMin = updateApptEndMin.getValue().charAt(0) == '0' ?
+                Integer.parseInt(updateApptEndMin.getValue().substring(1)) :
+                Integer.parseInt(updateApptEndMin.getValue());
+
+        apptToUpdate.setAppointmentStart(LocalDateTime.of(Integer.parseInt(startDate[0]),
+                Month.of(Integer.parseInt(startDate[1])),
+                Integer.parseInt(startDate[2]), startHr,
+                startMin, 0));
+        apptToUpdate.setAppointmentEnd(LocalDateTime.of(Integer.parseInt(endDate[0]),
+                Month.of(Integer.parseInt(endDate[1])),
+                Integer.parseInt(endDate[2]), endHr,
+                endMin, 0));
+
+        Queries.updateAppointment(apptToUpdate);
+
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -69,6 +104,12 @@ public class UpdateAppointmentController implements Initializable {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+    }
+
+    private void fillContactData() throws SQLException {
+        ObservableList<String> contactOptions = FXCollections.observableArrayList();
+        Queries.fillContactList(contactOptions);
+        updateApptContact.setItems(contactOptions);
     }
 
     private void fillCountryData() throws SQLException{
@@ -114,7 +155,7 @@ public class UpdateAppointmentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Appointment apptToUpdate = MainController.getSelectedAppointment();
+        apptToUpdate = MainController.getSelectedAppointment();
         updateApptCustIdText.setText(String.valueOf(apptToUpdate.getCustomerId()));
         updateApptUsrIdText.setText(apptToUpdate.getUserName());
         updateApptTitle.setText(apptToUpdate.getAppointmentTitle());
@@ -148,6 +189,7 @@ public class UpdateAppointmentController implements Initializable {
         try {
             fillCountryData();
             fillStateData();
+            fillContactData();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

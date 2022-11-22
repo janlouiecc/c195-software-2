@@ -67,7 +67,7 @@
    <RadioButton layoutX="647.0" layoutY="331.0" mnemonicParsing="false" text="By Week" />
    <RadioButton layoutX="534.0" layoutY="331.0" mnemonicParsing="false" text="By Customer" />
    <RadioButton layoutX="737.0" layoutY="331.0" mnemonicParsing="false" text="By Month" />
-   <RadioButton layoutX="436.0" layoutY="331.0" mnemonicParsing="false" text="View All" />
+   <RadioButton layoutX="436.0" layoutY="331.0" mnemonicParsing="false" selected="true" text="View All" />
    <Button layoutX="746.0" layoutY="531.0" mnemonicParsing="false" onAction="#updateAppointment" text="Update Appointment" />
    <Button layoutX="883.0" layoutY="531.0" mnemonicParsing="false" onAction="#deleteAppointment" text="Delete Appointment" />
    <Text fontSmoothingType="LCD" layoutX="33.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointment Scheduling System">
