@@ -45,19 +45,31 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private DatePicker addEndDate;
     @FXML
-    private ComboBox<Integer> addApptStartHour;
+    private ComboBox<String> addApptStartHour;
     @FXML
-    private ComboBox<Integer> addApptStartMin;
+    private ComboBox<String> addApptStartMin;
     @FXML
-    private ComboBox<Integer> addApptEndHour;
+    private ComboBox<String> addApptEndHour;
     @FXML
-    private ComboBox<Integer> addApptEndMin;
+    private ComboBox<String> addApptEndMin;
 
     @FXML
     private void save(ActionEvent event) throws IOException, SQLException {
 
         String[] startDate = addStartDate.getValue().toString().split("-");
         String[] endDate = addEndDate.getValue().toString().split("-");
+        int startHr = addApptStartHour.getValue().charAt(0) == '0' ?
+                Integer.parseInt(addApptStartHour.getValue().substring(1)) :
+                Integer.parseInt(addApptStartHour.getValue());
+        int endHr = addApptEndHour.getValue().charAt(0) == '0' ?
+                Integer.parseInt(addApptEndHour.getValue().substring(1)) :
+                Integer.parseInt(addApptEndHour.getValue());
+        int startMin = addApptStartMin.getValue().charAt(0) == '0' ?
+                Integer.parseInt(addApptStartMin.getValue().substring(1)) :
+                Integer.parseInt(addApptStartMin.getValue());
+        int endMin = addApptEndMin.getValue().charAt(0) == '0' ?
+                Integer.parseInt(addApptEndMin.getValue().substring(1)) :
+                Integer.parseInt(addApptEndMin.getValue());
 
         Appointment appointment = new Appointment(
                 Appointment.appointmentCount + 1,
@@ -67,20 +79,14 @@ public class AddAppointmentController implements Initializable {
                 stateComboBox.getValue() + ", " + countryComboBox.getValue(),
                 addApptContact.getValue(),
                 addApptType.getText(),
-//                LocalDateTime.of(Integer.parseInt(startDate[0]),
-//                        Month.of(Integer.parseInt(startDate[1])),
-//                        Integer.parseInt(startDate[2]), addApptStartHour.getValue(),
-//                        addApptStartMin.getValue(), 0),
-//                LocalDateTime.of(Integer.parseInt(endDate[0]),
-//                        Month.of(Integer.parseInt(endDate[1])),
-//                        Integer.parseInt(endDate[2]), addApptEndHour.getValue(),
-//                        addApptEndMin.getValue(), 0),
+                LocalDateTime.of(Integer.parseInt(startDate[0]),
+                        Month.of(Integer.parseInt(startDate[1])),
+                        Integer.parseInt(startDate[2]), startHr,
+                        startMin, 0),
                 LocalDateTime.of(Integer.parseInt(endDate[0]),
                         Month.of(Integer.parseInt(endDate[1])),
-                        Integer.parseInt(startDate[2]), 0, 0, 0),
-                LocalDateTime.of(Integer.parseInt(endDate[0]),
-                        Month.of(Integer.parseInt(endDate[1])),
-                        Integer.parseInt(endDate[2]), 0, 0, 0),
+                        Integer.parseInt(endDate[2]), endHr,
+                        endMin, 0),
                 addApptUsrIdText.getText()
         );
         Appointment.appointmentData.add(appointment);
@@ -134,16 +140,23 @@ public class AddAppointmentController implements Initializable {
             throw new RuntimeException(e);
         }
 
-        // change format
-        ObservableList<Integer> hourOptions = FXCollections.observableArrayList();
-        ObservableList<Integer> minuteOptions = FXCollections.observableArrayList();
+        ObservableList<String> hourOptions = FXCollections.observableArrayList();
+        ObservableList<String> minuteOptions = FXCollections.observableArrayList();
 
-        for (int i = 0; i < 23; i ++) {
-            hourOptions.add(i);
+        for (int i = 0; i < 24; i ++) {
+            if (String.valueOf(i).length() > 1) {
+                hourOptions.add(String.valueOf(i));
+            } else {
+                hourOptions.add("0" + i);
+            }
         }
 
-        for (int i = 0; i < 59; i ++) {
-            minuteOptions.add(i);
+        for (int i = 0; i < 60; i++) {
+            if (String.valueOf(i).length() > 1) {
+                minuteOptions.add(String.valueOf(i));
+            } else {
+                minuteOptions.add("0" + i);
+            }
         }
 
         addApptStartHour.setItems(hourOptions);
