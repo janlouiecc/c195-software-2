@@ -9,10 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -25,6 +22,10 @@ import java.util.*;
 
 public class MainController implements Initializable {
 
+    @FXML
+    private Label loginZoneIdLabel;
+    @FXML
+    private Label zoneId;
     @FXML
     private TableView<Customer> mainCustomerTblView;
     @FXML
@@ -61,6 +62,7 @@ public class MainController implements Initializable {
     private TableColumn<Appointment, LocalDateTime> appointmentEnd;
     @FXML
     private TableColumn<Appointment, String> userName;
+    public ToggleGroup viewSelection;
     private static Customer selectedCustomer = null;
     private static Appointment selectedAppointment = null;
 
@@ -249,7 +251,10 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void selectAll() { mainAppointmentTblView.setItems(Appointment.appointmentData); }
+    private void selectAll() {
+        mainAppointmentTblView.setItems(Appointment.appointmentData);
+        mainAppointmentTblView.getSortOrder().add(appointmentStart);
+    }
 
     @FXML
     private void selectByWeek() {
@@ -272,6 +277,7 @@ public class MainController implements Initializable {
         }
 
         mainAppointmentTblView.setItems(weekAppointments);
+        mainAppointmentTblView.getSortOrder().add(appointmentStart);
     }
 
     @FXML
@@ -296,10 +302,12 @@ public class MainController implements Initializable {
         }
 
         mainAppointmentTblView.setItems(monthAppointments);
+        mainAppointmentTblView.getSortOrder().add(appointmentStart);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        resourceBundle = ResourceBundle.getBundle("/appt", Locale.getDefault());
         customerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         customerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         customerAddress.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
@@ -316,21 +324,11 @@ public class MainController implements Initializable {
         appointmentStart.setCellValueFactory(new PropertyValueFactory<>("appointmentStart"));
         appointmentEnd.setCellValueFactory(new PropertyValueFactory<>("appointmentEnd"));
         userName.setCellValueFactory(new PropertyValueFactory<>("userName"));
-
+        loginZoneIdLabel.setText(resourceBundle.getString("loginZoneIdLabel"));
+        zoneId.setText(ZoneId.systemDefault().toString());
 
         mainCustomerTblView.setItems(Customer.customerData);
         mainAppointmentTblView.setItems(Appointment.appointmentData);
-
-        // for testing purposes only
-        for (Customer customer:
-             Customer.customerData) {
-            System.out.println(customer);
-        }
-
-        // for testing purposes only
-        for (Appointment appointment:
-                Appointment.appointmentData) {
-            System.out.println(appointment);
-        }
+        mainAppointmentTblView.getSortOrder().add(appointmentStart);
     }
 }

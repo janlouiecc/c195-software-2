@@ -78,4 +78,14 @@
          <Font name="System Bold" size="25.0" />
       </font>
    </Text>
+   <Label fx:id="loginZoneIdLabel" layoutX="14.0" layoutY="586.0" prefHeight="25.0" prefWidth="99.0" text="Zone ID:">
+      <font>
+         <Font name="System Bold Italic" size="16.0" />
+      </font>
+   </Label>
+   <Label fx:id="zoneId" layoutX="113.0" layoutY="586.0" prefHeight="25.0" prefWidth="317.0" textFill="RED">
+      <font>
+         <Font name="System Italic" size="16.0" />
+      </font>
+   </Label>
 </AnchorPane>

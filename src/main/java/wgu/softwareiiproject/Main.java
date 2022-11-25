@@ -8,7 +8,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 public class Main extends Application {
 
@@ -23,6 +29,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws SQLException {
+        //Locale.setDefault(new Locale("fr", "FR"));  // for testing purposes
+        //TimeZone.setDefault(TimeZone.getTimeZone("America/Denver"));  // for testing purposes
         JDBC.openConnection();
         Queries.fillCustomerDataFromDb();
         Queries.fillAppointmentDataFromDb();
