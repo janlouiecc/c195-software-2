@@ -63,7 +63,9 @@ public class MainController implements Initializable {
     private TableColumn<Appointment, String> userName;
     private static Customer selectedCustomer = null;
     private static Appointment selectedAppointment = null;
+
     public static Customer getSelectedCustomer() { return selectedCustomer; }
+
     public static Appointment getSelectedAppointment() { return selectedAppointment; }
 
     @FXML

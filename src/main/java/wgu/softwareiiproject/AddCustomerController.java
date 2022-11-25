@@ -34,7 +34,8 @@ public class AddCustomerController implements Initializable {
     @FXML
     private ComboBox<String> stateComboBox;
 
-    public void save(ActionEvent event) throws IOException, SQLException {
+    @FXML
+    private void save(ActionEvent event) throws IOException, SQLException {
 
         Customer customer = new Customer(
                 Customer.customerCount + 1,
@@ -56,7 +57,8 @@ public class AddCustomerController implements Initializable {
         stage.show();
     }
 
-    public void cancel(ActionEvent event) throws IOException {
+    @FXML
+    private void cancel(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -65,13 +67,14 @@ public class AddCustomerController implements Initializable {
         stage.show();
     }
 
-    public void fillCountryData() throws SQLException{
+    private void fillCountryData() throws SQLException{
         ObservableList<String> countryOptions = FXCollections.observableArrayList();
         Queries.fillCountryList(countryOptions);
         countryComboBox.setItems(countryOptions);
     }
 
-    public void fillStateData() throws SQLException {
+    @FXML
+    private void fillStateData() throws SQLException {
         ObservableList<String> stateOptions = FXCollections.observableArrayList();
         Queries.fillStateList(stateOptions, countryComboBox.getValue());
         stateComboBox.setItems(stateOptions);

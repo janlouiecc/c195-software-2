@@ -74,6 +74,7 @@ public class Appointment {
     public void setAppointmentDescription(String appointmentDescription) {
         this.appointmentDescription = appointmentDescription;
     }
+
     public String getAppointmentLocation() {
         return appointmentLocation;
     }
