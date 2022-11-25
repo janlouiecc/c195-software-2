@@ -1,5 +1,7 @@
 package wgu.softwareiiproject;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,9 +20,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.time.ZoneId;
+import java.util.*;
 
 public class MainController implements Initializable {
 
@@ -62,14 +63,11 @@ public class MainController implements Initializable {
     private TableColumn<Appointment, String> userName;
     private static Customer selectedCustomer = null;
     private static Appointment selectedAppointment = null;
-    public static Customer getSelectedCustomer() {
-        return selectedCustomer;
-    }
-    public static Appointment getSelectedAppointment() {
-        return selectedAppointment;
-    }
+    public static Customer getSelectedCustomer() { return selectedCustomer; }
+    public static Appointment getSelectedAppointment() { return selectedAppointment; }
 
-    public void clickLogOut(ActionEvent event) throws IOException {
+    @FXML
+    private void clickLogOut(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("LoginView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -78,7 +76,8 @@ public class MainController implements Initializable {
         stage.show();
     }
 
-    public void addCustomer(ActionEvent event) throws IOException {
+    @FXML
+    private void addCustomer(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddCustomerView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -87,7 +86,8 @@ public class MainController implements Initializable {
         stage.show();
     }
 
-    public void updateCustomer(ActionEvent event) throws IOException {
+    @FXML
+    private void updateCustomer(ActionEvent event) throws IOException {
         Customer customer = mainCustomerTblView.getSelectionModel().getSelectedItem();
 
         if (customer == null) {
@@ -109,7 +109,8 @@ public class MainController implements Initializable {
         stage.show();
     }
 
-    public void addAppointment(ActionEvent event) throws IOException {
+    @FXML
+    private void addAppointment(ActionEvent event) throws IOException {
         Customer customer = mainCustomerTblView.getSelectionModel().getSelectedItem();
 
         if (customer == null) {
@@ -131,7 +132,8 @@ public class MainController implements Initializable {
         stage.show();
     }
 
-    public void updateAppointment(ActionEvent event) throws IOException {
+    @FXML
+    private void updateAppointment(ActionEvent event) throws IOException {
         Appointment appointment = mainAppointmentTblView.getSelectionModel().getSelectedItem();
 
         if (appointment == null) {
@@ -153,7 +155,8 @@ public class MainController implements Initializable {
         stage.show();
     }
 
-    public void deleteCustomer() throws SQLException {
+    @FXML
+    private void deleteCustomer() throws SQLException {
         Customer customer = mainCustomerTblView.getSelectionModel().getSelectedItem();
 
         if (customer == null) {
@@ -202,7 +205,8 @@ public class MainController implements Initializable {
         }
     }
 
-    public void deleteAppointment() throws SQLException {
+    @FXML
+    private void deleteAppointment() throws SQLException {
         Appointment appointment = mainAppointmentTblView.getSelectionModel().getSelectedItem();
 
         if (appointment == null) {
@@ -241,7 +245,57 @@ public class MainController implements Initializable {
         }
 
     }
-    
+
+    @FXML
+    private void selectAll() { mainAppointmentTblView.setItems(Appointment.appointmentData); }
+
+    @FXML
+    private void selectByWeek() {
+        ObservableList<Appointment> weekAppointments = FXCollections.observableArrayList();
+        Calendar currentDay = Calendar.getInstance();
+        currentDay.set(Calendar.HOUR_OF_DAY, 0);
+        currentDay.clear(Calendar.MINUTE);
+        currentDay.clear(Calendar.SECOND);
+        currentDay.clear(Calendar.MILLISECOND);
+        currentDay.set(Calendar.DAY_OF_WEEK, currentDay.getFirstDayOfWeek());
+        long startOfWeek = currentDay.getTimeInMillis();
+        currentDay.add(Calendar.WEEK_OF_YEAR, 1);
+        long endOfWeek = currentDay.getTimeInMillis();
+
+        for (Appointment appointment : Appointment.appointmentData) {
+            if (appointment.getAppointmentStart().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() > startOfWeek &&
+                    appointment.getAppointmentStart().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() < endOfWeek) {
+                weekAppointments.add(appointment);
+            }
+        }
+
+        mainAppointmentTblView.setItems(weekAppointments);
+    }
+
+    @FXML
+    private void selectByMonth() {
+        ObservableList<Appointment> monthAppointments = FXCollections.observableArrayList();
+
+        Calendar currentDay = Calendar.getInstance();
+        currentDay.set(Calendar.HOUR_OF_DAY, 0);
+        currentDay.clear(Calendar.MINUTE);
+        currentDay.clear(Calendar.SECOND);
+        currentDay.clear(Calendar.MILLISECOND);
+        currentDay.set(Calendar.DAY_OF_MONTH, 1);
+        long startOfMonth = currentDay.getTimeInMillis();
+        currentDay.add(Calendar.MONTH, 1);
+        long endOfMonth = currentDay.getTimeInMillis();
+
+        for (Appointment appointment : Appointment.appointmentData) {
+            if (appointment.getAppointmentStart().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() > startOfMonth &&
+                    appointment.getAppointmentStart().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() < endOfMonth) {
+                monthAppointments.add(appointment);
+            }
+        }
+
+        mainAppointmentTblView.setItems(monthAppointments);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
@@ -260,6 +314,7 @@ public class MainController implements Initializable {
         appointmentStart.setCellValueFactory(new PropertyValueFactory<>("appointmentStart"));
         appointmentEnd.setCellValueFactory(new PropertyValueFactory<>("appointmentEnd"));
         userName.setCellValueFactory(new PropertyValueFactory<>("userName"));
+
 
         mainCustomerTblView.setItems(Customer.customerData);
         mainAppointmentTblView.setItems(Appointment.appointmentData);

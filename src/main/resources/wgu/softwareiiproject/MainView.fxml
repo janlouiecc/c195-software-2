@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -64,10 +65,12 @@
    <Button layoutX="781.0" layoutY="271.0" mnemonicParsing="false" onAction="#updateCustomer" text="Update Customer" />
    <Button layoutX="902.0" layoutY="271.0" mnemonicParsing="false" onAction="#deleteCustomer" text="Delete Customer" />
    <DatePicker layoutX="833.0" layoutY="327.0" />
-   <RadioButton layoutX="647.0" layoutY="331.0" mnemonicParsing="false" text="By Week" />
-   <RadioButton layoutX="534.0" layoutY="331.0" mnemonicParsing="false" text="By Customer" />
-   <RadioButton layoutX="737.0" layoutY="331.0" mnemonicParsing="false" text="By Month" />
-   <RadioButton layoutX="436.0" layoutY="331.0" mnemonicParsing="false" selected="true" text="View All" />
+   <RadioButton layoutX="647.0" layoutY="331.0" mnemonicParsing="false" onAction="#selectByWeek" text="By Week">
+      <toggleGroup>
+         <ToggleGroup fx:id="viewSelection" />
+      </toggleGroup></RadioButton>
+   <RadioButton layoutX="737.0" layoutY="331.0" mnemonicParsing="false" onAction="#selectByMonth" text="By Month" toggleGroup="$viewSelection" />
+   <RadioButton layoutX="552.0" layoutY="331.0" mnemonicParsing="false" onAction="#selectAll" selected="true" text="View All" toggleGroup="$viewSelection" />
    <Button layoutX="746.0" layoutY="531.0" mnemonicParsing="false" onAction="#updateAppointment" text="Update Appointment" />
    <Button layoutX="883.0" layoutY="531.0" mnemonicParsing="false" onAction="#deleteAppointment" text="Delete Appointment" />
    <Text fontSmoothingType="LCD" layoutX="33.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointment Scheduling System">
