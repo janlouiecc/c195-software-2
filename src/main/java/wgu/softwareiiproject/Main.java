@@ -29,8 +29,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws SQLException {
-        //Locale.setDefault(new Locale("fr", "FR"));  // for testing purposes
-        //TimeZone.setDefault(TimeZone.getTimeZone("America/Denver"));  // for testing purposes
         JDBC.openConnection();
         Queries.fillCustomerDataFromDb();
         Queries.fillAppointmentDataFromDb();

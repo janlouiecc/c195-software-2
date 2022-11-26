@@ -45,8 +45,8 @@ public abstract class Queries {
                     rs.getString("Location"),
                     getContactName(rs.getInt("Contact_ID")),
                     rs.getString("Type"),
-                    TimeConversion.convertFromUTC(rs.getTimestamp("Start").toLocalDateTime()),
-                    TimeConversion.convertFromUTC(rs.getTimestamp("End").toLocalDateTime()),
+                    TimeConversion.convertToLocal(rs.getTimestamp("Start").toLocalDateTime()),
+                    TimeConversion.convertToLocal(rs.getTimestamp("End").toLocalDateTime()),
                     Queries.getUserName(rs.getInt("User_ID"))
             ));
         }

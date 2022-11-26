@@ -9,8 +9,8 @@ import java.util.TimeZone;
 
 public class TimeConversion {
 
-    public static LocalDateTime convertToUTC(LocalDateTime lcd) {
-        Date dt = java.util.Date.from(lcd.atZone(ZoneId.systemDefault()).toInstant());
+    public static LocalDateTime convertToUTC(LocalDateTime ldt) {
+        Date dt = java.util.Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
         Calendar cal = new GregorianCalendar();
         cal.setTime(dt);
 
@@ -23,8 +23,8 @@ public class TimeConversion {
         return LocalDateTime.ofInstant(cal.toInstant(), ZoneId.of(utcTimeZone.getID()));
     }
 
-    public static LocalDateTime convertFromUTC(LocalDateTime lcd) {
-        Date dt = java.util.Date.from(lcd.toInstant(ZoneOffset.UTC));
+    public static LocalDateTime convertToLocal(LocalDateTime ldt) {
+        Date dt = java.util.Date.from(ldt.toInstant(ZoneOffset.UTC));
         Calendar cal = new GregorianCalendar();
         cal.setTime(dt);
 
