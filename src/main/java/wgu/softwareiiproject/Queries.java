@@ -45,8 +45,8 @@ public abstract class Queries {
                     rs.getString("Location"),
                     getContactName(rs.getInt("Contact_ID")),
                     rs.getString("Type"),
-                    rs.getTimestamp("Start").toLocalDateTime(),  //placeholder
-                    rs.getTimestamp("End").toLocalDateTime(),  //placeholder
+                    TimeConversion.convertFromUTC(rs.getTimestamp("Start").toLocalDateTime()),
+                    TimeConversion.convertFromUTC(rs.getTimestamp("End").toLocalDateTime()),
                     Queries.getUserName(rs.getInt("User_ID"))
             ));
         }
@@ -189,7 +189,7 @@ public abstract class Queries {
         rs.next();
         int divisionId = rs.getInt("Division_ID");
 
-        PreparedStatement ps1 = JDBC.connection.prepareStatement("INSERT IGNORE INTO customers VALUES(?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?)");
+        PreparedStatement ps1 = JDBC.connection.prepareStatement("INSERT IGNORE INTO customers VALUES(?, ?, ?, ?, ?, UTC_TIMESTAMP(), ?, UTC_TIMESTAMP(), ?, ?)");
         ps1.setInt(1, customer.getCustomerId());
         ps1.setString(2, customer.getCustomerName());
         ps1.setString(3, customer.getCustomerAddress());
@@ -217,7 +217,7 @@ public abstract class Queries {
                 "Address = ?, " +
                 "Postal_Code = ?, " +
                 "Phone = ?, " +
-                "Last_Update = NOW(), " +
+                "Last_Update = UTC_TIMESTAMP(), " +
                 "Last_Updated_By = ?, " +
                 "Division_ID = ? " +
                 "WHERE Customer_ID = ?");
@@ -249,14 +249,14 @@ public abstract class Queries {
         rs.next();
         int contactId = rs.getInt("Contact_ID");
 
-        PreparedStatement ps1 = JDBC.connection.prepareStatement("INSERT IGNORE INTO appointments VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?, ?, ?)");
+        PreparedStatement ps1 = JDBC.connection.prepareStatement("INSERT IGNORE INTO appointments VALUES(?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP(), ?, UTC_TIMESTAMP(), ?, ?, ?, ?)");
         ps1.setInt(1, appointment.getAppointmentId());
         ps1.setString(2, appointment.getAppointmentTitle());
         ps1.setString(3, appointment.getAppointmentDescription());
         ps1.setString(4, appointment.getAppointmentLocation());
         ps1.setString(5, appointment.getAppointmentType());
-        ps1.setTimestamp(6, Timestamp.valueOf(appointment.getAppointmentStart()));
-        ps1.setTimestamp(7, Timestamp.valueOf(appointment.getAppointmentEnd()));
+        ps1.setTimestamp(6,  Timestamp.valueOf(TimeConversion.convertToUTC(appointment.getAppointmentStart())));
+        ps1.setTimestamp(7,  Timestamp.valueOf(TimeConversion.convertToUTC(appointment.getAppointmentEnd())));
         ps1.setString(8, appointment.getUserName());
         ps1.setString(9, LoginController.currentUser);
         ps1.setInt(10, appointment.getCustomerId());
@@ -277,7 +277,7 @@ public abstract class Queries {
                 "Type = ?, " +
                 "Start = ?, " +
                 "End = ?, " +
-                "Last_Update = NOW(), " +
+                "Last_Update = UTC_TIMESTAMP(), " +
                 "Last_Updated_By = ?, " +
                 "Contact_ID = ? " +
                 "WHERE Appointment_ID = ?");
@@ -286,8 +286,8 @@ public abstract class Queries {
         ps.setString(2, appointment.getAppointmentDescription());
         ps.setString(3, appointment.getAppointmentLocation());
         ps.setString(4, appointment.getAppointmentType());
-        ps.setTimestamp(5,  Timestamp.valueOf(appointment.getAppointmentStart()));
-        ps.setTimestamp(6, Timestamp.valueOf(appointment.getAppointmentEnd()));
+        ps.setTimestamp(5,  Timestamp.valueOf(TimeConversion.convertToUTC(appointment.getAppointmentStart())));
+        ps.setTimestamp(6, Timestamp.valueOf(TimeConversion.convertToUTC(appointment.getAppointmentEnd())));
         ps.setString(7,  LoginController.currentUser);
         ps.setInt(8, getContactId(appointment.getAppointmentContact()));
         ps.executeUpdate();
