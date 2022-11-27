@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -56,37 +57,77 @@ public class UpdateAppointmentController implements Initializable {
 
     @FXML
     private void save(ActionEvent event) throws IOException, SQLException {
-        apptToUpdate.setAppointmentTitle(updateApptTitle.getText());
-        apptToUpdate.setAppointmentDescription(updateApptDescription.getText());
-        apptToUpdate.setAppointmentLocation(stateComboBox.getValue() + ", " + countryComboBox.getValue());
-        apptToUpdate.setAppointmentContact(updateApptContact.getValue());
-        apptToUpdate.setAppointmentType(updateApptType.getText());
+        try {
+            if (updateStartDate.getValue().getYear() > updateEndDate.getValue().getYear() ||
+                    updateStartDate.getValue().getMonthValue() > updateEndDate.getValue().getMonthValue() ||
+                    updateStartDate.getValue().getDayOfMonth() > updateEndDate.getValue().getDayOfMonth() ||
+                    (Integer.parseInt(updateApptEndHour.getValue()) < Integer.parseInt(updateApptStartHour.getValue())) ||
+                    (Integer.parseInt(updateApptStartHour.getValue()) == Integer.parseInt(updateApptEndHour.getValue())) &&
+                            (Integer.parseInt(updateApptEndMin.getValue()) < Integer.parseInt(updateApptStartMin.getValue()))
+            ) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("Cannot add appointment.");
+                alert.setContentText("Please ensure that the end time of appointment is not before the start time.");
+                alert.showAndWait();
+                resetFields();
+                return;
+            } else if (updateApptTitle.getText().trim().equals("") ||
+                    updateApptDescription.getText().trim().equals("") ||
+                    updateApptType.getText().trim().equals("") ||
+                    stateComboBox.getSelectionModel().isEmpty() || countryComboBox.getValue().isEmpty() ||
+                    updateApptContact.getSelectionModel().isEmpty() ||
+                    updateApptType.getText().trim().equals("")
+            ) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("Cannot add appointment.");
+                alert.setContentText("Please ensure that all fields are filled out.");
+                alert.showAndWait();
+                resetFields();
+                return;
+            } else {
+                apptToUpdate.setAppointmentTitle(updateApptTitle.getText());
+                apptToUpdate.setAppointmentDescription(updateApptDescription.getText());
+                apptToUpdate.setAppointmentLocation(stateComboBox.getValue() + ", " + countryComboBox.getValue());
+                apptToUpdate.setAppointmentContact(updateApptContact.getValue());
+                apptToUpdate.setAppointmentType(updateApptType.getText());
 
-        String[] startDate = updateStartDate.getValue().toString().split("-");
-        String[] endDate = updateEndDate.getValue().toString().split("-");
-        int startHr = updateApptStartHour.getValue().charAt(0) == '0' ?
-                Integer.parseInt(updateApptStartHour.getValue().substring(1)) :
-                Integer.parseInt(updateApptStartHour.getValue());
-        int endHr = updateApptEndHour.getValue().charAt(0) == '0' ?
-                Integer.parseInt(updateApptEndHour.getValue().substring(1)) :
-                Integer.parseInt(updateApptEndHour.getValue());
-        int startMin = updateApptStartMin.getValue().charAt(0) == '0' ?
-                Integer.parseInt(updateApptStartMin.getValue().substring(1)) :
-                Integer.parseInt(updateApptStartMin.getValue());
-        int endMin = updateApptEndMin.getValue().charAt(0) == '0' ?
-                Integer.parseInt(updateApptEndMin.getValue().substring(1)) :
-                Integer.parseInt(updateApptEndMin.getValue());
+                String[] startDate = updateStartDate.getValue().toString().split("-");
+                String[] endDate = updateEndDate.getValue().toString().split("-");
+                int startHr = updateApptStartHour.getValue().charAt(0) == '0' ?
+                        Integer.parseInt(updateApptStartHour.getValue().substring(1)) :
+                        Integer.parseInt(updateApptStartHour.getValue());
+                int endHr = updateApptEndHour.getValue().charAt(0) == '0' ?
+                        Integer.parseInt(updateApptEndHour.getValue().substring(1)) :
+                        Integer.parseInt(updateApptEndHour.getValue());
+                int startMin = updateApptStartMin.getValue().charAt(0) == '0' ?
+                        Integer.parseInt(updateApptStartMin.getValue().substring(1)) :
+                        Integer.parseInt(updateApptStartMin.getValue());
+                int endMin = updateApptEndMin.getValue().charAt(0) == '0' ?
+                        Integer.parseInt(updateApptEndMin.getValue().substring(1)) :
+                        Integer.parseInt(updateApptEndMin.getValue());
 
-        apptToUpdate.setAppointmentStart(LocalDateTime.of(Integer.parseInt(startDate[0]),
-                Month.of(Integer.parseInt(startDate[1])),
-                Integer.parseInt(startDate[2]), startHr,
-                startMin, 0));
-        apptToUpdate.setAppointmentEnd(LocalDateTime.of(Integer.parseInt(endDate[0]),
-                Month.of(Integer.parseInt(endDate[1])),
-                Integer.parseInt(endDate[2]), endHr,
-                endMin, 0));
+                apptToUpdate.setAppointmentStart(LocalDateTime.of(Integer.parseInt(startDate[0]),
+                        Month.of(Integer.parseInt(startDate[1])),
+                        Integer.parseInt(startDate[2]), startHr,
+                        startMin, 0));
+                apptToUpdate.setAppointmentEnd(LocalDateTime.of(Integer.parseInt(endDate[0]),
+                        Month.of(Integer.parseInt(endDate[1])),
+                        Integer.parseInt(endDate[2]), endHr,
+                        endMin, 0));
 
-        Queries.updateAppointment(apptToUpdate);
+                Queries.updateAppointment(apptToUpdate);
+            }
+        } catch (NumberFormatException | NullPointerException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Cannot update appointment.");
+            alert.setContentText("Please ensure that the information is correct and/or not empty.");
+            alert.showAndWait();
+            resetFields();
+            return;
+        }
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -153,9 +194,7 @@ public class UpdateAppointmentController implements Initializable {
         updateApptEndMin.setItems(minuteOptions);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        apptToUpdate = MainController.getSelectedAppointment();
+    private void resetFields() {
         updateApptCustIdText.setText(String.valueOf(apptToUpdate.getCustomerId()));
         updateApptUsrIdText.setText(apptToUpdate.getUserName());
         updateApptTitle.setText(apptToUpdate.getAppointmentTitle());
@@ -185,6 +224,12 @@ public class UpdateAppointmentController implements Initializable {
         updateApptStartMin.getSelectionModel().select(startMin);
         updateApptEndHour.getSelectionModel().select(endHr);
         updateApptEndMin.getSelectionModel().select(endMin);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        apptToUpdate = MainController.getSelectedAppointment();
+        resetFields();
 
         try {
             fillCountryData();

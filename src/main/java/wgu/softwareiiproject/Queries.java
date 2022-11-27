@@ -95,7 +95,6 @@ public abstract class Queries {
         PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Contact_Name from contacts");
         ResultSet rs = ps.executeQuery();
 
-        contactOptions.add("");
         while (rs.next()) {
             contactOptions.add(rs.getString("Contact_Name"));
         }
@@ -108,7 +107,6 @@ public abstract class Queries {
         PreparedStatement ps = JDBC.connection.prepareStatement("SELECT Country from countries");
         ResultSet rs = ps.executeQuery();
 
-        countryOptions.add("");
         while (rs.next()) {
             countryOptions.add(rs.getString("Country"));
         }
@@ -126,7 +124,6 @@ public abstract class Queries {
         ps.setString(1, country);
         ResultSet rs = ps.executeQuery();
 
-        stateOptions.add("");
         while (rs.next()) {
             stateOptions.add(rs.getString("Division"));
         }

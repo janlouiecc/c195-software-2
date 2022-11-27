@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -37,12 +38,27 @@ public class UpdateCustomerController implements Initializable {
 
     public void save(ActionEvent event) throws IOException, SQLException {
 
-        customerToUpdate.setCustomerName(customerNameTxtField.getText());
-        customerToUpdate.setCustomerAddress(customerAddrTxtField.getText());
-        customerToUpdate.setCustomerDivisionName(stateComboBox.getValue());
-        customerToUpdate.setCustomerPostalCode(customerPostCodeTxtField.getText());
-        customerToUpdate.setCustomerPhoneNumber(customerPhnNumTxtField.getText());
-        Queries.updateCustomer(customerToUpdate);
+        if (customerNameTxtField.getText().trim().equals("") ||
+                customerAddrTxtField.getText().trim().equals("") ||
+                stateComboBox.getSelectionModel().isEmpty() || countryComboBox.getValue().isEmpty() ||
+                customerPostCodeTxtField.getText().trim().equals("") ||
+                customerPhnNumTxtField.getText().trim().equals("")
+        ) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Cannot add appointment.");
+            alert.setContentText("Please ensure that all fields are filled out.");
+            alert.showAndWait();
+            resetFields();
+            return;
+        } else {
+            customerToUpdate.setCustomerName(customerNameTxtField.getText());
+            customerToUpdate.setCustomerAddress(customerAddrTxtField.getText());
+            customerToUpdate.setCustomerDivisionName(stateComboBox.getValue());
+            customerToUpdate.setCustomerPostalCode(customerPostCodeTxtField.getText());
+            customerToUpdate.setCustomerPhoneNumber(customerPhnNumTxtField.getText());
+            Queries.updateCustomer(customerToUpdate);
+        }
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -75,10 +91,7 @@ public class UpdateCustomerController implements Initializable {
         stateComboBox.setItems(stateOptions);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        customerToUpdate = MainController.getSelectedCustomer();
-
+    private void resetFields() {
         customerNameTxtField.setText(customerToUpdate.getCustomerName());
         customerAddrTxtField.setText(customerToUpdate.getCustomerAddress());
         try {
@@ -89,6 +102,12 @@ public class UpdateCustomerController implements Initializable {
         stateComboBox.getSelectionModel().select(customerToUpdate.getCustomerDivisionName());
         customerPostCodeTxtField.setText(customerToUpdate.getCustomerPostalCode());
         customerPhnNumTxtField.setText(customerToUpdate.getCustomerPhoneNumber());
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        customerToUpdate = MainController.getSelectedCustomer();
+        resetFields();
 
         try {
             fillCountryData();
