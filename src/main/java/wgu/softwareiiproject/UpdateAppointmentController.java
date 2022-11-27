@@ -26,44 +26,44 @@ import java.util.ResourceBundle;
 public class UpdateAppointmentController implements Initializable {
 
     @FXML
-    private TextField updateApptCustIdText;
+    private TextField appointmentCustIdTxtField;
     @FXML
-    private TextField updateApptUsrIdText;
+    private TextField appointmentUsrIdTxtField;
     @FXML
-    private TextField updateApptTitle;
+    private TextField appointmentTitleTxtField;
     @FXML
-    private TextField updateApptDescription;
+    private TextField appointmentDescriptionTxtField;
     @FXML
     private ComboBox<String> countryComboBox;
     @FXML
     private ComboBox<String> stateComboBox;
     @FXML
-    private ComboBox<String> updateApptContact;
+    private ComboBox<String> appointmentContactComboBox;
     @FXML
-    private TextField updateApptType;
+    private TextField appointmentTypeTxtField;
     @FXML
-    private DatePicker updateStartDate;
+    private DatePicker appointmentStartDate;
     @FXML
-    private DatePicker updateEndDate;
+    private DatePicker appointmentEndDate;
     @FXML
-    private ComboBox<String> updateApptStartHour;
+    private ComboBox<String> appointmentStartHour;
     @FXML
-    private ComboBox<String> updateApptStartMin;
+    private ComboBox<String> appointmentStartMinute;
     @FXML
-    private ComboBox<String> updateApptEndHour;
+    private ComboBox<String> appointmentEndHour;
     @FXML
-    private ComboBox<String> updateApptEndMin;
-    private Appointment apptToUpdate;
+    private ComboBox<String> appointmentEndMinute;
+    private Appointment appointmentToUpdate;
 
     @FXML
     private void save(ActionEvent event) throws IOException, SQLException {
         try {
-            if (updateStartDate.getValue().getYear() > updateEndDate.getValue().getYear() ||
-                    updateStartDate.getValue().getMonthValue() > updateEndDate.getValue().getMonthValue() ||
-                    updateStartDate.getValue().getDayOfMonth() > updateEndDate.getValue().getDayOfMonth() ||
-                    (Integer.parseInt(updateApptEndHour.getValue()) < Integer.parseInt(updateApptStartHour.getValue())) ||
-                    (Integer.parseInt(updateApptStartHour.getValue()) == Integer.parseInt(updateApptEndHour.getValue())) &&
-                            (Integer.parseInt(updateApptEndMin.getValue()) < Integer.parseInt(updateApptStartMin.getValue()))
+            if (appointmentStartDate.getValue().getYear() > appointmentEndDate.getValue().getYear() ||
+                    appointmentStartDate.getValue().getMonthValue() > appointmentEndDate.getValue().getMonthValue() ||
+                    appointmentStartDate.getValue().getDayOfMonth() > appointmentEndDate.getValue().getDayOfMonth() ||
+                    (Integer.parseInt(appointmentEndHour.getValue()) < Integer.parseInt(appointmentStartHour.getValue())) ||
+                    (Integer.parseInt(appointmentStartHour.getValue()) == Integer.parseInt(appointmentEndHour.getValue())) &&
+                            (Integer.parseInt(appointmentEndMinute.getValue()) < Integer.parseInt(appointmentStartMinute.getValue()))
             ) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -72,12 +72,12 @@ public class UpdateAppointmentController implements Initializable {
                 alert.showAndWait();
                 resetFields();
                 return;
-            } else if (updateApptTitle.getText().trim().equals("") ||
-                    updateApptDescription.getText().trim().equals("") ||
-                    updateApptType.getText().trim().equals("") ||
+            } else if (appointmentTitleTxtField.getText().trim().equals("") ||
+                    appointmentDescriptionTxtField.getText().trim().equals("") ||
+                    appointmentTypeTxtField.getText().trim().equals("") ||
                     stateComboBox.getSelectionModel().isEmpty() || countryComboBox.getValue().isEmpty() ||
-                    updateApptContact.getSelectionModel().isEmpty() ||
-                    updateApptType.getText().trim().equals("")
+                    appointmentContactComboBox.getSelectionModel().isEmpty() ||
+                    appointmentTypeTxtField.getText().trim().equals("")
             ) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -87,37 +87,37 @@ public class UpdateAppointmentController implements Initializable {
                 resetFields();
                 return;
             } else {
-                apptToUpdate.setAppointmentTitle(updateApptTitle.getText());
-                apptToUpdate.setAppointmentDescription(updateApptDescription.getText());
-                apptToUpdate.setAppointmentLocation(stateComboBox.getValue() + ", " + countryComboBox.getValue());
-                apptToUpdate.setAppointmentContact(updateApptContact.getValue());
-                apptToUpdate.setAppointmentType(updateApptType.getText());
+                appointmentToUpdate.setAppointmentTitle(appointmentTitleTxtField.getText());
+                appointmentToUpdate.setAppointmentDescription(appointmentDescriptionTxtField.getText());
+                appointmentToUpdate.setAppointmentLocation(stateComboBox.getValue() + ", " + countryComboBox.getValue());
+                appointmentToUpdate.setAppointmentContact(appointmentContactComboBox.getValue());
+                appointmentToUpdate.setAppointmentType(appointmentTypeTxtField.getText());
 
-                String[] startDate = updateStartDate.getValue().toString().split("-");
-                String[] endDate = updateEndDate.getValue().toString().split("-");
-                int startHr = updateApptStartHour.getValue().charAt(0) == '0' ?
-                        Integer.parseInt(updateApptStartHour.getValue().substring(1)) :
-                        Integer.parseInt(updateApptStartHour.getValue());
-                int endHr = updateApptEndHour.getValue().charAt(0) == '0' ?
-                        Integer.parseInt(updateApptEndHour.getValue().substring(1)) :
-                        Integer.parseInt(updateApptEndHour.getValue());
-                int startMin = updateApptStartMin.getValue().charAt(0) == '0' ?
-                        Integer.parseInt(updateApptStartMin.getValue().substring(1)) :
-                        Integer.parseInt(updateApptStartMin.getValue());
-                int endMin = updateApptEndMin.getValue().charAt(0) == '0' ?
-                        Integer.parseInt(updateApptEndMin.getValue().substring(1)) :
-                        Integer.parseInt(updateApptEndMin.getValue());
+                String[] startDate = appointmentStartDate.getValue().toString().split("-");
+                String[] endDate = appointmentEndDate.getValue().toString().split("-");
+                int startHr = appointmentStartHour.getValue().charAt(0) == '0' ?
+                        Integer.parseInt(appointmentStartHour.getValue().substring(1)) :
+                        Integer.parseInt(appointmentStartHour.getValue());
+                int endHr = appointmentEndHour.getValue().charAt(0) == '0' ?
+                        Integer.parseInt(appointmentEndHour.getValue().substring(1)) :
+                        Integer.parseInt(appointmentEndHour.getValue());
+                int startMin = appointmentStartMinute.getValue().charAt(0) == '0' ?
+                        Integer.parseInt(appointmentStartMinute.getValue().substring(1)) :
+                        Integer.parseInt(appointmentStartMinute.getValue());
+                int endMin = appointmentEndMinute.getValue().charAt(0) == '0' ?
+                        Integer.parseInt(appointmentEndMinute.getValue().substring(1)) :
+                        Integer.parseInt(appointmentEndMinute.getValue());
 
-                apptToUpdate.setAppointmentStart(LocalDateTime.of(Integer.parseInt(startDate[0]),
+                appointmentToUpdate.setAppointmentStart(LocalDateTime.of(Integer.parseInt(startDate[0]),
                         Month.of(Integer.parseInt(startDate[1])),
                         Integer.parseInt(startDate[2]), startHr,
                         startMin, 0));
-                apptToUpdate.setAppointmentEnd(LocalDateTime.of(Integer.parseInt(endDate[0]),
+                appointmentToUpdate.setAppointmentEnd(LocalDateTime.of(Integer.parseInt(endDate[0]),
                         Month.of(Integer.parseInt(endDate[1])),
                         Integer.parseInt(endDate[2]), endHr,
                         endMin, 0));
 
-                Queries.updateAppointment(apptToUpdate);
+                Queries.updateAppointment(appointmentToUpdate);
             }
         } catch (NumberFormatException | NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -150,7 +150,7 @@ public class UpdateAppointmentController implements Initializable {
     private void fillContactData() throws SQLException {
         ObservableList<String> contactOptions = FXCollections.observableArrayList();
         Queries.fillContactList(contactOptions);
-        updateApptContact.setItems(contactOptions);
+        appointmentContactComboBox.setItems(contactOptions);
     }
 
     private void fillCountryData() throws SQLException{
@@ -188,47 +188,47 @@ public class UpdateAppointmentController implements Initializable {
             }
         }
 
-        updateApptStartHour.setItems(hourOptions);
-        updateApptStartMin.setItems(minuteOptions);
-        updateApptEndHour.setItems(hourOptions);
-        updateApptEndMin.setItems(minuteOptions);
+        appointmentStartHour.setItems(hourOptions);
+        appointmentStartMinute.setItems(minuteOptions);
+        appointmentEndHour.setItems(hourOptions);
+        appointmentEndMinute.setItems(minuteOptions);
     }
 
     private void resetFields() {
-        updateApptCustIdText.setText(String.valueOf(apptToUpdate.getCustomerId()));
-        updateApptUsrIdText.setText(apptToUpdate.getUserName());
-        updateApptTitle.setText(apptToUpdate.getAppointmentTitle());
-        updateApptDescription.setText(apptToUpdate.getAppointmentDescription());
-        String[] location = apptToUpdate.getAppointmentLocation().split("\\s*,\\s*");
+        appointmentCustIdTxtField.setText(String.valueOf(appointmentToUpdate.getCustomerId()));
+        appointmentUsrIdTxtField.setText(appointmentToUpdate.getUserName());
+        appointmentTitleTxtField.setText(appointmentToUpdate.getAppointmentTitle());
+        appointmentDescriptionTxtField.setText(appointmentToUpdate.getAppointmentDescription());
+        String[] location = appointmentToUpdate.getAppointmentLocation().split("\\s*,\\s*");
         countryComboBox.getSelectionModel().select(location[1]);
         stateComboBox.getSelectionModel().select(location[0]);
-        updateApptContact.getSelectionModel().select(apptToUpdate.getAppointmentContact());
-        updateApptType.setText(apptToUpdate.getAppointmentType());
-        updateStartDate.setValue(apptToUpdate.getAppointmentStart().toLocalDate());
-        updateEndDate.setValue(apptToUpdate.getAppointmentEnd().toLocalDate());
+        appointmentContactComboBox.getSelectionModel().select(appointmentToUpdate.getAppointmentContact());
+        appointmentTypeTxtField.setText(appointmentToUpdate.getAppointmentType());
+        appointmentStartDate.setValue(appointmentToUpdate.getAppointmentStart().toLocalDate());
+        appointmentEndDate.setValue(appointmentToUpdate.getAppointmentEnd().toLocalDate());
 
-        String startHr = Integer.toString(apptToUpdate.getAppointmentStart().getHour()).length() > 1 ?
-                Integer.toString(apptToUpdate.getAppointmentStart().getHour()) :
-                "0" + apptToUpdate.getAppointmentStart().getHour();
-        String endHr = Integer.toString(apptToUpdate.getAppointmentEnd().getHour()).length() > 1 ?
-                Integer.toString(apptToUpdate.getAppointmentEnd().getHour()) :
-                "0" + apptToUpdate.getAppointmentEnd().getHour();
-        String startMin = Integer.toString(apptToUpdate.getAppointmentStart().getMinute()).length() > 1 ?
-                Integer.toString(apptToUpdate.getAppointmentStart().getMinute()) :
-                "0" + apptToUpdate.getAppointmentStart().getMinute();
-        String endMin = Integer.toString(apptToUpdate.getAppointmentEnd().getMinute()).length() > 1 ?
-                Integer.toString(apptToUpdate.getAppointmentEnd().getMinute()) :
-                "0" + apptToUpdate.getAppointmentEnd().getMinute();
+        String startHr = Integer.toString(appointmentToUpdate.getAppointmentStart().getHour()).length() > 1 ?
+                Integer.toString(appointmentToUpdate.getAppointmentStart().getHour()) :
+                "0" + appointmentToUpdate.getAppointmentStart().getHour();
+        String endHr = Integer.toString(appointmentToUpdate.getAppointmentEnd().getHour()).length() > 1 ?
+                Integer.toString(appointmentToUpdate.getAppointmentEnd().getHour()) :
+                "0" + appointmentToUpdate.getAppointmentEnd().getHour();
+        String startMin = Integer.toString(appointmentToUpdate.getAppointmentStart().getMinute()).length() > 1 ?
+                Integer.toString(appointmentToUpdate.getAppointmentStart().getMinute()) :
+                "0" + appointmentToUpdate.getAppointmentStart().getMinute();
+        String endMin = Integer.toString(appointmentToUpdate.getAppointmentEnd().getMinute()).length() > 1 ?
+                Integer.toString(appointmentToUpdate.getAppointmentEnd().getMinute()) :
+                "0" + appointmentToUpdate.getAppointmentEnd().getMinute();
 
-        updateApptStartHour.getSelectionModel().select(startHr);
-        updateApptStartMin.getSelectionModel().select(startMin);
-        updateApptEndHour.getSelectionModel().select(endHr);
-        updateApptEndMin.getSelectionModel().select(endMin);
+        appointmentStartHour.getSelectionModel().select(startHr);
+        appointmentStartMinute.getSelectionModel().select(startMin);
+        appointmentEndHour.getSelectionModel().select(endHr);
+        appointmentEndMinute.getSelectionModel().select(endMin);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        apptToUpdate = MainController.getSelectedAppointment();
+        appointmentToUpdate = MainController.getSelectedAppointment();
         resetFields();
 
         try {

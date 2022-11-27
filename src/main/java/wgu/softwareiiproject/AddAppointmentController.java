@@ -26,43 +26,43 @@ import java.util.ResourceBundle;
 public class AddAppointmentController implements Initializable {
     
     @FXML
-    private TextField addApptCustIdText;
+    private TextField appointmentCustIdTxtField;
     @FXML
-    private TextField addApptUsrIdText;
+    private TextField appointmentUsrIdTxtField;
     @FXML
-    private TextField addApptTitle;
+    private TextField appointmentTitleTxtField;
     @FXML
-    private TextField addApptDescription;
+    private TextField appointmentDescriptionTxtField;
     @FXML
     private ComboBox<String> countryComboBox;
     @FXML
     private ComboBox<String> stateComboBox;
     @FXML
-    private ComboBox<String> addApptContact;
+    private ComboBox<String> appointmentContactComboBox;
     @FXML
-    private TextField addApptType;
+    private TextField appointmentTypeTxtField;
     @FXML
-    private DatePicker addStartDate;
+    private DatePicker appointmentStartDate;
     @FXML
-    private DatePicker addEndDate;
+    private DatePicker appointmentEndDate;
     @FXML
-    private ComboBox<String> addApptStartHour;
+    private ComboBox<String> appointmentStartHour;
     @FXML
-    private ComboBox<String> addApptStartMin;
+    private ComboBox<String> appointmentStartMinute;
     @FXML
-    private ComboBox<String> addApptEndHour;
+    private ComboBox<String> appointmentEndHour;
     @FXML
-    private ComboBox<String> addApptEndMin;
+    private ComboBox<String> appointmentEndMinute;
 
     @FXML
     private void save(ActionEvent event) throws IOException, SQLException {
         try {
-            if (addStartDate.getValue().getYear() > addEndDate.getValue().getYear() ||
-                    addStartDate.getValue().getMonthValue() > addEndDate.getValue().getMonthValue() ||
-                    addStartDate.getValue().getDayOfMonth() > addEndDate.getValue().getDayOfMonth() ||
-                    (Integer.parseInt(addApptEndHour.getValue()) < Integer.parseInt(addApptStartHour.getValue())) ||
-                    (Integer.parseInt(addApptStartHour.getValue()) == Integer.parseInt(addApptEndHour.getValue())) &&
-                            (Integer.parseInt(addApptEndMin.getValue()) < Integer.parseInt(addApptStartMin.getValue()))
+            if (appointmentStartDate.getValue().getYear() > appointmentEndDate.getValue().getYear() ||
+                    appointmentStartDate.getValue().getMonthValue() > appointmentEndDate.getValue().getMonthValue() ||
+                    appointmentStartDate.getValue().getDayOfMonth() > appointmentEndDate.getValue().getDayOfMonth() ||
+                    (Integer.parseInt(appointmentEndHour.getValue()) < Integer.parseInt(appointmentStartHour.getValue())) ||
+                    (Integer.parseInt(appointmentStartHour.getValue()) == Integer.parseInt(appointmentEndHour.getValue())) &&
+                            (Integer.parseInt(appointmentEndMinute.getValue()) < Integer.parseInt(appointmentStartMinute.getValue()))
             ) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -71,12 +71,12 @@ public class AddAppointmentController implements Initializable {
                 alert.showAndWait();
                 resetFields();
                 return;
-            } else if (addApptTitle.getText().trim().equals("") ||
-                    addApptDescription.getText().trim().equals("") ||
-                    addApptType.getText().trim().equals("") ||
+            } else if (appointmentTitleTxtField.getText().trim().equals("") ||
+                    appointmentDescriptionTxtField.getText().trim().equals("") ||
+                    appointmentTypeTxtField.getText().trim().equals("") ||
                     stateComboBox.getSelectionModel().isEmpty() || countryComboBox.getValue().isEmpty() ||
-                    addApptContact.getSelectionModel().isEmpty() ||
-                    addApptType.getText().trim().equals("")
+                    appointmentContactComboBox.getSelectionModel().isEmpty() ||
+                    appointmentTypeTxtField.getText().trim().equals("")
             ) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -86,29 +86,29 @@ public class AddAppointmentController implements Initializable {
                 resetFields();
                 return;
             } else {
-                String[] startDate = addStartDate.getValue().toString().split("-");
-                String[] endDate = addEndDate.getValue().toString().split("-");
-                int startHr = addApptStartHour.getValue().charAt(0) == '0' ?
-                        Integer.parseInt(addApptStartHour.getValue().substring(1)) :
-                        Integer.parseInt(addApptStartHour.getValue());
-                int endHr = addApptEndHour.getValue().charAt(0) == '0' ?
-                        Integer.parseInt(addApptEndHour.getValue().substring(1)) :
-                        Integer.parseInt(addApptEndHour.getValue());
-                int startMin = addApptStartMin.getValue().charAt(0) == '0' ?
-                        Integer.parseInt(addApptStartMin.getValue().substring(1)) :
-                        Integer.parseInt(addApptStartMin.getValue());
-                int endMin = addApptEndMin.getValue().charAt(0) == '0' ?
-                        Integer.parseInt(addApptEndMin.getValue().substring(1)) :
-                        Integer.parseInt(addApptEndMin.getValue());
+                String[] startDate = appointmentStartDate.getValue().toString().split("-");
+                String[] endDate = appointmentEndDate.getValue().toString().split("-");
+                int startHr = appointmentStartHour.getValue().charAt(0) == '0' ?
+                        Integer.parseInt(appointmentStartHour.getValue().substring(1)) :
+                        Integer.parseInt(appointmentStartHour.getValue());
+                int endHr = appointmentEndHour.getValue().charAt(0) == '0' ?
+                        Integer.parseInt(appointmentEndHour.getValue().substring(1)) :
+                        Integer.parseInt(appointmentEndHour.getValue());
+                int startMin = appointmentStartMinute.getValue().charAt(0) == '0' ?
+                        Integer.parseInt(appointmentStartMinute.getValue().substring(1)) :
+                        Integer.parseInt(appointmentStartMinute.getValue());
+                int endMin = appointmentEndMinute.getValue().charAt(0) == '0' ?
+                        Integer.parseInt(appointmentEndMinute.getValue().substring(1)) :
+                        Integer.parseInt(appointmentEndMinute.getValue());
 
                 Appointment appointment = new Appointment(
                         Appointment.appointmentCount + 1,
-                        addApptTitle.getText(),
-                        Integer.parseInt(addApptCustIdText.getText()),
-                        addApptDescription.getText(),
+                        appointmentTitleTxtField.getText(),
+                        Integer.parseInt(appointmentCustIdTxtField.getText()),
+                        appointmentDescriptionTxtField.getText(),
                         stateComboBox.getValue() + ", " + countryComboBox.getValue(),
-                        addApptContact.getValue(),
-                        addApptType.getText(),
+                        appointmentContactComboBox.getValue(),
+                        appointmentTypeTxtField.getText(),
                         LocalDateTime.of(Integer.parseInt(startDate[0]),
                                 Month.of(Integer.parseInt(startDate[1])),
                                 Integer.parseInt(startDate[2]), startHr,
@@ -117,7 +117,7 @@ public class AddAppointmentController implements Initializable {
                                 Month.of(Integer.parseInt(endDate[1])),
                                 Integer.parseInt(endDate[2]), endHr,
                                 endMin, 0),
-                        addApptUsrIdText.getText()
+                        appointmentUsrIdTxtField.getText()
                 );
                 Appointment.appointmentData.add(appointment);
                 Queries.insertAppointment(appointment);
@@ -153,7 +153,7 @@ public class AddAppointmentController implements Initializable {
     private void fillContactData() throws SQLException {
         ObservableList<String> contactOptions = FXCollections.observableArrayList();
         Queries.fillContactList(contactOptions);
-        addApptContact.setItems(contactOptions);
+        appointmentContactComboBox.setItems(contactOptions);
     }
 
     private void fillCountryData() throws SQLException {
@@ -189,32 +189,32 @@ public class AddAppointmentController implements Initializable {
             }
         }
 
-        addApptStartHour.setItems(hourOptions);
-        addApptStartMin.setItems(minuteOptions);
-        addApptEndHour.setItems(hourOptions);
-        addApptEndMin.setItems(minuteOptions);
+        appointmentStartHour.setItems(hourOptions);
+        appointmentStartMinute.setItems(minuteOptions);
+        appointmentEndHour.setItems(hourOptions);
+        appointmentEndMinute.setItems(minuteOptions);
     }
 
     private void resetFields() {
-        addApptTitle.clear();
-        addApptDescription.clear();
+        appointmentTitleTxtField.clear();
+        appointmentDescriptionTxtField.clear();
         countryComboBox.getSelectionModel().clearSelection();
         stateComboBox.getSelectionModel().clearSelection();
-        addApptContact.getSelectionModel().clearSelection();
-        addApptType.clear();
-        addApptStartHour.getSelectionModel().clearSelection();
-        addApptStartMin.getSelectionModel().clearSelection();
-        addApptEndHour.getSelectionModel().clearSelection();
-        addApptEndMin.getSelectionModel().clearSelection();
-        addStartDate.getEditor().clear();
-        addEndDate.getEditor().clear();
+        appointmentContactComboBox.getSelectionModel().clearSelection();
+        appointmentTypeTxtField.clear();
+        appointmentStartHour.getSelectionModel().clearSelection();
+        appointmentStartMinute.getSelectionModel().clearSelection();
+        appointmentEndHour.getSelectionModel().clearSelection();
+        appointmentEndMinute.getSelectionModel().clearSelection();
+        appointmentStartDate.getEditor().clear();
+        appointmentEndDate.getEditor().clear();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Customer customerToAddAppt = MainController.getSelectedCustomer();
-        addApptCustIdText.setText(String.valueOf(customerToAddAppt.getCustomerId()));
-        addApptUsrIdText.setText(LoginController.currentUser);
+        appointmentCustIdTxtField.setText(String.valueOf(customerToAddAppt.getCustomerId()));
+        appointmentUsrIdTxtField.setText(LoginController.currentUser);
         try {
             fillCountryData();
             fillContactData();

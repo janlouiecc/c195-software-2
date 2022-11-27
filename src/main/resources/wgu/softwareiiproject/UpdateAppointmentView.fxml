@@ -15,16 +15,16 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="updateApptCustIdText" disable="true" editable="false" layoutX="196.0" layoutY="148.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField fx:id="updateApptUsrIdText" disable="true" editable="false" layoutX="196.0" layoutY="183.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField fx:id="updateApptTitle" layoutX="196.0" layoutY="223.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField fx:id="updateApptDescription" layoutX="196.0" layoutY="264.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="appointmentCustIdTxtField" disable="true" editable="false" layoutX="196.0" layoutY="148.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="appointmentUsrIdTxtField" disable="true" editable="false" layoutX="196.0" layoutY="183.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="appointmentTitleTxtField" layoutX="196.0" layoutY="223.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="appointmentDescriptionTxtField" layoutX="196.0" layoutY="264.0" prefHeight="27.0" prefWidth="200.0" />
       <ComboBox fx:id="countryComboBox" layoutX="196.0" layoutY="304.0" onAction="#fillStateData" prefHeight="27.0" prefWidth="142.0" />
       <ComboBox fx:id="stateComboBox" layoutX="354.0" layoutY="304.0" prefHeight="27.0" prefWidth="142.0" />
-      <ComboBox fx:id="updateApptContact" layoutX="196.0" layoutY="341.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField fx:id="updateApptType" layoutX="196.0" layoutY="375.0" prefHeight="27.0" prefWidth="200.0" />
-      <DatePicker fx:id="updateStartDate" layoutX="196.0" layoutY="413.0" prefHeight="27.0" prefWidth="140.0" />
-      <DatePicker fx:id="updateEndDate" layoutX="196.0" layoutY="450.0" prefHeight="27.0" prefWidth="140.0" />
+      <ComboBox fx:id="appointmentContactComboBox" layoutX="196.0" layoutY="341.0" prefHeight="27.0" prefWidth="200.0" />
+      <TextField fx:id="appointmentTypeTxtField" layoutX="196.0" layoutY="375.0" prefHeight="27.0" prefWidth="200.0" />
+      <DatePicker fx:id="appointmentStartDate" layoutX="196.0" layoutY="413.0" prefHeight="27.0" prefWidth="140.0" />
+      <DatePicker fx:id="appointmentEndDate" layoutX="196.0" layoutY="450.0" prefHeight="27.0" prefWidth="140.0" />
       <Button layoutX="209.0" layoutY="523.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="78.0" text="Save">
          <font>
             <Font size="15.0" />
@@ -80,10 +80,10 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <ComboBox fx:id="updateApptStartHour" layoutX="388.0" layoutY="414.0" prefHeight="25.0" prefWidth="65.0" />
-      <ComboBox fx:id="updateApptStartMin" layoutX="512.0" layoutY="414.0" prefHeight="25.0" prefWidth="65.0" />
-      <ComboBox fx:id="updateApptEndHour" layoutX="388.0" layoutY="451.0" prefHeight="25.0" prefWidth="65.0" />
-      <ComboBox fx:id="updateApptEndMin" layoutX="512.0" layoutY="451.0" prefHeight="25.0" prefWidth="65.0" />
+      <ComboBox fx:id="appointmentStartHour" layoutX="388.0" layoutY="414.0" prefHeight="25.0" prefWidth="65.0" />
+      <ComboBox fx:id="appointmentStartMinute" layoutX="512.0" layoutY="414.0" prefHeight="25.0" prefWidth="65.0" />
+      <ComboBox fx:id="appointmentEndHour" layoutX="388.0" layoutY="451.0" prefHeight="25.0" prefWidth="65.0" />
+      <ComboBox fx:id="appointmentEndMinute" layoutX="512.0" layoutY="451.0" prefHeight="25.0" prefWidth="65.0" />
       <Label layoutX="358.0" layoutY="414.0" text="HH:">
          <font>
             <Font size="16.0" />
