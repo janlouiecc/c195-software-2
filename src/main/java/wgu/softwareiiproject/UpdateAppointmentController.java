@@ -67,7 +67,7 @@ public class UpdateAppointmentController implements Initializable {
             ) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
-                alert.setHeaderText("Cannot add appointment.");
+                alert.setHeaderText("Cannot update appointment.");
                 alert.setContentText("Please ensure that the end time of appointment is not before the start time.");
                 alert.showAndWait();
                 resetFields();
@@ -81,41 +81,57 @@ public class UpdateAppointmentController implements Initializable {
             ) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
-                alert.setHeaderText("Cannot add appointment.");
+                alert.setHeaderText("Cannot update appointment.");
                 alert.setContentText("Please ensure that all fields are filled out.");
                 alert.showAndWait();
                 resetFields();
                 return;
             } else {
+                LocalDateTime appointmentStart = LocalDateTime.of(
+                        appointmentStartDate.getValue().getYear(),
+                        appointmentStartDate.getValue().getMonth(),
+                        appointmentStartDate.getValue().getDayOfMonth(),
+                        appointmentStartHour.getValue().charAt(0) == '0' ?
+                                Integer.parseInt(appointmentStartHour.getValue().substring(1)) :
+                                Integer.parseInt(appointmentStartHour.getValue()),
+                        appointmentStartMinute.getValue().charAt(0) == '0' ?
+                                Integer.parseInt(appointmentStartMinute.getValue().substring(1)) :
+                                Integer.parseInt(appointmentStartMinute.getValue())
+                );
+                
+                LocalDateTime appointmentEnd = LocalDateTime.of(
+                        appointmentEndDate.getValue().getYear(),
+                        appointmentEndDate.getValue().getMonth(),
+                        appointmentEndDate.getValue().getDayOfMonth(),
+                        appointmentEndHour.getValue().charAt(0) == '0' ?
+                                Integer.parseInt(appointmentEndHour.getValue().substring(1)) :
+                                Integer.parseInt(appointmentEndHour.getValue()),
+                        appointmentEndMinute.getValue().charAt(0) == '0' ?
+                                Integer.parseInt(appointmentEndMinute.getValue().substring(1)) :
+                                Integer.parseInt(appointmentEndMinute.getValue())
+                );
+
+                for (Appointment appt : Appointment.appointmentData) {
+                    if (appointmentStart.isBefore(appt.getAppointmentEnd()) && appointmentEnd.isAfter(appt.getAppointmentStart()) &&
+                    appointmentToUpdate.getAppointmentId() != appt.getAppointmentId()) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("ERROR");
+                        alert.setHeaderText("Cannot add appointment.");
+                        alert.setContentText("This appointment overlaps with Appointment #" +
+                                appt.getAppointmentId() + ", please pick a different time and/or date.");
+                        alert.showAndWait();
+                        resetFields();
+                        return;
+                    }
+                }
+
                 appointmentToUpdate.setAppointmentTitle(appointmentTitleTxtField.getText());
                 appointmentToUpdate.setAppointmentDescription(appointmentDescriptionTxtField.getText());
                 appointmentToUpdate.setAppointmentLocation(stateComboBox.getValue() + ", " + countryComboBox.getValue());
                 appointmentToUpdate.setAppointmentContact(appointmentContactComboBox.getValue());
                 appointmentToUpdate.setAppointmentType(appointmentTypeTxtField.getText());
-
-                String[] startDate = appointmentStartDate.getValue().toString().split("-");
-                String[] endDate = appointmentEndDate.getValue().toString().split("-");
-                int startHr = appointmentStartHour.getValue().charAt(0) == '0' ?
-                        Integer.parseInt(appointmentStartHour.getValue().substring(1)) :
-                        Integer.parseInt(appointmentStartHour.getValue());
-                int endHr = appointmentEndHour.getValue().charAt(0) == '0' ?
-                        Integer.parseInt(appointmentEndHour.getValue().substring(1)) :
-                        Integer.parseInt(appointmentEndHour.getValue());
-                int startMin = appointmentStartMinute.getValue().charAt(0) == '0' ?
-                        Integer.parseInt(appointmentStartMinute.getValue().substring(1)) :
-                        Integer.parseInt(appointmentStartMinute.getValue());
-                int endMin = appointmentEndMinute.getValue().charAt(0) == '0' ?
-                        Integer.parseInt(appointmentEndMinute.getValue().substring(1)) :
-                        Integer.parseInt(appointmentEndMinute.getValue());
-
-                appointmentToUpdate.setAppointmentStart(LocalDateTime.of(Integer.parseInt(startDate[0]),
-                        Month.of(Integer.parseInt(startDate[1])),
-                        Integer.parseInt(startDate[2]), startHr,
-                        startMin, 0));
-                appointmentToUpdate.setAppointmentEnd(LocalDateTime.of(Integer.parseInt(endDate[0]),
-                        Month.of(Integer.parseInt(endDate[1])),
-                        Integer.parseInt(endDate[2]), endHr,
-                        endMin, 0));
+                appointmentToUpdate.setAppointmentStart(appointmentStart);
+                appointmentToUpdate.setAppointmentEnd(appointmentEnd);
 
                 Queries.updateAppointment(appointmentToUpdate);
             }

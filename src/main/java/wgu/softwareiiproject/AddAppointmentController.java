@@ -86,20 +86,29 @@ public class AddAppointmentController implements Initializable {
                 resetFields();
                 return;
             } else {
-                String[] startDate = appointmentStartDate.getValue().toString().split("-");
-                String[] endDate = appointmentEndDate.getValue().toString().split("-");
-                int startHr = appointmentStartHour.getValue().charAt(0) == '0' ?
-                        Integer.parseInt(appointmentStartHour.getValue().substring(1)) :
-                        Integer.parseInt(appointmentStartHour.getValue());
-                int endHr = appointmentEndHour.getValue().charAt(0) == '0' ?
-                        Integer.parseInt(appointmentEndHour.getValue().substring(1)) :
-                        Integer.parseInt(appointmentEndHour.getValue());
-                int startMin = appointmentStartMinute.getValue().charAt(0) == '0' ?
-                        Integer.parseInt(appointmentStartMinute.getValue().substring(1)) :
-                        Integer.parseInt(appointmentStartMinute.getValue());
-                int endMin = appointmentEndMinute.getValue().charAt(0) == '0' ?
-                        Integer.parseInt(appointmentEndMinute.getValue().substring(1)) :
-                        Integer.parseInt(appointmentEndMinute.getValue());
+                LocalDateTime appointmentStart = LocalDateTime.of(
+                        appointmentStartDate.getValue().getYear(),
+                        appointmentStartDate.getValue().getMonth(),
+                        appointmentStartDate.getValue().getDayOfMonth(),
+                        appointmentStartHour.getValue().charAt(0) == '0' ?
+                                Integer.parseInt(appointmentStartHour.getValue().substring(1)) :
+                                Integer.parseInt(appointmentStartHour.getValue()),
+                        appointmentStartMinute.getValue().charAt(0) == '0' ?
+                                Integer.parseInt(appointmentStartMinute.getValue().substring(1)) :
+                                Integer.parseInt(appointmentStartMinute.getValue())
+                );
+
+                LocalDateTime appointmentEnd = LocalDateTime.of(
+                        appointmentEndDate.getValue().getYear(),
+                        appointmentEndDate.getValue().getMonth(),
+                        appointmentEndDate.getValue().getDayOfMonth(),
+                        appointmentEndHour.getValue().charAt(0) == '0' ?
+                                Integer.parseInt(appointmentEndHour.getValue().substring(1)) :
+                                Integer.parseInt(appointmentEndHour.getValue()),
+                        appointmentEndMinute.getValue().charAt(0) == '0' ?
+                                Integer.parseInt(appointmentEndMinute.getValue().substring(1)) :
+                                Integer.parseInt(appointmentEndMinute.getValue())
+                );
 
                 Appointment appointment = new Appointment(
                         Appointment.appointmentCount + 1,
@@ -109,16 +118,26 @@ public class AddAppointmentController implements Initializable {
                         stateComboBox.getValue() + ", " + countryComboBox.getValue(),
                         appointmentContactComboBox.getValue(),
                         appointmentTypeTxtField.getText(),
-                        LocalDateTime.of(Integer.parseInt(startDate[0]),
-                                Month.of(Integer.parseInt(startDate[1])),
-                                Integer.parseInt(startDate[2]), startHr,
-                                startMin, 0),
-                        LocalDateTime.of(Integer.parseInt(endDate[0]),
-                                Month.of(Integer.parseInt(endDate[1])),
-                                Integer.parseInt(endDate[2]), endHr,
-                                endMin, 0),
+                        appointmentStart,
+                        appointmentEnd,
                         appointmentUsrIdTxtField.getText()
                 );
+
+                for (Appointment appt : Appointment.appointmentData) {
+                    if (appointment.getAppointmentStart().isBefore(appt.getAppointmentEnd()) &&
+                            appointment.getAppointmentEnd().isAfter(appt.getAppointmentStart())
+                    ) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("ERROR");
+                        alert.setHeaderText("Cannot add appointment.");
+                        alert.setContentText("This appointment overlaps with Appointment #" +
+                                appt.getAppointmentId() + ", please pick a different time and/or date.");
+                        alert.showAndWait();
+                        resetFields();
+                        return;
+                    }
+                }
+
                 Appointment.appointmentData.add(appointment);
                 Queries.insertAppointment(appointment);
             }
