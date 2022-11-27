@@ -255,8 +255,8 @@ public abstract class Queries {
         ps1.setString(3, appointment.getAppointmentDescription());
         ps1.setString(4, appointment.getAppointmentLocation());
         ps1.setString(5, appointment.getAppointmentType());
-        ps1.setTimestamp(6,  Timestamp.valueOf(TimeConversion.convertToUTC(appointment.getAppointmentStart())));
-        ps1.setTimestamp(7,  Timestamp.valueOf(TimeConversion.convertToUTC(appointment.getAppointmentEnd())));
+        ps1.setTimestamp(6,  Timestamp.valueOf(appointment.getAppointmentStart()));
+        ps1.setTimestamp(7,  Timestamp.valueOf(appointment.getAppointmentEnd()));
         ps1.setString(8, appointment.getUserName());
         ps1.setString(9, LoginController.currentUser);
         ps1.setInt(10, appointment.getCustomerId());
@@ -286,8 +286,8 @@ public abstract class Queries {
         ps.setString(2, appointment.getAppointmentDescription());
         ps.setString(3, appointment.getAppointmentLocation());
         ps.setString(4, appointment.getAppointmentType());
-        ps.setTimestamp(5,  Timestamp.valueOf(TimeConversion.convertToUTC(appointment.getAppointmentStart())));
-        ps.setTimestamp(6, Timestamp.valueOf(TimeConversion.convertToUTC(appointment.getAppointmentEnd())));
+        ps.setTimestamp(5,  Timestamp.valueOf(appointment.getAppointmentStart()));
+        ps.setTimestamp(6, Timestamp.valueOf(appointment.getAppointmentEnd()));
         ps.setString(7,  LoginController.currentUser);
         ps.setInt(8, getContactId(appointment.getAppointmentContact()));
         ps.executeUpdate();

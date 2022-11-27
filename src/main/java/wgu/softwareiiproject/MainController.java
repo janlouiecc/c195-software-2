@@ -27,6 +27,8 @@ public class MainController implements Initializable {
     @FXML
     private Label zoneId;
     @FXML
+    private DatePicker appointmentDateSearch;
+    @FXML
     private TableView<Customer> mainCustomerTblView;
     @FXML
     private TableView<Appointment> mainAppointmentTblView;
@@ -302,6 +304,27 @@ public class MainController implements Initializable {
         }
 
         mainAppointmentTblView.setItems(monthAppointments);
+        mainAppointmentTblView.getSortOrder().add(appointmentStart);
+    }
+
+    @FXML
+    private void selectByCalendarDay() {
+
+        if (appointmentDateSearch.getValue() == null) {
+            selectAll();
+            return;
+        }
+        ObservableList<Appointment> calendarDayAppointments = FXCollections.observableArrayList();
+
+        for (Appointment appointment : Appointment.appointmentData) {
+            if (appointment.getAppointmentStart().getDayOfMonth() == appointmentDateSearch.getValue().getDayOfMonth() &&
+                    appointment.getAppointmentStart().getYear() == appointmentDateSearch.getValue().getYear() &&
+                    appointment.getAppointmentStart().getMonthValue() == appointmentDateSearch.getValue().getMonthValue()) {
+                calendarDayAppointments.add(appointment);
+            }
+        }
+
+        mainAppointmentTblView.setItems(calendarDayAppointments);
         mainAppointmentTblView.getSortOrder().add(appointmentStart);
     }
 

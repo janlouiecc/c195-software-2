@@ -9,7 +9,6 @@ public abstract class JDBC {
     {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver"); // Locate Driver
-//            connection = DriverManager.getConnection("jdbc:mysql://localhost/client_schedule?connectionTimeZone = SERVER", "sqlUser", "Passw0rd!");
             connection = DriverManager.getConnection("jdbc:mysql://localhost/client_schedule?connectionTimeZone = UTC", "sqlUser", "Passw0rd!");
         }
         catch(Exception e)

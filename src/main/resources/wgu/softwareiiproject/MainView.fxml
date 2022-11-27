@@ -64,7 +64,7 @@
    <Button layoutX="677.0" layoutY="271.0" mnemonicParsing="false" onAction="#addCustomer" text="Add Customer" />
    <Button layoutX="781.0" layoutY="271.0" mnemonicParsing="false" onAction="#updateCustomer" text="Update Customer" />
    <Button layoutX="902.0" layoutY="271.0" mnemonicParsing="false" onAction="#deleteCustomer" text="Delete Customer" />
-   <DatePicker layoutX="833.0" layoutY="327.0" />
+   <DatePicker fx:id="appointmentDateSearch" layoutX="833.0" layoutY="327.0" onAction="#selectByCalendarDay" />
    <RadioButton layoutX="647.0" layoutY="331.0" mnemonicParsing="false" onAction="#selectByWeek" text="By Week">
       <toggleGroup>
          <ToggleGroup fx:id="viewSelection" />
