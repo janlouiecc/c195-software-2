@@ -40,7 +40,7 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private ComboBox<String> appointmentContactComboBox;
     @FXML
-    private TextField appointmentTypeTxtField;
+    private ComboBox<String> appointmentTypeComboBox;
     @FXML
     private DatePicker appointmentStartDate;
     @FXML
@@ -73,10 +73,9 @@ public class AddAppointmentController implements Initializable {
                 return;
             } else if (appointmentTitleTxtField.getText().trim().equals("") ||
                     appointmentDescriptionTxtField.getText().trim().equals("") ||
-                    appointmentTypeTxtField.getText().trim().equals("") ||
+                    appointmentTypeComboBox.getSelectionModel().isEmpty() ||
                     stateComboBox.getSelectionModel().isEmpty() || countryComboBox.getValue().isEmpty() ||
-                    appointmentContactComboBox.getSelectionModel().isEmpty() ||
-                    appointmentTypeTxtField.getText().trim().equals("")
+                    appointmentContactComboBox.getSelectionModel().isEmpty()
             ) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -117,7 +116,7 @@ public class AddAppointmentController implements Initializable {
                         appointmentDescriptionTxtField.getText(),
                         stateComboBox.getValue() + ", " + countryComboBox.getValue(),
                         appointmentContactComboBox.getValue(),
-                        appointmentTypeTxtField.getText(),
+                        appointmentTypeComboBox.getValue(),
                         appointmentStart,
                         appointmentEnd,
                         appointmentUsrIdTxtField.getText()
@@ -192,6 +191,13 @@ public class AddAppointmentController implements Initializable {
         stage.show();
     }
 
+    @FXML
+    private void fillStateData() throws SQLException {
+        ObservableList<String> stateOptions = FXCollections.observableArrayList();
+        Queries.fillStateList(stateOptions, countryComboBox.getValue());
+        stateComboBox.setItems(stateOptions);
+    }
+
     private void fillContactData() throws SQLException {
         ObservableList<String> contactOptions = FXCollections.observableArrayList();
         Queries.fillContactList(contactOptions);
@@ -202,13 +208,6 @@ public class AddAppointmentController implements Initializable {
         ObservableList<String> countryOptions = FXCollections.observableArrayList();
         Queries.fillCountryList(countryOptions);
         countryComboBox.setItems(countryOptions);
-    }
-
-    @FXML
-    private void fillStateData() throws SQLException {
-        ObservableList<String> stateOptions = FXCollections.observableArrayList();
-        Queries.fillStateList(stateOptions, countryComboBox.getValue());
-        stateComboBox.setItems(stateOptions);
     }
 
     private void fillTimeData() {
@@ -237,13 +236,23 @@ public class AddAppointmentController implements Initializable {
         appointmentEndMinute.setItems(minuteOptions);
     }
 
+    private void fillAppointmentTypeData() {
+        ObservableList<String> typeOptions = FXCollections.observableArrayList();
+
+        typeOptions.add("New Appointment");
+        typeOptions.add("Follow-Up");
+        typeOptions.add("Walk-In");
+
+        appointmentTypeComboBox.setItems(typeOptions);
+    }
+
     private void resetFields() {
         appointmentTitleTxtField.clear();
         appointmentDescriptionTxtField.clear();
         countryComboBox.getSelectionModel().clearSelection();
         stateComboBox.getSelectionModel().clearSelection();
         appointmentContactComboBox.getSelectionModel().clearSelection();
-        appointmentTypeTxtField.clear();
+        appointmentTypeComboBox.getSelectionModel().clearSelection();
         appointmentStartHour.getSelectionModel().clearSelection();
         appointmentStartMinute.getSelectionModel().clearSelection();
         appointmentEndHour.getSelectionModel().clearSelection();
@@ -264,5 +273,6 @@ public class AddAppointmentController implements Initializable {
             throw new RuntimeException(e);
         }
         fillTimeData();
+        fillAppointmentTypeData();
     }
 }

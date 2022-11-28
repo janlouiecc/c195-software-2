@@ -22,7 +22,7 @@
       <ComboBox fx:id="countryComboBox" layoutX="196.0" layoutY="304.0" onAction="#fillStateData" prefHeight="27.0" prefWidth="142.0" />
       <ComboBox fx:id="stateComboBox" layoutX="354.0" layoutY="304.0" prefHeight="27.0" prefWidth="142.0" />
       <ComboBox fx:id="appointmentContactComboBox" layoutX="196.0" layoutY="341.0" prefHeight="27.0" prefWidth="200.0" />
-      <TextField fx:id="appointmentTypeTxtField" layoutX="196.0" layoutY="375.0" prefHeight="27.0" prefWidth="200.0" />
+      <ComboBox fx:id="appointmentTypeComboBox" layoutX="196.0" layoutY="375.0" prefHeight="27.0" prefWidth="200.0" />
       <DatePicker fx:id="appointmentStartDate" layoutX="196.0" layoutY="413.0" prefHeight="27.0" prefWidth="140.0" />
       <DatePicker fx:id="appointmentEndDate" layoutX="196.0" layoutY="450.0" prefHeight="27.0" prefWidth="140.0" />
       <Button layoutX="209.0" layoutY="523.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="78.0" text="Save">

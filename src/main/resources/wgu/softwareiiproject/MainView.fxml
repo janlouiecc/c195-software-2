@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="625.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.MainController">
+<AnchorPane prefHeight="610.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.MainController">
    <Button layoutX="969.0" layoutY="14.0" mnemonicParsing="false" onAction="#clickLogOut" text="Log Out" />
    <Label layoutX="33.0" layoutY="69.0" text="Customers">
       <font>
@@ -78,14 +78,19 @@
          <Font name="System Bold" size="25.0" />
       </font>
    </Text>
-   <Label fx:id="loginZoneIdLabel" layoutX="14.0" layoutY="586.0" prefHeight="25.0" prefWidth="99.0" text="Zone ID:">
+   <Label fx:id="loginZoneIdLabel" layoutX="14.0" layoutY="576.0" prefHeight="25.0" prefWidth="99.0" text="Zone ID:">
       <font>
          <Font name="System Bold Italic" size="16.0" />
       </font>
    </Label>
-   <Label fx:id="zoneId" layoutX="113.0" layoutY="586.0" prefHeight="25.0" prefWidth="317.0" textFill="RED">
+   <Label fx:id="zoneId" layoutX="113.0" layoutY="576.0" prefHeight="25.0" prefWidth="317.0" textFill="RED">
       <font>
          <Font name="System Italic" size="16.0" />
       </font>
    </Label>
+   <Button layoutX="830.0" layoutY="565.0" mnemonicParsing="false" onAction="#viewReports" prefHeight="25.0" prefWidth="181.0" text="View Reports">
+      <font>
+         <Font name="System Bold" size="12.0" />
+      </font>
+   </Button>
 </AnchorPane>

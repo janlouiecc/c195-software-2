@@ -298,4 +298,5 @@ public abstract class Queries {
         ps.executeUpdate();
         ps.close();
     }
+
 }

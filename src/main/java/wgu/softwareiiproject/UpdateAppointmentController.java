@@ -40,7 +40,7 @@ public class UpdateAppointmentController implements Initializable {
     @FXML
     private ComboBox<String> appointmentContactComboBox;
     @FXML
-    private TextField appointmentTypeTxtField;
+    private ComboBox<String> appointmentTypeComboBox;
     @FXML
     private DatePicker appointmentStartDate;
     @FXML
@@ -74,10 +74,9 @@ public class UpdateAppointmentController implements Initializable {
                 return;
             } else if (appointmentTitleTxtField.getText().trim().equals("") ||
                     appointmentDescriptionTxtField.getText().trim().equals("") ||
-                    appointmentTypeTxtField.getText().trim().equals("") ||
+                    appointmentTypeComboBox.getSelectionModel().isEmpty() ||
                     stateComboBox.getSelectionModel().isEmpty() || countryComboBox.getValue().isEmpty() ||
-                    appointmentContactComboBox.getSelectionModel().isEmpty() ||
-                    appointmentTypeTxtField.getText().trim().equals("")
+                    appointmentContactComboBox.getSelectionModel().isEmpty()
             ) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -152,7 +151,7 @@ public class UpdateAppointmentController implements Initializable {
                 appointmentToUpdate.setAppointmentDescription(appointmentDescriptionTxtField.getText());
                 appointmentToUpdate.setAppointmentLocation(stateComboBox.getValue() + ", " + countryComboBox.getValue());
                 appointmentToUpdate.setAppointmentContact(appointmentContactComboBox.getValue());
-                appointmentToUpdate.setAppointmentType(appointmentTypeTxtField.getText());
+                appointmentToUpdate.setAppointmentType(appointmentTypeComboBox.getValue());
                 appointmentToUpdate.setAppointmentStart(appointmentStart);
                 appointmentToUpdate.setAppointmentEnd(appointmentEnd);
 
@@ -186,6 +185,15 @@ public class UpdateAppointmentController implements Initializable {
         stage.show();
     }
 
+    @FXML
+    private void fillStateData() throws SQLException {
+        ObservableList<String> stateOptions = FXCollections.observableArrayList();
+        Queries.fillStateList(stateOptions, countryComboBox.getValue());
+        stateComboBox.getSelectionModel().clearSelection();
+        stateComboBox.getSelectionModel().selectFirst();
+        stateComboBox.setItems(stateOptions);
+    }
+
     private void fillContactData() throws SQLException {
         ObservableList<String> contactOptions = FXCollections.observableArrayList();
         Queries.fillContactList(contactOptions);
@@ -196,15 +204,6 @@ public class UpdateAppointmentController implements Initializable {
         ObservableList<String> countryOptions = FXCollections.observableArrayList();
         Queries.fillCountryList(countryOptions);
         countryComboBox.setItems(countryOptions);
-    }
-
-    @FXML
-    private void fillStateData() throws SQLException {
-        ObservableList<String> stateOptions = FXCollections.observableArrayList();
-        Queries.fillStateList(stateOptions, countryComboBox.getValue());
-        stateComboBox.getSelectionModel().clearSelection();
-        stateComboBox.getSelectionModel().selectFirst();
-        stateComboBox.setItems(stateOptions);
     }
 
     private void fillTimeData() {
@@ -233,6 +232,16 @@ public class UpdateAppointmentController implements Initializable {
         appointmentEndMinute.setItems(minuteOptions);
     }
 
+    private void fillAppointmentTypeData() {
+        ObservableList<String> typeOptions = FXCollections.observableArrayList();
+
+        typeOptions.add("New Appointment");
+        typeOptions.add("Follow-Up");
+        typeOptions.add("Walk-In");
+
+        appointmentTypeComboBox.setItems(typeOptions);
+    }
+
     private void resetFields() {
         appointmentCustIdTxtField.setText(String.valueOf(appointmentToUpdate.getCustomerId()));
         appointmentUsrIdTxtField.setText(appointmentToUpdate.getUserName());
@@ -242,7 +251,7 @@ public class UpdateAppointmentController implements Initializable {
         countryComboBox.getSelectionModel().select(location[1]);
         stateComboBox.getSelectionModel().select(location[0]);
         appointmentContactComboBox.getSelectionModel().select(appointmentToUpdate.getAppointmentContact());
-        appointmentTypeTxtField.setText(appointmentToUpdate.getAppointmentType());
+        appointmentTypeComboBox.getSelectionModel().select(appointmentToUpdate.getAppointmentType());
         appointmentStartDate.setValue(appointmentToUpdate.getAppointmentStart().toLocalDate());
         appointmentEndDate.setValue(appointmentToUpdate.getAppointmentEnd().toLocalDate());
 
@@ -278,5 +287,6 @@ public class UpdateAppointmentController implements Initializable {
             throw new RuntimeException(e);
         }
         fillTimeData();
+        fillAppointmentTypeData();
     }
 }

@@ -328,6 +328,16 @@ public class MainController implements Initializable {
         mainAppointmentTblView.getSortOrder().add(appointmentStart);
     }
 
+    @FXML
+    private void viewReports(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ReportsView.fxml")));
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         resourceBundle = ResourceBundle.getBundle("/appt", Locale.getDefault());
