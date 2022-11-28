@@ -1,5 +1,6 @@
 package wgu.softwareiiproject;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -64,6 +65,8 @@ public class MainController implements Initializable {
     private TableColumn<Appointment, LocalDateTime> appointmentEnd;
     @FXML
     private TableColumn<Appointment, String> userName;
+    @FXML
+    private Button logoutButton;
     public ToggleGroup viewSelection;
     private static Customer selectedCustomer = null;
     private static Appointment selectedAppointment = null;
@@ -71,16 +74,6 @@ public class MainController implements Initializable {
     public static Customer getSelectedCustomer() { return selectedCustomer; }
 
     public static Appointment getSelectedAppointment() { return selectedAppointment; }
-
-    @FXML
-    private void clickLogOut(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("LoginView.fxml")));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
-    }
 
     @FXML
     private void addCustomer(ActionEvent event) throws IOException {
@@ -194,11 +187,6 @@ public class MainController implements Initializable {
             Customer.customerData.remove(customer);
             Queries.deleteCustomer(customer.getCustomerId());
 
-            //testing purposes only
-            for (Customer c : Customer.customerData) {
-                System.out.println(c);
-            }
-
             Alert confirmed = new Alert(Alert.AlertType.INFORMATION);
             if (!Customer.customerData.contains(customer)) {
                 confirmed.setTitle("Deleted");
@@ -232,11 +220,6 @@ public class MainController implements Initializable {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Appointment.appointmentData.remove(appointment);
             Queries.deleteAppointment(appointment.getAppointmentId());
-
-            // testing purposes only
-            for (Appointment a : Appointment.appointmentData) {
-                System.out.println(a);
-            }
 
             Alert confirmed = new Alert(Alert.AlertType.INFORMATION);
             if (!Appointment.appointmentData.contains(appointment)) {
@@ -363,5 +346,22 @@ public class MainController implements Initializable {
         mainCustomerTblView.setItems(Customer.customerData);
         mainAppointmentTblView.setItems(Appointment.appointmentData);
         mainAppointmentTblView.getSortOrder().add(appointmentStart);
+
+        logoutButton.setOnAction(e -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Logout");
+            alert.setHeaderText("You're about to logout!");
+            alert.setContentText("Are you sure you want to log out?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                Alert confirmed = new Alert(Alert.AlertType.INFORMATION);
+                confirmed.setTitle("Logged Out.");
+                confirmed.setHeaderText("You have successfully logged out.");
+                confirmed.showAndWait();
+                Platform.exit();
+                System.exit(0);
+            }
+        });
+
     }
 }

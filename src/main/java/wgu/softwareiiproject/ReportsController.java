@@ -96,7 +96,7 @@ public class ReportsController implements Initializable {
         userName.setCellValueFactory(new PropertyValueFactory<>("userName"));
 
         returnToMainButton.setOnAction(e -> {
-            Parent root = null;
+            Parent root;
             try {
                 root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
             } catch (IOException ex) {
