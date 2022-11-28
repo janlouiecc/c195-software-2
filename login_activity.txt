@@ -1,0 +1,4 @@
+Login Attempt #1, SUCCESS, 11/28/2022 - 13:47, User: admin
+Login Attempt #2, SUCCESS, 11/28/2022 - 13:48, User: test
+Login Attempt #3, FAILED, 11/28/2022 - 14:14, Attempted Username: admin, Attempted Password: aefd
+Login Attempt #4, SUCCESS, 11/28/2022 - 14:14, User: test

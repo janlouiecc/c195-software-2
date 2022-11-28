@@ -13,12 +13,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -54,8 +53,10 @@ public class LoginController implements Initializable {
         zoneId.setText(ZoneId.systemDefault().toString());
 
         loginButton.setOnAction(e -> {
+            boolean correctLogin;
             try {
-                if(Queries.login(loginUserName.getText(), loginPw.getText())) {
+                if (Queries.login(loginUserName.getText(), loginPw.getText())) {
+                    correctLogin = true;
                     currentUser = loginUserName.getText();
 
                     LocalDateTime currentTime = LocalDateTime.now();
@@ -64,7 +65,7 @@ public class LoginController implements Initializable {
                     LocalDateTime upper = currentTime.plusMinutes(15);
 
                     for (Appointment appointment : Appointment.appointmentData) {
-                        if((appointment.getAppointmentStart().isAfter(currentTime) || appointment.getAppointmentStart().equals(currentTime)) &&
+                        if ((appointment.getAppointmentStart().isAfter(currentTime) || appointment.getAppointmentStart().equals(currentTime)) &&
                                 (appointment.getAppointmentStart().isBefore(upper) || appointment.getAppointmentStart().equals(upper))
                         ) {
                             upcomingAppointment = appointment;
@@ -81,7 +82,8 @@ public class LoginController implements Initializable {
                     } else {
                         alert.setContentText(resourceBundle.getString("appointmentText") + upcomingAppointment.getAppointmentId() +
                                 " " + LocalTime.of(upcomingAppointment.getAppointmentStart().getHour(), upcomingAppointment.getAppointmentStart().getMinute()));
-                    } alert.showAndWait();
+                    }
+                    alert.showAndWait();
 
                     Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
                     Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -90,16 +92,39 @@ public class LoginController implements Initializable {
                     stage.setResizable(false);
                     stage.show();
                 } else {
+                    correctLogin = false;
                     ResourceBundle resourceBundle = ResourceBundle.getBundle("/appt", Locale.getDefault());
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setHeaderText(resourceBundle.getString("alertTitle"));
                     alert.setContentText(resourceBundle.getString("alertContent"));
                     alert.showAndWait();
-                    loginUserName.clear();
-                    loginPw.clear();
                 }
             } catch (SQLException | IOException ex) {
                 throw new RuntimeException(ex);
+            }
+
+            BufferedWriter writer;
+            BufferedReader reader;
+            try {
+                writer = new BufferedWriter(new FileWriter("login_activity.txt", true));
+                reader = new BufferedReader(new FileReader("login_activity.txt"));
+                ZonedDateTime timeStamp = ZonedDateTime.now();
+                int lines = 0;
+                while (reader.readLine() != null) lines++;
+
+                if (correctLogin) {
+                    writer.write("Login Attempt #" + ++lines + ", SUCCESS, " +
+                            DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm").format(timeStamp) + ", User: " + currentUser + "\n");
+                } else {
+                    writer.write("Login Attempt #" + ++lines + ", FAILED, " +
+                            DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm").format(timeStamp) +
+                            ", Attempted Username: " + loginUserName.getText() + ", Attempted Password: " + loginPw.getText() + "\n");
+                    loginUserName.clear();
+                    loginPw.clear();
+                }
+                writer.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         });
     }
