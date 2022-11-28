@@ -16,4 +16,10 @@ public class TimeConversion {
         return LocalDateTime.of(myZdt.getYear(), myZdt.getMonth(), myZdt.getDayOfMonth(), myZdt.getHour(), myZdt.getMinute());
     }
 
+    public static LocalDateTime convertLocalToET(LocalDateTime ldt) {
+        ZonedDateTime myZdt;
+        ZonedDateTime utcZdt = ZonedDateTime.ofInstant(ZonedDateTime.of(ldt, ZoneId.systemDefault()).toInstant(), ZoneId.of("UTC"));
+        myZdt = ZonedDateTime.ofInstant(utcZdt.toInstant(), ZoneId.of("America/New_York"));
+        return LocalDateTime.of(myZdt.getYear(), myZdt.getMonth(), myZdt.getDayOfMonth(), myZdt.getHour(), myZdt.getMinute());
+    }
 }

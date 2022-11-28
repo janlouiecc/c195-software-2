@@ -18,8 +18,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.Month;
+import java.util.Calendar;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -122,6 +123,29 @@ public class AddAppointmentController implements Initializable {
                         appointmentEnd,
                         appointmentUsrIdTxtField.getText()
                 );
+
+                LocalDateTime convertedStartTime = TimeConversion.convertLocalToET(appointment.getAppointmentStart());
+                LocalDateTime convertedEndTime = TimeConversion.convertLocalToET(appointment.getAppointmentEnd());
+                LocalDateTime businessHrsStart = LocalDateTime.of(appointment.getAppointmentStart().getYear(),
+                        appointment.getAppointmentStart().getMonth(),
+                        appointment.getAppointmentStart().getDayOfMonth(), 8, 0);
+                LocalDateTime businessHrsEnd = LocalDateTime.of(appointment.getAppointmentStart().getYear(),
+                        appointment.getAppointmentStart().getMonth(),
+                        appointment.getAppointmentStart().getDayOfMonth(), 22, 0);
+
+                if (convertedStartTime.isBefore(businessHrsStart) || convertedStartTime.isAfter(businessHrsEnd) ||
+                        convertedEndTime.isBefore(businessHrsStart) || convertedEndTime.isAfter(businessHrsEnd) ||
+                        convertedStartTime.getDayOfWeek().equals(DayOfWeek.SATURDAY) || convertedStartTime.getDayOfWeek().equals(DayOfWeek.SUNDAY) ||
+                        convertedEndTime.getDayOfWeek().equals(DayOfWeek.SATURDAY) || convertedEndTime.getDayOfWeek().equals(DayOfWeek.SUNDAY)
+                        ) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Cannot add appointment.");
+                    alert.setContentText("Scheduling appointment outside of business hours (ET) not allowed.");
+                    alert.showAndWait();
+                    resetFields();
+                    return;
+                }
 
                 for (Appointment appt : Appointment.appointmentData) {
                     if (appointment.getAppointmentStart().isBefore(appt.getAppointmentEnd()) &&

@@ -18,8 +18,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -110,6 +110,29 @@ public class UpdateAppointmentController implements Initializable {
                                 Integer.parseInt(appointmentEndMinute.getValue().substring(1)) :
                                 Integer.parseInt(appointmentEndMinute.getValue())
                 );
+
+                LocalDateTime convertedStartTime = TimeConversion.convertLocalToET(appointmentStart);
+                LocalDateTime convertedEndTime = TimeConversion.convertLocalToET(appointmentEnd);
+                LocalDateTime businessHrsStart = LocalDateTime.of(appointmentStart.getYear(),
+                        appointmentStart.getMonth(),
+                        appointmentStart.getDayOfMonth(), 8, 0);
+                LocalDateTime businessHrsEnd = LocalDateTime.of(appointmentStart.getYear(),
+                        appointmentStart.getMonth(),
+                        appointmentStart.getDayOfMonth(), 22, 0);
+
+                if (convertedStartTime.isBefore(businessHrsStart) || convertedStartTime.isAfter(businessHrsEnd) ||
+                        convertedEndTime.isBefore(businessHrsStart) || convertedEndTime.isAfter(businessHrsEnd) ||
+                        convertedStartTime.getDayOfWeek().equals(DayOfWeek.SATURDAY) || convertedStartTime.getDayOfWeek().equals(DayOfWeek.SUNDAY) ||
+                        convertedEndTime.getDayOfWeek().equals(DayOfWeek.SATURDAY) || convertedEndTime.getDayOfWeek().equals(DayOfWeek.SUNDAY)
+                ) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Cannot add appointment.");
+                    alert.setContentText("Scheduling appointment outside of business hours (ET) not allowed.");
+                    alert.showAndWait();
+                    resetFields();
+                    return;
+                }
 
                 for (Appointment appt : Appointment.appointmentData) {
                     if (appointmentStart.isBefore(appt.getAppointmentEnd()) && appointmentEnd.isAfter(appt.getAppointmentStart()) &&
