@@ -13,6 +13,11 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="480.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.ReportsController">
+   <Text fontSmoothingType="LCD" layoutX="33.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reports">
+      <font>
+         <Font name="System Bold" size="25.0" />
+      </font>
+   </Text>
    <Button layoutX="929.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnToMain" text="Return To Main" />
    <ScrollPane layoutX="43.0" layoutY="178.0" prefHeight="223.0" prefWidth="974.0">
       <content>
@@ -32,21 +37,25 @@
          </TableView>
       </content>
    </ScrollPane>
-   <RadioButton fx:id="viewTotalAppointmentsByType" layoutX="329.0" layoutY="74.0" mnemonicParsing="false" text="Total Appointments by Type">
+   <RadioButton fx:id="viewTotalAppointmentsByMonth" layoutX="43.0" layoutY="74.0" mnemonicParsing="false" selected="true" text="Total Appointments by Month">
       <toggleGroup>
          <ToggleGroup fx:id="viewSelection" />
       </toggleGroup></RadioButton>
-   <ComboBox fx:id="types" layoutX="340.0" layoutY="102.0" onAction="#getTotalAppointmentsByType" prefWidth="150.0" />
-   <RadioButton layoutX="656.0" layoutY="64.0" mnemonicParsing="false" onAction="#selectByMonth" text="By Month" toggleGroup="$viewSelection" />
-   <RadioButton fx:id="viewTotalAppointmentsByMonth" layoutX="43.0" layoutY="74.0" mnemonicParsing="false" selected="true" text="Total Appointments by Month" toggleGroup="$viewSelection" />
    <ComboBox fx:id="months" layoutX="59.0" layoutY="102.0" onAction="#getTotalAppointmentsByMonth" prefWidth="150.0" />
+   <RadioButton fx:id="viewTotalAppointmentsByType" layoutX="294.0" layoutY="73.0" mnemonicParsing="false" text="Total Appointments by Type" toggleGroup="$viewSelection" />
+   <ComboBox fx:id="types" layoutX="305.0" layoutY="101.0" onAction="#getTotalAppointmentsByType" prefWidth="150.0" />
+   <RadioButton fx:id="viewTotalAppointmentsByContact" layoutX="536.0" layoutY="73.0" mnemonicParsing="false" text="Total Appointments by Contact" toggleGroup="$viewSelection" />
+   <ComboBox fx:id="contacts" layoutX="554.0" layoutY="101.0" onAction="#getTotalAppointmentsByContact" prefWidth="150.0" />
+   <RadioButton fx:id="viewTotalAppointmentsByCustomer" layoutX="791.0" layoutY="72.0" mnemonicParsing="false" text="Total Appointments by Customer" toggleGroup="$viewSelection" />
+   <ComboBox fx:id="customers" layoutX="809.0" layoutY="100.0" onAction="#getTotalAppointmentsByCustomer" prefWidth="150.0" />
    <Label layoutX="51.0" layoutY="141.0" text="Count of Selected Month:" />
+   <Label layoutX="302.0" layoutY="140.0" text="Count of Selected Type:" />
+   <Label layoutX="542.0" layoutY="141.0" text="Count of Selected Contact:" />
+   <Label layoutX="797.0" layoutY="140.0" text="Count of Selected Customer:" />
    <Text fx:id="currentMonthCount" layoutX="200.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="16.0" />
-   <Text fontSmoothingType="LCD" layoutX="33.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reports">
-      <font>
-         <Font name="System Bold" size="25.0" />
-      </font>
-   </Text>
+   <Text fx:id="currentTypeCount" layoutX="439.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="16.0" />
+   <Text fx:id="currentContactCount" layoutX="702.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="16.0" />
+   <Text fx:id="currentCustomerCount" layoutX="957.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="16.0" />
    <Label fx:id="loginZoneIdLabel" layoutX="15.0" layoutY="441.0" prefHeight="25.0" prefWidth="99.0" text="Zone ID:">
       <font>
          <Font name="System Bold Italic" size="16.0" />
@@ -57,6 +66,4 @@
          <Font name="System Italic" size="16.0" />
       </font>
    </Label>
-   <Label layoutX="337.0" layoutY="141.0" text="Count of Selected Type:" />
-   <Text fx:id="currentTypeCount" layoutX="476.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="16.0" />
 </AnchorPane>

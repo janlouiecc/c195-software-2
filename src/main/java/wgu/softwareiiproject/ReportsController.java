@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
@@ -34,9 +35,21 @@ public class ReportsController implements Initializable {
     @FXML
     private ComboBox<String> types;
     @FXML
+    private RadioButton viewTotalAppointmentsByContact;
+    @FXML
+    private ComboBox<String> contacts;
+    @FXML
+    private RadioButton viewTotalAppointmentsByCustomer;
+    @FXML
+    private ComboBox<Integer> customers;
+    @FXML
     private Text currentMonthCount;
     @FXML
     private Text currentTypeCount;
+    @FXML
+    private Text currentContactCount;
+    @FXML
+    private Text currentCustomerCount;
     @FXML
     private TableColumn<Appointment, Integer> appointmentId;
     @FXML
@@ -76,6 +89,12 @@ public class ReportsController implements Initializable {
     @FXML
     private void getTotalAppointmentsByMonth() {
         if (viewTotalAppointmentsByMonth.isSelected()) {
+            contacts.getSelectionModel().clearSelection();
+            types.getSelectionModel().clearSelection();
+            customers.getSelectionModel().clearSelection();
+            currentTypeCount.setText("");
+            currentContactCount.setText("");
+            currentCustomerCount.setText("");
             ObservableList<Appointment> monthAppointments = FXCollections.observableArrayList();
 
             Calendar currentDay = Calendar.getInstance();
@@ -126,11 +145,78 @@ public class ReportsController implements Initializable {
     }
 
     @FXML
-    private void getTotalAppointmentsByType(ActionEvent actionEvent) {
+    private void getTotalAppointmentsByType() {
+        if (viewTotalAppointmentsByType.isSelected()) {
+            months.getSelectionModel().clearSelection();
+            contacts.getSelectionModel().clearSelection();
+            customers.getSelectionModel().clearSelection();
+            currentMonthCount.setText("");
+            currentContactCount.setText("");
+            currentCustomerCount.setText("");
+            ObservableList<Appointment> typeAppointments = FXCollections.observableArrayList();
+
+            int count = 0;
+            for (Appointment appointment : Appointment.appointmentData) {
+                if (Objects.equals(appointment.getAppointmentType(), types.getValue())) {
+                    typeAppointments.add(appointment);
+                    count++;
+                }
+            }
+
+            currentTypeCount.setText(String.valueOf(count));
+            appointmentTblView.setItems(typeAppointments);
+            appointmentTblView.getSortOrder().add(appointmentStart);
+        }
     }
 
     @FXML
-    private void selectByMonth(ActionEvent actionEvent) {
+    private void getTotalAppointmentsByContact() {
+        if (viewTotalAppointmentsByContact.isSelected()) {
+            months.getSelectionModel().clearSelection();
+            types.getSelectionModel().clearSelection();
+            customers.getSelectionModel().clearSelection();
+            currentTypeCount.setText("");
+            currentMonthCount.setText("");
+            currentCustomerCount.setText("");
+            ObservableList<Appointment> contactAppointments = FXCollections.observableArrayList();
+
+            int count = 0;
+            for (Appointment appointment : Appointment.appointmentData) {
+                if (Objects.equals(appointment.getAppointmentContact(), contacts.getValue())) {
+                    contactAppointments.add(appointment);
+                    count++;
+                }
+            }
+
+            currentContactCount.setText(String.valueOf(count));
+            appointmentTblView.setItems(contactAppointments);
+            appointmentTblView.getSortOrder().add(appointmentStart);
+        }
+    }
+
+    @FXML
+    private void getTotalAppointmentsByCustomer() {
+        if(viewTotalAppointmentsByCustomer.isSelected()) {
+            months.getSelectionModel().clearSelection();
+            types.getSelectionModel().clearSelection();
+            contacts.getSelectionModel().clearSelection();
+            currentMonthCount.setText("");
+            currentTypeCount.setText("");
+            currentContactCount.setText("");
+            ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
+
+            int count = 0;
+            for (Appointment appointment : Appointment.appointmentData) {
+                if (Objects.equals(appointment.getCustomerId(), customers.getValue())) {
+                    customerAppointments.add(appointment);
+                    count++;
+                }
+            }
+
+            currentCustomerCount.setText(String.valueOf(count));
+            appointmentTblView.setItems(customerAppointments);
+            appointmentTblView.getSortOrder().add(appointmentStart);
+        }
     }
 
     @Override
@@ -154,5 +240,25 @@ public class ReportsController implements Initializable {
         listOfMonths.addAll(Arrays.asList(Month.values()));
         months.setItems(listOfMonths);
 
+        ObservableList<String> typeOptions = FXCollections.observableArrayList();
+        typeOptions.add("New Appointment");
+        typeOptions.add("Follow-Up");
+        typeOptions.add("Walk-In");
+        types.setItems(typeOptions);
+
+        ObservableList<String> contactOptions = FXCollections.observableArrayList();
+        try {
+            Queries.fillContactList(contactOptions);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        contacts.setItems(contactOptions);
+
+        ObservableList<Integer> customerOptions = FXCollections.observableArrayList();
+        for (Customer customer:
+             Customer.customerData) {
+            customerOptions.add(customer.getCustomerId());
+        }
+        customers.setItems(customerOptions);
     }
 }
