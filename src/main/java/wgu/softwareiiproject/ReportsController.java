@@ -22,6 +22,9 @@ import java.time.Month;
 import java.time.ZoneId;
 import java.util.*;
 
+/**
+ * The Reports controller class.
+ */
 public class ReportsController implements Initializable {
 
     @FXML
@@ -78,6 +81,13 @@ public class ReportsController implements Initializable {
     private Label zoneId;
     public ToggleGroup viewSelection;
 
+    /**
+     * Initializes what is shown in the reports form.
+     * This method overrides the initialize method in the Initializable interface and links the table view data with its needed data for reporting purposes.
+     * Lambda functions in this method handles the actions associated with whichever the user chooses on the radio button.
+     * @param url the URL
+     * @param resourceBundle the Resource Bundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         resourceBundle = ResourceBundle.getBundle("/appt", Locale.getDefault());
