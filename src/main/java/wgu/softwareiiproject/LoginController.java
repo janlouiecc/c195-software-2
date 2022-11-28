@@ -22,6 +22,9 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * The Login controller class.
+ */
 public class LoginController implements Initializable {
 
     @FXML
@@ -42,6 +45,14 @@ public class LoginController implements Initializable {
     private TextField loginPw;
     protected static String currentUser;
 
+    /**
+     * Initializes what is shown in the login form.
+     * This method overrides the initialize method in the Initializable interface and grabs the resource bundle's information for translation purposes.
+     * Lambda function in this method handles the actions associated when a user logs in.
+     * This also has the action of logging to a file regarding login attempts.
+     * @param url the URL
+     * @param rb the Resource Bundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         rb = ResourceBundle.getBundle("/appt", Locale.getDefault());
