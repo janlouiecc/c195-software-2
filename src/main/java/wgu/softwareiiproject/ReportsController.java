@@ -25,6 +25,8 @@ import java.util.*;
 public class ReportsController implements Initializable {
 
     @FXML
+    private Button returnToMainButton;
+    @FXML
     private TableView<Appointment> appointmentTblView;
     @FXML
     private RadioButton viewTotalAppointmentsByMonth;
@@ -76,149 +78,6 @@ public class ReportsController implements Initializable {
     private Label zoneId;
     public ToggleGroup viewSelection;
 
-    @FXML
-    private void returnToMain(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
-    }
-
-    @FXML
-    private void getTotalAppointmentsByMonth() {
-        if (viewTotalAppointmentsByMonth.isSelected()) {
-            contacts.getSelectionModel().clearSelection();
-            types.getSelectionModel().clearSelection();
-            customers.getSelectionModel().clearSelection();
-            currentTypeCount.setText("");
-            currentContactCount.setText("");
-            currentCustomerCount.setText("");
-            ObservableList<Appointment> monthAppointments = FXCollections.observableArrayList();
-
-            Calendar currentDay = Calendar.getInstance();
-            currentDay.set(Calendar.HOUR_OF_DAY, 0);
-            currentDay.clear(Calendar.MINUTE);
-            currentDay.clear(Calendar.SECOND);
-            currentDay.clear(Calendar.MILLISECOND);
-            currentDay.set(Calendar.DAY_OF_MONTH, 1);
-
-            Month selectedMonth = months.getValue();
-
-            switch (selectedMonth) {
-                case JANUARY -> currentDay.set(Calendar.MONTH, 0);
-                case FEBRUARY -> currentDay.set(Calendar.MONTH, 1);
-                case MARCH -> currentDay.set(Calendar.MONTH, 2);
-                case APRIL -> currentDay.set(Calendar.MONTH, 3);
-                case MAY -> currentDay.set(Calendar.MONTH, 4);
-                case JUNE -> currentDay.set(Calendar.MONTH, 5);
-                case JULY -> currentDay.set(Calendar.MONTH, 6);
-                case AUGUST -> currentDay.set(Calendar.MONTH, 7);
-                case SEPTEMBER -> currentDay.set(Calendar.MONTH, 8);
-                case OCTOBER -> currentDay.set(Calendar.MONTH, 9);
-                case NOVEMBER -> currentDay.set(Calendar.MONTH, 10);
-                case DECEMBER -> currentDay.set(Calendar.MONTH, 11);
-                default -> {
-                    System.out.println("Unable to get month");
-                    return;
-                }
-            }
-
-            long startOfMonth = currentDay.getTimeInMillis();
-            currentDay.add(Calendar.MONTH, 1);
-            long endOfMonth = currentDay.getTimeInMillis();
-
-            int count = 0;
-            for (Appointment appointment : Appointment.appointmentData) {
-                if (appointment.getAppointmentStart().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() > startOfMonth &&
-                        appointment.getAppointmentStart().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() < endOfMonth) {
-                    monthAppointments.add(appointment);
-                    count++;
-                }
-            }
-
-            currentMonthCount.setText(String.valueOf(count));
-            appointmentTblView.setItems(monthAppointments);
-            appointmentTblView.getSortOrder().add(appointmentStart);
-        }
-    }
-
-    @FXML
-    private void getTotalAppointmentsByType() {
-        if (viewTotalAppointmentsByType.isSelected()) {
-            months.getSelectionModel().clearSelection();
-            contacts.getSelectionModel().clearSelection();
-            customers.getSelectionModel().clearSelection();
-            currentMonthCount.setText("");
-            currentContactCount.setText("");
-            currentCustomerCount.setText("");
-            ObservableList<Appointment> typeAppointments = FXCollections.observableArrayList();
-
-            int count = 0;
-            for (Appointment appointment : Appointment.appointmentData) {
-                if (Objects.equals(appointment.getAppointmentType(), types.getValue())) {
-                    typeAppointments.add(appointment);
-                    count++;
-                }
-            }
-
-            currentTypeCount.setText(String.valueOf(count));
-            appointmentTblView.setItems(typeAppointments);
-            appointmentTblView.getSortOrder().add(appointmentStart);
-        }
-    }
-
-    @FXML
-    private void getTotalAppointmentsByContact() {
-        if (viewTotalAppointmentsByContact.isSelected()) {
-            months.getSelectionModel().clearSelection();
-            types.getSelectionModel().clearSelection();
-            customers.getSelectionModel().clearSelection();
-            currentTypeCount.setText("");
-            currentMonthCount.setText("");
-            currentCustomerCount.setText("");
-            ObservableList<Appointment> contactAppointments = FXCollections.observableArrayList();
-
-            int count = 0;
-            for (Appointment appointment : Appointment.appointmentData) {
-                if (Objects.equals(appointment.getAppointmentContact(), contacts.getValue())) {
-                    contactAppointments.add(appointment);
-                    count++;
-                }
-            }
-
-            currentContactCount.setText(String.valueOf(count));
-            appointmentTblView.setItems(contactAppointments);
-            appointmentTblView.getSortOrder().add(appointmentStart);
-        }
-    }
-
-    @FXML
-    private void getTotalAppointmentsByCustomer() {
-        if(viewTotalAppointmentsByCustomer.isSelected()) {
-            months.getSelectionModel().clearSelection();
-            types.getSelectionModel().clearSelection();
-            contacts.getSelectionModel().clearSelection();
-            currentMonthCount.setText("");
-            currentTypeCount.setText("");
-            currentContactCount.setText("");
-            ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
-
-            int count = 0;
-            for (Appointment appointment : Appointment.appointmentData) {
-                if (Objects.equals(appointment.getCustomerId(), customers.getValue())) {
-                    customerAppointments.add(appointment);
-                    count++;
-                }
-            }
-
-            currentCustomerCount.setText(String.valueOf(count));
-            appointmentTblView.setItems(customerAppointments);
-            appointmentTblView.getSortOrder().add(appointmentStart);
-        }
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         resourceBundle = ResourceBundle.getBundle("/appt", Locale.getDefault());
@@ -236,15 +95,108 @@ public class ReportsController implements Initializable {
         appointmentEnd.setCellValueFactory(new PropertyValueFactory<>("appointmentEnd"));
         userName.setCellValueFactory(new PropertyValueFactory<>("userName"));
 
+        returnToMainButton.setOnAction(e -> {
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        });
+
         ObservableList<Month> listOfMonths = FXCollections.observableArrayList();
         listOfMonths.addAll(Arrays.asList(Month.values()));
         months.setItems(listOfMonths);
+        months.setOnAction(e -> {
+            if (viewTotalAppointmentsByMonth.isSelected()) {
+                contacts.getSelectionModel().clearSelection();
+                types.getSelectionModel().clearSelection();
+                customers.getSelectionModel().clearSelection();
+                currentTypeCount.setText("");
+                currentContactCount.setText("");
+                currentCustomerCount.setText("");
+                ObservableList<Appointment> monthAppointments = FXCollections.observableArrayList();
+
+                Calendar currentDay = Calendar.getInstance();
+                currentDay.set(Calendar.HOUR_OF_DAY, 0);
+                currentDay.clear(Calendar.MINUTE);
+                currentDay.clear(Calendar.SECOND);
+                currentDay.clear(Calendar.MILLISECOND);
+                currentDay.set(Calendar.DAY_OF_MONTH, 1);
+
+                Month selectedMonth = months.getValue();
+
+                switch (selectedMonth) {
+                    case JANUARY -> currentDay.set(Calendar.MONTH, 0);
+                    case FEBRUARY -> currentDay.set(Calendar.MONTH, 1);
+                    case MARCH -> currentDay.set(Calendar.MONTH, 2);
+                    case APRIL -> currentDay.set(Calendar.MONTH, 3);
+                    case MAY -> currentDay.set(Calendar.MONTH, 4);
+                    case JUNE -> currentDay.set(Calendar.MONTH, 5);
+                    case JULY -> currentDay.set(Calendar.MONTH, 6);
+                    case AUGUST -> currentDay.set(Calendar.MONTH, 7);
+                    case SEPTEMBER -> currentDay.set(Calendar.MONTH, 8);
+                    case OCTOBER -> currentDay.set(Calendar.MONTH, 9);
+                    case NOVEMBER -> currentDay.set(Calendar.MONTH, 10);
+                    case DECEMBER -> currentDay.set(Calendar.MONTH, 11);
+                    default -> {
+                        System.out.println("Unable to get month");
+                        return;
+                    }
+                }
+
+                long startOfMonth = currentDay.getTimeInMillis();
+                currentDay.add(Calendar.MONTH, 1);
+                long endOfMonth = currentDay.getTimeInMillis();
+
+                int count = 0;
+                for (Appointment appointment : Appointment.appointmentData) {
+                    if (appointment.getAppointmentStart().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() > startOfMonth &&
+                            appointment.getAppointmentStart().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() < endOfMonth) {
+                        monthAppointments.add(appointment);
+                        count++;
+                    }
+                }
+
+                currentMonthCount.setText(String.valueOf(count));
+                appointmentTblView.setItems(monthAppointments);
+                appointmentTblView.getSortOrder().add(appointmentStart);
+            }
+        });
 
         ObservableList<String> typeOptions = FXCollections.observableArrayList();
         typeOptions.add("New Appointment");
         typeOptions.add("Follow-Up");
         typeOptions.add("Walk-In");
         types.setItems(typeOptions);
+        types.setOnAction(e -> {
+            if (viewTotalAppointmentsByType.isSelected()) {
+                months.getSelectionModel().clearSelection();
+                contacts.getSelectionModel().clearSelection();
+                customers.getSelectionModel().clearSelection();
+                currentMonthCount.setText("");
+                currentContactCount.setText("");
+                currentCustomerCount.setText("");
+                ObservableList<Appointment> typeAppointments = FXCollections.observableArrayList();
+
+                int count = 0;
+                for (Appointment appointment : Appointment.appointmentData) {
+                    if (Objects.equals(appointment.getAppointmentType(), types.getValue())) {
+                        typeAppointments.add(appointment);
+                        count++;
+                    }
+                }
+
+                currentTypeCount.setText(String.valueOf(count));
+                appointmentTblView.setItems(typeAppointments);
+                appointmentTblView.getSortOrder().add(appointmentStart);
+            }
+        });
 
         ObservableList<String> contactOptions = FXCollections.observableArrayList();
         try {
@@ -253,6 +205,29 @@ public class ReportsController implements Initializable {
             throw new RuntimeException(e);
         }
         contacts.setItems(contactOptions);
+        contacts.setOnAction(e -> {
+            if (viewTotalAppointmentsByContact.isSelected()) {
+                months.getSelectionModel().clearSelection();
+                types.getSelectionModel().clearSelection();
+                customers.getSelectionModel().clearSelection();
+                currentTypeCount.setText("");
+                currentMonthCount.setText("");
+                currentCustomerCount.setText("");
+                ObservableList<Appointment> contactAppointments = FXCollections.observableArrayList();
+
+                int count = 0;
+                for (Appointment appointment : Appointment.appointmentData) {
+                    if (Objects.equals(appointment.getAppointmentContact(), contacts.getValue())) {
+                        contactAppointments.add(appointment);
+                        count++;
+                    }
+                }
+
+                currentContactCount.setText(String.valueOf(count));
+                appointmentTblView.setItems(contactAppointments);
+                appointmentTblView.getSortOrder().add(appointmentStart);
+            }
+        });
 
         ObservableList<Integer> customerOptions = FXCollections.observableArrayList();
         for (Customer customer:
@@ -260,5 +235,28 @@ public class ReportsController implements Initializable {
             customerOptions.add(customer.getCustomerId());
         }
         customers.setItems(customerOptions);
+        customers.setOnAction(e ->{
+            if(viewTotalAppointmentsByCustomer.isSelected()) {
+                months.getSelectionModel().clearSelection();
+                types.getSelectionModel().clearSelection();
+                contacts.getSelectionModel().clearSelection();
+                currentMonthCount.setText("");
+                currentTypeCount.setText("");
+                currentContactCount.setText("");
+                ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
+
+                int count = 0;
+                for (Appointment appointment : Appointment.appointmentData) {
+                    if (Objects.equals(appointment.getCustomerId(), customers.getValue())) {
+                        customerAppointments.add(appointment);
+                        count++;
+                    }
+                }
+
+                currentCustomerCount.setText(String.valueOf(count));
+                appointmentTblView.setItems(customerAppointments);
+                appointmentTblView.getSortOrder().add(appointmentStart);
+            }
+        });
     }
 }
