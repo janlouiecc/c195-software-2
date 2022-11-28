@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.Objects;
@@ -45,6 +47,31 @@ public class LoginController implements Initializable {
     public void clickLogin(ActionEvent event) throws IOException, SQLException {
         if(Queries.login(loginUserName.getText(), loginPw.getText())) {
             currentUser = loginUserName.getText();
+
+            LocalDateTime currentTime = LocalDateTime.now();
+
+            Appointment upcomingAppointment = null;
+            LocalDateTime upper = currentTime.plusMinutes(15);
+
+            for (Appointment appointment : Appointment.appointmentData) {
+                if((appointment.getAppointmentStart().isAfter(currentTime) || appointment.getAppointmentStart().equals(currentTime)) &&
+                        (appointment.getAppointmentStart().isBefore(upper) || appointment.getAppointmentStart().equals(upper))
+                ) {
+                    upcomingAppointment = appointment;
+                    break;
+                }
+            }
+
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Appointments");
+            alert.setHeaderText("Upcoming appointments");
+            if (upcomingAppointment == null) {
+                alert.setContentText("There are no upcoming appointments within 15 minutes.");
+            } else {
+                alert.setContentText("Upcoming Appointment: Appointment #" + upcomingAppointment.getAppointmentId() +
+                        " " + LocalTime.of(upcomingAppointment.getAppointmentStart().getHour(), upcomingAppointment.getAppointmentStart().getMinute()));
+            } alert.showAndWait();
+
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
