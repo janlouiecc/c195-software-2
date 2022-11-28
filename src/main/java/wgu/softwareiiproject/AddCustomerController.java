@@ -46,7 +46,7 @@ public class AddCustomerController implements Initializable {
         ) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("ERROR");
-            alert.setHeaderText("Cannot add appointment.");
+            alert.setHeaderText("Cannot add customer.");
             alert.setContentText("Please ensure that all fields are filled out.");
             alert.showAndWait();
             customerNameTxtField.clear();
