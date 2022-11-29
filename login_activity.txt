@@ -7,3 +7,4 @@ Login Attempt #6, FAILED, 11/28/2022 - 15:57, Attempted Username: test, Attempte
 Login Attempt #7, SUCCESS, 11/28/2022 - 15:57, User: test
 Login Attempt #8, SUCCESS, 11/28/2022 - 16:00, User: admin
 Login Attempt #9, SUCCESS, 11/28/2022 - 16:04, User: admin
+Login Attempt #10, SUCCESS, 11/28/2022 - 17:24, User: admin

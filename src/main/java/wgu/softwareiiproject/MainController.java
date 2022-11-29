@@ -21,6 +21,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
+/**
+ * The Main controller class. 
+ */
 public class MainController implements Initializable {
 
     @FXML
@@ -71,10 +74,27 @@ public class MainController implements Initializable {
     private static Customer selectedCustomer = null;
     private static Appointment selectedAppointment = null;
 
+    /**
+     * Gets the selected customer. 
+     * Gets the highlighted customer to update and passes it to the UpdateCustomerController for data manipulation.
+     * Also used to know which customer an appointment is being made for.
+     * @return the customer to update
+     */
     public static Customer getSelectedCustomer() { return selectedCustomer; }
 
+    /**
+     * Gets the selected appointment. 
+     * Gets the highlighted appointment to update and passes it to the UpdateAppointmentController for data manipulation. 
+     * @return the appointment to update
+     */
     public static Appointment getSelectedAppointment() { return selectedAppointment; }
 
+    /**
+     * Opens the 'add customer' form. 
+     * This method is from the event of pushing the add customer button to open the 'add customer' form.
+     * @param event The action event when the button this method is associated with is clicked.
+     * @throws IOException Added to the method signature to handle java.io.IOException
+     */
     @FXML
     private void addCustomer(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddCustomerView.fxml")));
@@ -85,6 +105,12 @@ public class MainController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Opens the 'update customer' form. 
+     * This method is from the event of pushing the update customer button to open the 'update customer' form.
+     * @param event The action event when the button this method is associated with is clicked.
+     * @throws IOException Added to the method signature to handle java.io.IOException
+     */
     @FXML
     private void updateCustomer(ActionEvent event) throws IOException {
         Customer customer = mainCustomerTblView.getSelectionModel().getSelectedItem();
@@ -108,6 +134,12 @@ public class MainController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Opens the 'add appointment' form. 
+     * This method is from the event of pushing the add appointment button to open the 'add appointment' form.
+     * @param event The action event when the button this method is associated with is clicked.
+     * @throws IOException Added to the method signature to handle java.io.IOException
+     */
     @FXML
     private void addAppointment(ActionEvent event) throws IOException {
         Customer customer = mainCustomerTblView.getSelectionModel().getSelectedItem();
@@ -131,6 +163,12 @@ public class MainController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Opens the 'update appointment' form. 
+     * This method is from the event of pushing the update appointment button to open the 'update appointment' form.
+     * @param event The action event when the button this method is associated with is clicked.
+     * @throws IOException Added to the method signature to handle java.io.IOException
+     */
     @FXML
     private void updateAppointment(ActionEvent event) throws IOException {
         Appointment appointment = mainAppointmentTblView.getSelectionModel().getSelectedItem();
@@ -154,6 +192,11 @@ public class MainController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Deletes a customer.
+     * This method deletes the highlighted customer and ensures it is also deleted from the database.
+     * @throws SQLException Added to the method signature to handle java.sql.SQLException
+     */
     @FXML
     private void deleteCustomer() throws SQLException {
         Customer customer = mainCustomerTblView.getSelectionModel().getSelectedItem();
@@ -199,6 +242,11 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     * Deletes an appointment.
+     * This method deletes the highlighted appointment and ensures it is also deleted from the database.
+     * @throws SQLException Added to the method signature to handle java.sql.SQLException
+     */
     @FXML
     private void deleteAppointment() throws SQLException {
         Appointment appointment = mainAppointmentTblView.getSelectionModel().getSelectedItem();
@@ -235,12 +283,18 @@ public class MainController implements Initializable {
 
     }
 
+    /**
+     * Views all available appointments without filter.
+     */
     @FXML
     private void selectAll() {
         mainAppointmentTblView.setItems(Appointment.appointmentData);
         mainAppointmentTblView.getSortOrder().add(appointmentStart);
     }
 
+    /**
+     * Views all available appointments with the filter of the current week.
+     */
     @FXML
     private void selectByWeek() {
         ObservableList<Appointment> weekAppointments = FXCollections.observableArrayList();
@@ -265,6 +319,9 @@ public class MainController implements Initializable {
         mainAppointmentTblView.getSortOrder().add(appointmentStart);
     }
 
+    /**
+     * Views all available appointments with the filter of the current month.
+     */
     @FXML
     private void selectByMonth() {
         ObservableList<Appointment> monthAppointments = FXCollections.observableArrayList();
@@ -290,6 +347,9 @@ public class MainController implements Initializable {
         mainAppointmentTblView.getSortOrder().add(appointmentStart);
     }
 
+    /**
+     * Views all available appointments with a given calendar day.
+     */
     @FXML
     private void selectByCalendarDay() {
 
@@ -311,6 +371,12 @@ public class MainController implements Initializable {
         mainAppointmentTblView.getSortOrder().add(appointmentStart);
     }
 
+    /**
+     * Opens the 'reports'.
+     * This method is from the event of pushing the View Reports button to open the 'reports' section.
+     * @param actionEvent The action event when the button this method is associated with is clicked.
+     * @throws IOException Added to the method signature to handle java.io.IOException
+     */
     @FXML
     private void viewReports(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ReportsView.fxml")));
@@ -321,6 +387,13 @@ public class MainController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Initializes what is shown in the main form.
+     * This method overrides the initialize method in the Initializable interface and links the table view data with the data from the database.
+     * Lambda function in this method handles the actions associated when a user logs out.
+     * @param url the URL
+     * @param resourceBundle the Resource Bundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         resourceBundle = ResourceBundle.getBundle("/appt", Locale.getDefault());
