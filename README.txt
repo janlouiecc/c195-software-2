@@ -18,4 +18,3 @@ When the program is initiated, a user will have to log in with the credentials t
 
 Additional Report of Choice
 The additional report that I've chosen is to view appointments by customer selection. Once a customer is selected, only appointments associated with that customer will be showing.
-
