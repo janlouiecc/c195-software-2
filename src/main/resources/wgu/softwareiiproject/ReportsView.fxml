@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="480.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.ReportsController">
+<AnchorPane prefHeight="480.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.ReportsController">
    <Text fontSmoothingType="LCD" layoutX="33.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reports">
       <font>
          <Font name="System Bold" size="25.0" />
@@ -20,22 +20,20 @@
    </Text>
    <Button fx:id="returnToMainButton" layoutX="929.0" layoutY="14.0" mnemonicParsing="false" text="Return To Main" />
    <ScrollPane layoutX="43.0" layoutY="178.0" prefHeight="223.0" prefWidth="974.0">
-      <content>
-         <TableView fx:id="appointmentTblView" prefHeight="223.0" prefWidth="972.0">
-            <columns>
-               <TableColumn fx:id="appointmentId" prefWidth="70.0" text="Appointment ID" />
-               <TableColumn fx:id="appointmentTitle" prefWidth="69.0" text="Title" />
-               <TableColumn fx:id="appointmentCustomerId" prefWidth="84.0" text="Customer ID" />
-               <TableColumn fx:id="appointmentDescription" prefWidth="106.0" text="Description" />
-               <TableColumn fx:id="appointmentLocation" minWidth="0.0" prefWidth="93.0" text="Location" />
-               <TableColumn fx:id="appointmentContact" prefWidth="99.0" text="Contact" />
-               <TableColumn fx:id="appointmentType" prefWidth="109.0" text="Type" />
-               <TableColumn fx:id="appointmentStart" prefWidth="125.0" text="Start" />
-               <TableColumn fx:id="appointmentEnd" prefWidth="125.0" text="End" />
-               <TableColumn fx:id="userName" prefWidth="90.0" text="User" />
-            </columns>
-         </TableView>
-      </content>
+      <TableView fx:id="appointmentTblView" prefHeight="223.0" prefWidth="972.0">
+         <columns>
+            <TableColumn fx:id="appointmentId" prefWidth="70.0" text="Appointment ID"/>
+            <TableColumn fx:id="appointmentTitle" prefWidth="69.0" text="Title"/>
+            <TableColumn fx:id="appointmentCustomerId" prefWidth="84.0" text="Customer ID"/>
+            <TableColumn fx:id="appointmentDescription" prefWidth="106.0" text="Description"/>
+            <TableColumn fx:id="appointmentLocation" minWidth="0.0" prefWidth="93.0" text="Location"/>
+            <TableColumn fx:id="appointmentContact" prefWidth="99.0" text="Contact"/>
+            <TableColumn fx:id="appointmentType" prefWidth="109.0" text="Type"/>
+            <TableColumn fx:id="appointmentStart" prefWidth="125.0" text="Start"/>
+            <TableColumn fx:id="appointmentEnd" prefWidth="125.0" text="End"/>
+            <TableColumn fx:id="userName" prefWidth="90.0" text="User"/>
+         </columns>
+      </TableView>
    </ScrollPane>
    <RadioButton fx:id="viewTotalAppointmentsByMonth" layoutX="43.0" layoutY="74.0" mnemonicParsing="false" selected="true" text="Total Appointments by Month">
       <toggleGroup>
