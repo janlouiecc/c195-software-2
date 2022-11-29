@@ -23,6 +23,9 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * This is the Update Appointment controller class.
+ */
 public class UpdateAppointmentController implements Initializable {
 
     @FXML
@@ -55,6 +58,11 @@ public class UpdateAppointmentController implements Initializable {
     private ComboBox<String> appointmentEndMinute;
     private Appointment appointmentToUpdate;
 
+    /**
+     * This method updates the inputted data of an appointment in the database and exits back to the main form.
+     * @param event The action event when the button this method is associated with is clicked.
+     * @throws IOException Added to the method signature to handle java.io.IOException
+     */
     @FXML
     private void save(ActionEvent event) throws IOException, SQLException {
         try {
@@ -175,6 +183,12 @@ public class UpdateAppointmentController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Cancels updating an appointment.
+     * This method cancels the option to update an appointment in the database and exits back to the main form.
+     * @param event The action event when the button this method is associated with is clicked.
+     * @throws IOException Added to the method signature to handle java.io.IOException
+     */
     @FXML
     private void cancel(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
@@ -185,6 +199,11 @@ public class UpdateAppointmentController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Fills the state combo-box after querying from the database.
+     * This method fills state's combo-box from data in the database.
+     * @throws SQLException Added to the method signature to handle java.sql.SQLException
+     */
     @FXML
     private void fillStateData() throws SQLException {
         ObservableList<String> stateOptions = FXCollections.observableArrayList();
@@ -194,18 +213,31 @@ public class UpdateAppointmentController implements Initializable {
         stateComboBox.setItems(stateOptions);
     }
 
-    private void fillContactData() throws SQLException {
-        ObservableList<String> contactOptions = FXCollections.observableArrayList();
-        Queries.fillContactList(contactOptions);
-        appointmentContactComboBox.setItems(contactOptions);
-    }
-
+    /**
+     * Fills the countries combo-box after querying from the database.
+     * This method fills countries' combo-box from data in the database.
+     * @throws SQLException Added to the method signature to handle java.sql.SQLException
+     */
     private void fillCountryData() throws SQLException{
         ObservableList<String> countryOptions = FXCollections.observableArrayList();
         Queries.fillCountryList(countryOptions);
         countryComboBox.setItems(countryOptions);
     }
 
+    /**
+     * Fills the contacts combo-box after querying from the database.
+     * This method fills contact's combo-box from data in the database.
+     * @throws SQLException Added to the method signature to handle java.sql.SQLException
+     */
+    private void fillContactData() throws SQLException {
+        ObservableList<String> contactOptions = FXCollections.observableArrayList();
+        Queries.fillContactList(contactOptions);
+        appointmentContactComboBox.setItems(contactOptions);
+    }
+
+    /**
+     * Fills the start and end date combo-boxes.
+     */
     private void fillTimeData() {
         ObservableList<String> hourOptions = FXCollections.observableArrayList();
         ObservableList<String> minuteOptions = FXCollections.observableArrayList();
@@ -232,6 +264,9 @@ public class UpdateAppointmentController implements Initializable {
         appointmentEndMinute.setItems(minuteOptions);
     }
 
+    /**
+     * Fills the appointment types combo-box.
+     */
     private void fillAppointmentTypeData() {
         ObservableList<String> typeOptions = FXCollections.observableArrayList();
 
@@ -242,6 +277,9 @@ public class UpdateAppointmentController implements Initializable {
         appointmentTypeComboBox.setItems(typeOptions);
     }
 
+    /**
+     * Resets the fields when user input is incorrect.
+     */
     private void resetFields() {
         appointmentCustIdTxtField.setText(String.valueOf(appointmentToUpdate.getCustomerId()));
         appointmentUsrIdTxtField.setText(appointmentToUpdate.getUserName());
@@ -274,6 +312,12 @@ public class UpdateAppointmentController implements Initializable {
         appointmentEndMinute.getSelectionModel().select(endMin);
     }
 
+    /**
+     * Initializes what is shown in the add appointment form.
+     * This method overrides the initialize method in the Initializable interface and populates the needed information into the combo-boxes.
+     * @param url the URL
+     * @param resourceBundle the Resource Bundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentToUpdate = MainController.getSelectedAppointment();
