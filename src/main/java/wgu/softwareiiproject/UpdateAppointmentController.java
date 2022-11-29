@@ -313,8 +313,8 @@ public class UpdateAppointmentController implements Initializable {
     }
 
     /**
-     * Initializes what is shown in the add appointment form.
-     * This method overrides the initialize method in the Initializable interface and populates the needed information into the combo-boxes.
+     * Initializes what is shown in the update appointment form.
+     * This method overrides the initialize method in the Initializable interface and pre-populates the previous information.
      * @param url the URL
      * @param resourceBundle the Resource Bundle
      */

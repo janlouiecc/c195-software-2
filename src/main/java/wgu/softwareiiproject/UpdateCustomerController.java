@@ -20,6 +20,9 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * This is the Update Customer controller class.
+ */
 public class UpdateCustomerController implements Initializable {
 
     @FXML
@@ -36,7 +39,13 @@ public class UpdateCustomerController implements Initializable {
     private ComboBox<String> stateComboBox;
     private Customer customerToUpdate;
 
-    public void save(ActionEvent event) throws IOException, SQLException {
+    /**
+     * This method updates the inputted data of a customer in the database and exits back to the main form.
+     * @param event The action event when the button this method is associated with is clicked.
+     * @throws IOException Added to the method signature to handle java.io.IOException
+     */
+    @FXML
+    private void save(ActionEvent event) throws IOException, SQLException {
 
         if (customerNameTxtField.getText().trim().equals("") ||
                 customerAddrTxtField.getText().trim().equals("") ||
@@ -68,7 +77,14 @@ public class UpdateCustomerController implements Initializable {
         stage.show();
     }
 
-    public void cancel(ActionEvent event) throws IOException {
+    /**
+     * Cancels updating a customer.
+     * This method cancels the option to update a customer in the database and exits back to the main form.
+     * @param event The action event when the button this method is associated with is clicked.
+     * @throws IOException Added to the method signature to handle java.io.IOException
+     */
+    @FXML
+    private void cancel(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -77,13 +93,13 @@ public class UpdateCustomerController implements Initializable {
         stage.show();
     }
 
-    public void fillCountryData() throws SQLException{
-        ObservableList<String> countryOptions = FXCollections.observableArrayList();
-        Queries.fillCountryList(countryOptions);
-        countryComboBox.setItems(countryOptions);
-    }
-
-    public void fillStateData() throws SQLException {
+    /**
+     * Fills the state combo-box after querying from the database.
+     * This method fills state's combo-box from data in the database.
+     * @throws SQLException Added to the method signature to handle java.sql.SQLException
+     */
+    @FXML
+    private void fillStateData() throws SQLException {
         ObservableList<String> stateOptions = FXCollections.observableArrayList();
         Queries.fillStateList(stateOptions, countryComboBox.getValue());
         stateComboBox.getSelectionModel().clearSelection();
@@ -91,6 +107,20 @@ public class UpdateCustomerController implements Initializable {
         stateComboBox.setItems(stateOptions);
     }
 
+    /**
+     * Fills the countries combo-box after querying from the database.
+     * This method fills countries' combo-box from data in the database.
+     * @throws SQLException Added to the method signature to handle java.sql.SQLException
+     */
+    public void fillCountryData() throws SQLException{
+        ObservableList<String> countryOptions = FXCollections.observableArrayList();
+        Queries.fillCountryList(countryOptions);
+        countryComboBox.setItems(countryOptions);
+    }
+
+    /**
+     * Resets the fields when user input is incorrect.
+     */
     private void resetFields() {
         customerNameTxtField.setText(customerToUpdate.getCustomerName());
         customerAddrTxtField.setText(customerToUpdate.getCustomerAddress());
@@ -104,6 +134,12 @@ public class UpdateCustomerController implements Initializable {
         customerPhnNumTxtField.setText(customerToUpdate.getCustomerPhoneNumber());
     }
 
+    /**
+     * Initializes what is shown in the update customer form.
+     * This method overrides the initialize method in the Initializable interface and pre-populates the previous information.
+     * @param url the URL
+     * @param resourceBundle the Resource Bundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customerToUpdate = MainController.getSelectedCustomer();

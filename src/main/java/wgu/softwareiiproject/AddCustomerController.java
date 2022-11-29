@@ -20,6 +20,9 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * This is the Add Customer controller class.
+ */
 public class AddCustomerController implements Initializable {
 
     @FXML
@@ -35,6 +38,11 @@ public class AddCustomerController implements Initializable {
     @FXML
     private ComboBox<String> stateComboBox;
 
+    /**
+     * This method saves the inputted data and adds a customer to the database.
+     * @param event The action event when the button this method is associated with is clicked.
+     * @throws IOException Added to the method signature to handle java.io.IOException
+     */
     @FXML
     private void save(ActionEvent event) throws IOException, SQLException {
 
@@ -78,6 +86,12 @@ public class AddCustomerController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Cancels adding a new customer.
+     * This method cancels the option to add a new customer to the database.
+     * @param event The action event when the button this method is associated with is clicked.
+     * @throws IOException Added to the method signature to handle java.io.IOException
+     */
     @FXML
     private void cancel(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainView.fxml")));
@@ -88,12 +102,11 @@ public class AddCustomerController implements Initializable {
         stage.show();
     }
 
-    private void fillCountryData() throws SQLException{
-        ObservableList<String> countryOptions = FXCollections.observableArrayList();
-        Queries.fillCountryList(countryOptions);
-        countryComboBox.setItems(countryOptions);
-    }
-
+    /**
+     * Fills the state combo-box after querying from the database.
+     * This method fills state's combo-box from data in the database.
+     * @throws SQLException Added to the method signature to handle java.sql.SQLException
+     */
     @FXML
     private void fillStateData() throws SQLException {
         ObservableList<String> stateOptions = FXCollections.observableArrayList();
@@ -101,6 +114,23 @@ public class AddCustomerController implements Initializable {
         stateComboBox.setItems(stateOptions);
     }
 
+    /**
+     * Fills the countries combo-box after querying from the database.
+     * This method fills countries' combo-box from data in the database.
+     * @throws SQLException Added to the method signature to handle java.sql.SQLException
+     */
+    private void fillCountryData() throws SQLException{
+        ObservableList<String> countryOptions = FXCollections.observableArrayList();
+        Queries.fillCountryList(countryOptions);
+        countryComboBox.setItems(countryOptions);
+    }
+
+    /**
+     * Initializes what is shown in the add customer form.
+     * This method overrides the initialize method in the Initializable interface and populates the needed information into the combo-boxes.
+     * @param url the URL
+     * @param resourceBundle the Resource Bundle
+     * */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
