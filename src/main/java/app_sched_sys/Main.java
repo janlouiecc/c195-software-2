@@ -1,4 +1,4 @@
-package wgu.softwareiiproject;
+package app_sched_sys;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="480.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.softwareiiproject.ReportsController">
+<AnchorPane prefHeight="480.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app_sched_sys.ReportsController">
    <Text fontSmoothingType="LCD" layoutX="33.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reports">
       <font>
          <Font name="System Bold" size="25.0" />

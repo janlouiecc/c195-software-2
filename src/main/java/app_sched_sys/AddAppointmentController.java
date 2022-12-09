@@ -1,4 +1,4 @@
-package wgu.softwareiiproject;
+package app_sched_sys;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,10 +24,10 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
- * This is the Update Appointment controller class.
+ * This is the Add Appointment controller class.
  */
-public class UpdateAppointmentController implements Initializable {
-
+public class AddAppointmentController implements Initializable {
+    
     @FXML
     private TextField appointmentCustIdTxtField;
     @FXML
@@ -56,10 +56,9 @@ public class UpdateAppointmentController implements Initializable {
     private ComboBox<String> appointmentEndHour;
     @FXML
     private ComboBox<String> appointmentEndMinute;
-    private Appointment appointmentToUpdate;
 
     /**
-     * This method updates the inputted data of an appointment in the database and exits back to the main form.
+     * This method saves the inputted data and adds an appointment to the database.
      * @param event The action event when the button this method is associated with is clicked.
      * @throws IOException Added to the method signature to handle java.io.IOException
      */
@@ -75,7 +74,7 @@ public class UpdateAppointmentController implements Initializable {
             ) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
-                alert.setHeaderText("Cannot update appointment.");
+                alert.setHeaderText("Cannot add appointment.");
                 alert.setContentText("Please ensure that the end time of appointment is not before the start time.");
                 alert.showAndWait();
                 resetFields();
@@ -88,7 +87,7 @@ public class UpdateAppointmentController implements Initializable {
             ) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
-                alert.setHeaderText("Cannot update appointment.");
+                alert.setHeaderText("Cannot add appointment.");
                 alert.setContentText("Please ensure that all fields are filled out.");
                 alert.showAndWait();
                 resetFields();
@@ -105,7 +104,7 @@ public class UpdateAppointmentController implements Initializable {
                                 Integer.parseInt(appointmentStartMinute.getValue().substring(1)) :
                                 Integer.parseInt(appointmentStartMinute.getValue())
                 );
-                
+
                 LocalDateTime appointmentEnd = LocalDateTime.of(
                         appointmentEndDate.getValue().getYear(),
                         appointmentEndDate.getValue().getMonth(),
@@ -118,20 +117,33 @@ public class UpdateAppointmentController implements Initializable {
                                 Integer.parseInt(appointmentEndMinute.getValue())
                 );
 
-                LocalDateTime convertedStartTime = TimeConversion.convertLocalToET(appointmentStart);
-                LocalDateTime convertedEndTime = TimeConversion.convertLocalToET(appointmentEnd);
-                LocalDateTime businessHrsStart = LocalDateTime.of(appointmentStart.getYear(),
-                        appointmentStart.getMonth(),
-                        appointmentStart.getDayOfMonth(), 8, 0);
-                LocalDateTime businessHrsEnd = LocalDateTime.of(appointmentStart.getYear(),
-                        appointmentStart.getMonth(),
-                        appointmentStart.getDayOfMonth(), 22, 0);
+                Appointment appointment = new Appointment(
+                        Appointment.appointmentCount + 1,
+                        appointmentTitleTxtField.getText(),
+                        Integer.parseInt(appointmentCustIdTxtField.getText()),
+                        appointmentDescriptionTxtField.getText(),
+                        stateComboBox.getValue() + ", " + countryComboBox.getValue(),
+                        appointmentContactComboBox.getValue(),
+                        appointmentTypeComboBox.getValue(),
+                        appointmentStart,
+                        appointmentEnd,
+                        appointmentUsrIdTxtField.getText()
+                );
+
+                LocalDateTime convertedStartTime = TimeConversion.convertLocalToET(appointment.getAppointmentStart());
+                LocalDateTime convertedEndTime = TimeConversion.convertLocalToET(appointment.getAppointmentEnd());
+                LocalDateTime businessHrsStart = LocalDateTime.of(appointment.getAppointmentStart().getYear(),
+                        appointment.getAppointmentStart().getMonth(),
+                        appointment.getAppointmentStart().getDayOfMonth(), 8, 0);
+                LocalDateTime businessHrsEnd = LocalDateTime.of(appointment.getAppointmentStart().getYear(),
+                        appointment.getAppointmentStart().getMonth(),
+                        appointment.getAppointmentStart().getDayOfMonth(), 22, 0);
 
                 if (convertedStartTime.isBefore(businessHrsStart) || convertedStartTime.isAfter(businessHrsEnd) ||
                         convertedEndTime.isBefore(businessHrsStart) || convertedEndTime.isAfter(businessHrsEnd) ||
                         convertedStartTime.getDayOfWeek().equals(DayOfWeek.SATURDAY) || convertedStartTime.getDayOfWeek().equals(DayOfWeek.SUNDAY) ||
                         convertedEndTime.getDayOfWeek().equals(DayOfWeek.SATURDAY) || convertedEndTime.getDayOfWeek().equals(DayOfWeek.SUNDAY)
-                ) {
+                        ) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("ERROR");
                     alert.setHeaderText("Cannot add appointment.");
@@ -142,8 +154,9 @@ public class UpdateAppointmentController implements Initializable {
                 }
 
                 for (Appointment appt : Appointment.appointmentData) {
-                    if (appointmentStart.isBefore(appt.getAppointmentEnd()) && appointmentEnd.isAfter(appt.getAppointmentStart()) &&
-                    appointmentToUpdate.getAppointmentId() != appt.getAppointmentId()) {
+                    if (appointment.getAppointmentStart().isBefore(appt.getAppointmentEnd()) &&
+                            appointment.getAppointmentEnd().isAfter(appt.getAppointmentStart())
+                    ) {
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("ERROR");
                         alert.setHeaderText("Cannot add appointment.");
@@ -155,20 +168,13 @@ public class UpdateAppointmentController implements Initializable {
                     }
                 }
 
-                appointmentToUpdate.setAppointmentTitle(appointmentTitleTxtField.getText());
-                appointmentToUpdate.setAppointmentDescription(appointmentDescriptionTxtField.getText());
-                appointmentToUpdate.setAppointmentLocation(stateComboBox.getValue() + ", " + countryComboBox.getValue());
-                appointmentToUpdate.setAppointmentContact(appointmentContactComboBox.getValue());
-                appointmentToUpdate.setAppointmentType(appointmentTypeComboBox.getValue());
-                appointmentToUpdate.setAppointmentStart(appointmentStart);
-                appointmentToUpdate.setAppointmentEnd(appointmentEnd);
-
-                Queries.updateAppointment(appointmentToUpdate);
+                Appointment.appointmentData.add(appointment);
+                Queries.insertAppointment(appointment);
             }
         } catch (NumberFormatException | NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("ERROR");
-            alert.setHeaderText("Cannot update appointment.");
+            alert.setHeaderText("Cannot add appointment.");
             alert.setContentText("Please ensure that the information is correct and/or not empty.");
             alert.showAndWait();
             resetFields();
@@ -184,8 +190,8 @@ public class UpdateAppointmentController implements Initializable {
     }
 
     /**
-     * Cancels updating an appointment.
-     * This method cancels the option to update an appointment in the database and exits back to the main form.
+     * Cancels adding a new appointment.
+     * This method cancels the option to add a new appointment to the database.
      * @param event The action event when the button this method is associated with is clicked.
      * @throws IOException Added to the method signature to handle java.io.IOException
      */
@@ -208,8 +214,6 @@ public class UpdateAppointmentController implements Initializable {
     private void fillStateData() throws SQLException {
         ObservableList<String> stateOptions = FXCollections.observableArrayList();
         Queries.fillStateList(stateOptions, countryComboBox.getValue());
-        stateComboBox.getSelectionModel().clearSelection();
-        stateComboBox.getSelectionModel().selectFirst();
         stateComboBox.setItems(stateOptions);
     }
 
@@ -218,7 +222,7 @@ public class UpdateAppointmentController implements Initializable {
      * This method fills countries' combo-box from data in the database.
      * @throws SQLException Added to the method signature to handle java.sql.SQLException
      */
-    private void fillCountryData() throws SQLException{
+    private void fillCountryData() throws SQLException {
         ObservableList<String> countryOptions = FXCollections.observableArrayList();
         Queries.fillCountryList(countryOptions);
         countryComboBox.setItems(countryOptions);
@@ -281,51 +285,33 @@ public class UpdateAppointmentController implements Initializable {
      * Resets the fields when user input is incorrect.
      */
     private void resetFields() {
-        appointmentCustIdTxtField.setText(String.valueOf(appointmentToUpdate.getCustomerId()));
-        appointmentUsrIdTxtField.setText(appointmentToUpdate.getUserName());
-        appointmentTitleTxtField.setText(appointmentToUpdate.getAppointmentTitle());
-        appointmentDescriptionTxtField.setText(appointmentToUpdate.getAppointmentDescription());
-        String[] location = appointmentToUpdate.getAppointmentLocation().split("\\s*,\\s*");
-        countryComboBox.getSelectionModel().select(location[1]);
-        stateComboBox.getSelectionModel().select(location[0]);
-        appointmentContactComboBox.getSelectionModel().select(appointmentToUpdate.getAppointmentContact());
-        appointmentTypeComboBox.getSelectionModel().select(appointmentToUpdate.getAppointmentType());
-        appointmentStartDate.setValue(appointmentToUpdate.getAppointmentStart().toLocalDate());
-        appointmentEndDate.setValue(appointmentToUpdate.getAppointmentEnd().toLocalDate());
-
-        String startHr = Integer.toString(appointmentToUpdate.getAppointmentStart().getHour()).length() > 1 ?
-                Integer.toString(appointmentToUpdate.getAppointmentStart().getHour()) :
-                "0" + appointmentToUpdate.getAppointmentStart().getHour();
-        String endHr = Integer.toString(appointmentToUpdate.getAppointmentEnd().getHour()).length() > 1 ?
-                Integer.toString(appointmentToUpdate.getAppointmentEnd().getHour()) :
-                "0" + appointmentToUpdate.getAppointmentEnd().getHour();
-        String startMin = Integer.toString(appointmentToUpdate.getAppointmentStart().getMinute()).length() > 1 ?
-                Integer.toString(appointmentToUpdate.getAppointmentStart().getMinute()) :
-                "0" + appointmentToUpdate.getAppointmentStart().getMinute();
-        String endMin = Integer.toString(appointmentToUpdate.getAppointmentEnd().getMinute()).length() > 1 ?
-                Integer.toString(appointmentToUpdate.getAppointmentEnd().getMinute()) :
-                "0" + appointmentToUpdate.getAppointmentEnd().getMinute();
-
-        appointmentStartHour.getSelectionModel().select(startHr);
-        appointmentStartMinute.getSelectionModel().select(startMin);
-        appointmentEndHour.getSelectionModel().select(endHr);
-        appointmentEndMinute.getSelectionModel().select(endMin);
+        appointmentTitleTxtField.clear();
+        appointmentDescriptionTxtField.clear();
+        countryComboBox.getSelectionModel().clearSelection();
+        stateComboBox.getSelectionModel().clearSelection();
+        appointmentContactComboBox.getSelectionModel().clearSelection();
+        appointmentTypeComboBox.getSelectionModel().clearSelection();
+        appointmentStartHour.getSelectionModel().clearSelection();
+        appointmentStartMinute.getSelectionModel().clearSelection();
+        appointmentEndHour.getSelectionModel().clearSelection();
+        appointmentEndMinute.getSelectionModel().clearSelection();
+        appointmentStartDate.getEditor().clear();
+        appointmentEndDate.getEditor().clear();
     }
 
     /**
-     * Initializes what is shown in the update appointment form.
-     * This method overrides the initialize method in the Initializable interface and pre-populates the previous information.
+     * Initializes what is shown in the add appointment form.
+     * This method overrides the initialize method in the Initializable interface and populates the needed information into the combo-boxes.
      * @param url the URL
      * @param resourceBundle the Resource Bundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        appointmentToUpdate = MainController.getSelectedAppointment();
-        resetFields();
-
+        Customer customerToAddAppt = MainController.getSelectedCustomer();
+        appointmentCustIdTxtField.setText(String.valueOf(customerToAddAppt.getCustomerId()));
+        appointmentUsrIdTxtField.setText(LoginController.currentUser);
         try {
             fillCountryData();
-            fillStateData();
             fillContactData();
         } catch (SQLException e) {
             throw new RuntimeException(e);

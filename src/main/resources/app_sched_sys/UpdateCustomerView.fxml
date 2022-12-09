@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="625.0" prefWidth="617.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="wgu.softwareiiproject.UpdateCustomerController">
+            fx:controller="app_sched_sys.UpdateCustomerController">
    <Label layoutX="241.0" layoutY="47.0" text="Update Customer">
       <font>
          <Font name="System Bold" size="20.0"/>

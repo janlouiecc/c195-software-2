@@ -1,1 +1,1 @@
-moduleSearchIndex = [{"l":"wgu.softwareiiproject"}];updateSearchResults();
+moduleSearchIndex = [{"l":"app_sched_sys"}];updateSearchResults();

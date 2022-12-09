@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="625.0" prefWidth="625.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="wgu.softwareiiproject.AddAppointmentController">
+            fx:controller="app_sched_sys.AddAppointmentController">
    <Label layoutX="227.0" layoutY="60.0" text="Add Appointment">
       <font>
          <Font name="System Bold" size="20.0"/>
